@@ -1,21 +1,21 @@
 ---
-title: Custom Items (v1)
-description: Legacy documentation for the first version of the custom item API
+title: 自定义物品（v1）
+description: 自定义物品API第一版的遗留文档
 ---
 
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-### Format version 1 (legacy)
+### 格式版本1（遗留）
 
 :::warning
-`format_version: 1` is no longer receiving updates. New features will only be added to format version 2.
+`format_version: 1` 不再接收更新。新功能仅会添加到格式版本2中。
 :::
 
-## JSON mappings (v1)
+## JSON映射（v1）
 
-1. Start your server, and you should have a folder called `custom_mappings` that is created. That would be with the folder of `Geyser.jar` file for standalone and inside your Geyser data folder for a plugin.
-2. Create a `.json` file, it can be any name you like and as many files as you like. You don't need to make one file per item. Here is the structure of the file:
+1. 启动服务器，你会看到一个名为 `custom_mappings` 的文件夹被创建。对于独立版，该文件夹与 `Geyser.jar` 文件在同一目录下；对于插件版，该文件夹位于你的Geyser数据文件夹内。
+2. 创建一个 `.json` 文件，文件名可以任意，你也可以创建多个文件，无需为每个物品单独创建一个文件。文件结构如下：
 ```json
 {
     "format_version": 1,
@@ -24,33 +24,33 @@ import TabItem from '@theme/TabItem';
     }
 }
 ```
-3. Inside the `items` entry, you can add your java item to extend:
+3. 在 `items` 条目下，你可以添加要扩展的Java版物品：
 
 ```json
 "minecraft:JAVA_ITEM": [
 
 ]
 ```
-4. Inside this java item, goes an array of all your custom items.
+4. 在这个Java版物品的数组中，添加你的所有自定义物品。
 
 ```json
 {
     "name": "my_item"
 }
 ```
-5. Then, you need to set one or more item options or registrations, they can be stacked, so that all of the specified types need to match.
-    * Custom model data: `custom_model_data` (int)
-    * Damage predicate: `damage_predicate` (int) This is a fractional value of damage/max damage and not a number between 0 and 1.
-    * Unbreakable: `unbreakable` (boolean)
-6. You also have some extra modifiers that you can set to further customise your item. **Note that the following modifiers are NOT required.**
-    * `display_name` (string) default: item name
-    * `icon` (string) default: item name
-    * `allow_offhand` (boolean) default: false
-    * `texture_size` (int) default: 16
-    * `creative_category` (int) default: not set. This can take values between 1-5, and defines the creative category the item appears in. Note: Adding your item to a creative category is needed if you want recipes that output this custom item to show up in the recipe book! However, including it does NOT mean you can get the custom item from the creative inventory.
-    * `creative_group` (string) default: not set. Requires a creative category to also be set - allows you to group the custom item in a sub-group. See [here](https://wiki.bedrock.dev/documentation/menu-categories.html#list-of-categories) for all categories.
-    * `render_offsets` (object) It works as follows. Note that all the sub-objects are optional, except x, y and z. You can have for example only a main hand with a position, and noting else. default: no render offset
-    * `tags` (array) default: no tags. Allows defining tags that can be used in Molang queries. Example value: ["test:tag_one", "test:tag_two"].
+5. 然后，你需要设置一个或多个物品选项或注册信息，它们可以叠加使用，因此所有指定的类型都需要匹配。
+    * 自定义模型数据：`custom_model_data`（整数）
+    * 损坏谓词：`damage_predicate`（整数）这是损坏值与最大损坏值的比例，而非0到1之间的数值。
+    * 不可破坏：`unbreakable`（布尔值）
+6. 你还可以设置一些额外的修饰符来进一步自定义物品。**注意：以下修饰符并非必须设置。**
+    * `display_name`（字符串）默认值：物品名称
+    * `icon`（字符串）默认值：物品名称
+    * `allow_offhand`（布尔值）默认值：false
+    * `texture_size`（整数）默认值：16
+    * `creative_category`（整数）默认值：未设置。取值范围为1-5，定义物品在创造模式物品栏中所属的分类。注意：如果你希望输出该自定义物品的配方显示在配方书中，就需要将物品添加到创造模式分类中！但这并不意味着你可以从创造模式物品栏中获取该自定义物品。
+    * `creative_group`（字符串）默认值：未设置。需要同时设置创造模式分类——允许你将自定义物品分组到子类别中。查看[此处](https://wiki.bedrock.dev/documentation/menu-categories.html#list-of-categories)获取所有分类的列表。
+    * `render_offsets`（对象）其工作方式如下。注意，所有子对象都是可选的，但x、y和z除外。例如，你可以只设置主手的位置，而不设置其他内容。默认值：无渲染偏移
+    * `tags`（数组）默认值：无标签。允许定义可在Molang查询中使用的标签。示例值：["test:tag_one", "test:tag_two"]。
     ```json
     "render_offsets": {
         "main_hand": {
@@ -81,34 +81,34 @@ import TabItem from '@theme/TabItem';
     }
     ```
 
-## Geyser extensions (v1)
+## Geyser扩展（v1）
 
-### Extending a vanilla item (v1)
+### 扩展原版物品（v1）
 
-1. Create your custom item options or registrations, to which you can add any of the following. They can be stacked, so that all of the specified types need to match, but you **do NOT need all of them.**
+1. 创建你的自定义物品选项或注册信息，你可以添加以下任意选项。它们可以叠加使用，因此所有指定的类型都需要匹配，但你**不需要添加所有选项**。
 ```java
 CustomItemOptions itemOptions = CustomItemOptions.builder()
         .customModelData(1)
-        .damagePredicate(1) //This is a fractional value of damage/max damage and not a number between 0 and 1.
+        .damagePredicate(1) //这是损坏值与最大损坏值的比例，而非0到1之间的数值。
         .unbreakable(true)
         .build();
 ```
-2. Create your custom item, and store it somewhere:
+2. 创建你的自定义物品，并将其存储在某个地方：
 ```java
 CustomItemData data = CustomItemData.builder()
         .name("my_item")
         .customItemOptions(itemOptions)
         .build();
 ```
-3. You have some modifiers that you can set to further customise your item. **Note that the following modifiers are NOT required.**
+3. 你可以设置一些修饰符来进一步自定义物品。**注意：以下修饰符并非必须设置。**
 ```java
-.displayName("displayName"); //Default: item name
-.icon("my_icon"); //Default: item name
-.allowOffhand(false); //Default: false
-.textureSize(16); //Default: 16
-.renderOffsets(new CustomRenderOffsets(...)); //Default: no render offset
+.displayName("displayName"); //默认值：物品名称
+.icon("my_icon"); //默认值：物品名称
+.allowOffhand(false); //默认值：false
+.textureSize(16); //默认值：16
+.renderOffsets(new CustomRenderOffsets(...)); //默认值：无渲染偏移
 ```
-4. Then, in your pre init event, you can register your item:
+4. 然后，在你的预初始化事件中，注册你的物品：
 ```java
 @Subscribe
 public void onGeyserPreInitializeEvent(GeyserDefineCustomItemsEvent event) {
@@ -116,17 +116,17 @@ public void onGeyserPreInitializeEvent(GeyserDefineCustomItemsEvent event) {
 }
 ```
 
-### Non vanilla (modded) items with Geyser extensions (for example to use with Fabric) (v1)
+### 使用Geyser扩展的非原版（模组）物品（例如用于Fabric）（v1）
 
-1. Create your item data:
+1. 创建你的物品数据：
 ```java
 NonVanillaCustomItemData data = NonVanillaCustomItemData.builder()
         .name("my_item")
         .identifier("my_mod:my_item")
         .javaId(1)
 ```
-2. There are many other options you can set to match the behavior that you require for your item. You can see them [here](https://github.com/GeyserMC/Geyser/blob/master/api/src/main/java/org/geysermc/geyser/api/item/custom/NonVanillaCustomItemData.java)
-3. Register your item in the GeyserDefineCustomItems event:
+2. 你还可以设置许多其他选项来匹配你物品所需的行为。你可以在[此处](https://github.com/GeyserMC/Geyser/blob/master/api/src/main/java/org/geysermc/geyser/api/item/custom/NonVanillaCustomItemData.java)查看这些选项。
+3. 在GeyserDefineCustomItems事件中注册你的物品：
 ```java
 @Subscribe
 public void onGeyserDefineCustomItemsEvent(GeyserDefineCustomItemsEvent event) {
