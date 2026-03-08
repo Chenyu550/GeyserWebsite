@@ -1,0 +1,58 @@
+---
+title: Geyser 自建 Paper / Spigot 服务器搭建教程
+description: 了解如何在自建的 Paper 或 Spigot 服务器上搭建 Geyser。
+---
+
+import { Versions } from '@site/src/components/Versions'
+
+:::info
+如果你的服务器未运行<Versions platform="java"/>版本，则需要安装<a href="https://viaversion.com/">ViaVersion</a>。也可查看[支持版本页面](/wiki/geyser/supported-versions/)了解详情。
+:::
+
+1. 从[下载页面](/download)下载插件。
+2. 将 Geyser-Spigot.jar 放入`plugins`文件夹，然后重启服务器。
+3. 打开位于`/plugins/Geyser-Spigot/config.yml`的 Geyser 配置文件，找到以下内容：
+
+    ```yaml
+    bedrock:
+      # 用于监听连接的IP地址。
+      # 通常仅当你需要限制可连接服务器的IP时，才需要修改此项。
+      address: 0.0.0.0
+
+      # Geyser 用于监听基岩版连接的端口。
+      # 由于《我的世界：基岩版》使用 UDP 协议，此端口必须允许 UDP 流量通过。
+      port: 19132
+
+      # 部分面板服会在每次启动服务器时修改Java版端口，并要求基岩版使用相同端口。
+      # 启用此选项后，每次启动服务器时，基岩版端口会自动与Java端口保持一致。
+      clone-remote-port: false
+    ```
+    这里最关键的是端口——这是基岩版玩家连接服务器时需要使用的端口！
+    如果启用`clone-remote-port`，基岩版端口会被Java端口覆盖。
+    由于你是自建服务器，可自由选择端口，默认端口为19132。 
+    **重要提示**：其他依赖UDP端口的服务/插件（如语音聊天或查询服务），无法与Geyser共用同一个端口。
+   
+
+4. 连接至你的服务器
+      
+    **同一网络内本地连接** 
+    在运行服务器的设备上，可使用`localhost`或`127.0.0.1`作为地址连接。
+    注意：如果在同一台Windows设备上同时搭建和游玩服务器，你需要应用[环回修复](/wiki/geyser/fixing-unable-to-connect-to-world#using-geyser-on-the-same-computer)。
+    同一局域网内的其他设备，可使用你的本地IPv4地址连接——通常以`10.`或`192.168.`开头。
+      
+    **跨网络远程连接**
+    如果允许外部网络的玩家加入，你需要将Geyser使用的端口暴露至公网。
+    你有以下两种实现方式： 
+
+    - 端口映射：在路由器/调制解调器以及Windows/Linux防火墙中，开放Geyser端口（例如19132）的UDP协议权限。
+   [端口映射指南](/wiki/geyser/port-forwarding)详细说明了操作步骤。
+   完成后，玩家可通过你的公网IPv4地址+端口连接服务器。 
+
+    - playit.gg：如果你无法或不想开放端口（避免暴露家庭IP），可使用playit.gg服务创建隧道来转发流量。查看我们的[playit.gg 教程](/wiki/geyser/playit-gg)了解详情。
+   注意：Ngrok 仅支持TCP协议，无法用于Geyser。 
+
+5. 在控制台输入`geyser connectiontest <ip> <port>`命令，验证外部网络是否能正常连接服务器。
+
+:::caution
+若要允许基岩版玩家无需登录正版Java版账号即可加入服务器，你可以使用<a href="/wiki/floodgate/setup/">Floodgate</a>。
+:::

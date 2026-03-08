@@ -1,0 +1,38 @@
+---
+title: 概述
+permalink: /geyser/
+description: 'Geyser 是 MC 基岩版与 Java 版之间的桥梁，它消除了版本壁垒，让想要真正跨平台游玩的玩家能够互联互通。'
+---
+
+import { Versions } from '@site/src/components/Versions'
+import { useDocById } from '@docusaurus/plugin-content-docs/client'
+import DocCardList from '@theme/DocCardList'
+
+# 概述 \{#overview}
+
+[//]: # ([![License: MIT]&#40;https://img.shields.io/badge/license-MIT-blue.svg?label=License&#41;]&#40;LICENSE&#41;)
+[![Build Status](https://github.com/GeyserMC/Geyser/actions/workflows/build.yml/badge.svg)](https://github.com/GeyserMC/Geyser/actions/workflows/build.yml)
+[![Discord](https://img.shields.io/discord/613163671870242838?color=cornflowerblue&label=Discord&logo=Discord&logoColor=white)](https://discord.geysermc.org)
+
+_MC 基岩版与 Java 版之间的一座桥梁_
+
+**目前支持 MC 基岩版 <Versions platform="bedrock"/> 和 MC Java 版 <Versions platform="java"/>。**
+
+这里有一些精选指南，将帮助你开始使用 Geyser！
+
+<DocCardList items={[
+    'setup',
+    'supported-versions',
+    'commands',
+    'faq',
+    'common-issues',
+    'extensions'
+].map((id) => {
+    const metadata = useDocById("geyser/" + id)
+    return {
+        type: 'link',
+        label: metadata.title,
+        href: id,
+        docId: 'geyser/' + id
+    }
+})} />

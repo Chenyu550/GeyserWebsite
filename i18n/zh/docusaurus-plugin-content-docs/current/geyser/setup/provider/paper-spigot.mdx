@@ -1,0 +1,40 @@
+---
+title: 主机商Paper/Spigot服务器Geyser搭建教程
+description: 了解如何在主机商提供的Paper或Spigot服务器上搭建Geyser
+hide_title: true
+---
+
+import { Versions } from '@site/src/components/Versions'
+
+:::info
+如果你的服务器未运行<Versions platform="java"/>版本，则需要安装<a href="https://viaversion.com/">ViaVersion</a>。也可查看[支持版本页面](/wiki/geyser/supported-versions/)了解详情。
+:::
+
+1. 从[下载页面](/download)下载插件。
+2. 将 Geyser-Spigot.jar 放入`plugins`文件夹，然后重启服务器。
+3. 打开位于`/plugins/Geyser-Spigot/config.yml`的 Geyser 配置文件，找到以下内容：
+
+     ```yaml
+      bedrock:
+        # 用于监听连接的IP地址。
+        # 通常情况下，只有当你想限制可连接服务器的IP范围时，才需要修改此项。
+        address: 0.0.0.0
+
+        # Geyser 用于监听基岩版连接的端口。
+        # 由于《我的世界：基岩版》使用 UDP 协议，此端口必须允许 UDP 流量通过。
+        port: 19132
+
+        # 部分面板服会在每次启动服务器时修改Java版端口，并要求基岩版使用相同端口。
+        # 启用此选项后，每次启动服务器时，基岩版端口会自动与Java端口保持一致。
+        clone-remote-port: false
+    ```
+    核心配置项是端口，基岩版玩家将通过此端口连接你的服务器。
+    按照主机商选择器中的指引操作——修改端口，必要时调整`clone-remote-port`与`address`参数。
+    若启用`clone-remote-port`，基岩版端口将被Java版端口自动覆盖！
+    **重要提示**：其他依赖UDP端口的服务或插件（如语音聊天、查询服务等），无法与Geyser共用同一端口。
+ 
+5. 在控制台执行`geyser connectiontest <ip> <port>`命令，验证连接是否正常。
+
+:::info
+若要允许基岩版玩家无需登录正版Java版账号即可加入服务器，你可以使用<a href="/wiki/floodgate/setup/">Floodgate</a>。
+:::

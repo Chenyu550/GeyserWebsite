@@ -1,0 +1,63 @@
+---
+title: 安装
+page_sidebar: false
+description: 在所有支持的平台上搭建 Geyser 的教程
+---
+
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+
+import ModdedServers from './setup/provider/modded-servers.mdx';
+import ProxyServers from './setup/provider/proxy-servers.mdx';
+import PaperSpigot from './setup/provider/paper-spigot.mdx';
+
+import ModdedServersSelf from './setup/self/modded-servers.mdx';
+import ProxyServersSelf from './setup/self/proxy-servers.mdx';
+import PaperSpigotSelf from './setup/self/paper-spigot.mdx';
+import ViaProxy from './setup/self/viaproxy.mdx';
+import Standalone from './setup/self/standalone.mdx';
+
+import PlatformIcon from '@site/src/components/PlatformIcon'
+import ModIcon from '@site/static/img/icons/fabric.png';
+import ProxyServersIcon from '@site/static/img/icons/velocity.png';
+import PaperSpigotIcon from '@site/static/img/icons/paper.png';
+import ViaProxyIcon from '@site/static/img/icons/viaproxy.png';
+import StandaloneIcon from '@site/static/img/icons/geyser.png';
+
+import { ProviderSelector } from "@site/src/components/Provider";
+
+<Tabs queryString="host" className="tabs-host-type">
+    <TabItem value="provider" label="面板服" default>
+        <ProviderSelector/>
+        <Tabs queryString="platform">
+            <TabItem value="paper-spigot" label={<PlatformIcon img={PaperSpigotIcon} text="Paper / Spigot"/>} default>
+                <PaperSpigot/>
+            </TabItem>
+            <TabItem value="modded-servers" label={<PlatformIcon img={ModIcon} text="模组服"/>}>
+                <ModdedServers/>
+            </TabItem>
+            <TabItem value="proxy-servers" label={<PlatformIcon img={ProxyServersIcon} text="群组服"/>}>
+                <ProxyServers/>
+            </TabItem>
+        </Tabs>
+    </TabItem>
+    <TabItem value="self" label="独立服">
+        <Tabs queryString="platform">
+            <TabItem value="paper-spigot" label={<PlatformIcon img={PaperSpigotIcon} text="Paper / Spigot"/>} default>
+                <PaperSpigotSelf/>
+            </TabItem>
+            <TabItem value="modded-servers" label={<PlatformIcon img={ModIcon} text="模组服"/>}>
+                <ModdedServersSelf/>
+            </TabItem>
+            <TabItem value="proxy-servers" label={<PlatformIcon img={ProxyServersIcon} text="群组服"/>}>
+                <ProxyServersSelf/>
+            </TabItem>
+            <TabItem value="viaproxy" label={<PlatformIcon img={ViaProxyIcon} text="ViaProxy"/>}>
+                <ViaProxy/>
+            </TabItem>
+            <TabItem value="standalone" label={<PlatformIcon img={StandaloneIcon} text="独立版"/>}>
+                <Standalone/>
+            </TabItem>
+        </Tabs>
+    </TabItem>
+</Tabs>

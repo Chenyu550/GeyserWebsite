@@ -1,0 +1,815 @@
+{
+  "components.provider.instructions": {
+    "message": "服务商使用说明"
+  },
+  "components.provider.select": {
+    "message": "选择一个服务商以查看具体的安装说明"
+  },
+  "providers.templates.default": {
+    "message": "启用 `clone-remote-port`（或手动将 `bedrock port` 设置为Java版端口），并使用Java版服务器的IP和端口进行连接。"
+  },
+  "providers.templates.ip_and_port": {
+    "message": "启用 `clone-remote-port`（或手动将 `bedrock port` 设置为Java版端口），并将 `bedrock address` 从 `0.0.0.0` 修改为你的Java版服务器IP。使用Java版服务器的IP和端口进行连接。"
+  },
+  "providers.templates.forwarding_option": {
+    "message": "提供可用的端口转发选项。"
+  },
+  "providers.templates.java_ip": {
+    "message": "将 `bedrock address` 从 `0.0.0.0` 修改为你的Java版服务器IP。"
+  },
+  "providers.provider.apex_hosting.description": {
+    "message": "全自动安装。进入面板中的“自定义”标签页，在“Geyser 自动安装器”选项下选择“启用”。然后重启服务器，使用你的Java版IP和端口连接到服务器。更多详情请参见[Apex 相关文档](https://apexminecrafthosting.com/geysermc/)。"
+  },
+  "providers.provider.aternos.description": {
+    "message": "在Aternos插件列表中安装Geyser，然后使用你的Java版IP和端口连接到服务器。更多详情请参见[Aternos 相关文档](https://support.aternos.org/hc/en-us/articles/360051047631)。请注意：Aternos会自动安装该插件的最新版本，但不会自动更新。要在Aternos上更新Geyser，只需重新安装该插件（无需卸载插件/删除插件文件）。"
+  },
+  "providers.provider.birdflop.description": {
+    "message": "在“网络”标签页中打开一个端口分配。如果你有独立IP，可以提交工单申请分配默认的基岩版端口（19132）。更新配置文件以使用分配的端口，然后重启服务器。"
+  },
+  "providers.provider.cloud_nord.description": {
+    "message": "进入其[跨平台服务器](https://cloudnord.net/minecraftcrossplay-server-hosting/)托管板块并订购你的服务器。会提供相应的加入指引。"
+  },
+  "providers.provider.creeperhost.description": {
+    "message": "控制面板内有一个开关可自动启用Geyser。该功能默认可能未启用，因此你可能需要切换开关并重启服务器。"
+  },
+  "providers.provider.cubes_hosting.description": {
+    "message": "使用插件管理器安装Geyser。然后重启服务器，Geyser会在额外的端口上运行——你可以在服务器控制台中查看该端口。可通过提交支持工单来配置Geyser独立版（Geyser-Standalone）。"
+  },
+  "providers.provider.exaroton.description": {
+    "message": "在exaroton插件列表中安装Geyser，然后使用你的Java版IP和端口连接到服务器。更多详情请参见[exaroton 相关文档](https://support.exaroton.com/hc/en-us/articles/360019857918-Geyser)。"
+  },
+  "providers.provider.ggservers.description": {
+    "message": "可从其自动插件安装配置中安装到任意服务器。无需额外配置。"
+  },
+  "providers.provider.lilypad.description": {
+    "message": "更改服务器软件时勾选“启用基岩版跨平台游玩？”选项，即可自动安装并配置Geyser + Floodgate。更多详情请访问[lilypad.gg/bedrock](https://lilypad.gg/bedrock)。"
+  },
+  "providers.provider.mcprohosting.description": {
+    "message": "在服务器仪表盘上点击“启用基岩版支持”并按照步骤操作。手动安装方法：在端口转发映射中添加“目标端口（Destination Port）”为`19132`、“协议（Protocol）”为UDP的规则，然后连接到分配的源端口。"
+  },
+  "providers.provider.minefort.description": {
+    "message": "在服务器仪表盘的“连接支持”栏目下，确保“允许基岩版（Allow Bedrock）”已启用。然后通过`play.minefort.com`连接，使用`/server [服务器名称]`加入，或直接通过`[服务器名称].minefort.com`连接。"
+  },
+  "providers.provider.minehut.description": {
+    "message": "通过`bedrock.minehut.com`连接并执行`/join [服务器名称]`，或直接通过`[服务器名称].bedrock.minehut.gg`连接。"
+  },
+  "providers.provider.omgserv.description": {
+    "message": "在[安装菜单](https://i.imgur.com/Gewpsrq.png)中选择Geyser，它会被自动安装。你可以在仪表盘的[服务器属性页面](https://i.imgur.com/jg5mzNj.png)中启用Floodgate。"
+  },
+  "providers.provider.piglinhost.description": {
+    "message": "从[跨平台服务器页面](https://piglinhost.com/minecraft-java-hosting.html)订购。或者，通过创建[支持工单](https://billing.piglinhost.com/submitticket.php?step=2&deptid=5)或Discord联系其支持团队获取安装和配置帮助。"
+  },
+  "providers.provider.playhosting.description": {
+    "message": "更改服务器软件时勾选“启用基岩版跨平台游玩？”选项，即可自动安装并配置Geyser + Floodgate。更多详情请访问[help.play.hosting/minecraft/crossplay](https://help.play.hosting/minecraft/crossplay)。"
+  },
+  "providers.provider.pufferfish_host.description": {
+    "message": "所有服务器默认已预装并配置好Geyser。"
+  },
+  "providers.provider.server.pro.description": {
+    "message": "不同套餐的操作说明不同：在VPS上，在[服务类型菜单](https://i.imgur.com/loSNmvu.png)中选择Geyser，可在仪表盘配置中启用Floodgate。手动安装方法：对于高级版（Premium）或免费版（Free）套餐，在配置文件中将基岩版端口设置为与Java版服务器相同的端口并连接；对于免费版套餐，还需启用`clone-remote-port`选项。如果你使用PRO或VPS套餐，可以使用任意端口，该端口可在“防火墙”标签页中开放。"
+  },
+  "providers.provider.snakecraft_hosting.description": {
+    "message": "结账时在“Jar类型”下选择“Paper + Geyser with Floodgate”以安装Geyser插件。玩家使用与Java版相同的IP和端口进行连接。"
+  },
+  "providers.provider.srkhost.description": {
+    "message": "可在版本切换页面启用Geyser。Geyser会在服务商分配的端口上运行。"
+  },
+  "providers.provider.virtual_gladiators.description": {
+    "message": "在控制面板的“VG推荐”分类下找到该插件并重启服务器。IP和端口与Java版相同。"
+  },
+  "providers.provider.wisehosting.description": {
+    "message": "支持自动安装和手动安装两种方式。在游戏面板的“属性”标签页中找到GeyserMC预设项。点击“安装”并重启服务器即可。更多详情请参见[跨平台游玩常见问题](https://help.wisehosting.com/en/articles/13-how-to-install-geysermc-java-bedrock-crossplay-to-your-server)。"
+  },
+  "providers.provider.zaphosting.description": {
+    "message": "在控制面板中找到该插件并重启服务器。IP和端口与Java版相同。"
+  },
+  "providers.provider.365hosts.description": {
+    "message": "进入其[我的世界：跨平台游玩](https://www.365hosts.com/gaming/crossplayminecraft)托管板块并订购你的服务器。会提供相应的加入指引。"
+  },
+  "providers.provider.aquatis.description": {
+    "message": "需要提交支持工单获取UDP端口，然后将该端口设为`bedrock port`。"
+  },
+  "providers.provider.bisecthosting.description": {
+    "message": "进入“网络”标签页，复制一个未被其他模组占用的可用端口。在Geyser的配置文件中，找到基岩版（bedrock）板块，将“port:”行的值修改为你复制的端口。完整操作说明请参见Bisect的[相关文档](https://www.bisecthosting.com/clients/index.php?rp=/knowledgebase/193/How-to-install-Geyser-and-Floodgate-on-a-Minecraft-Java-server.html)。如果按照上述说明操作后仍无法连接，请联系Bisect支持团队，据反馈部分节点的UDP功能处于禁用状态。"
+  },
+  "providers.provider.bloomhost.description": {
+    "message": "设置指引请参见[Bloom 官方文档](https://docs.bloom.host/plugins/geysermc/)。"
+  },
+  "providers.provider.craft-hosting.description": {
+    "message": "将基岩版端口设置为Java版服务器的端口并使用该端口连接；请注意，该服务商似乎仅在俄罗斯提供服务。"
+  },
+  "providers.provider.dedicatedmc.description": {
+    "message": "具体操作说明请参见[DedicatedMC 官方文档](https://docs.dedicatedmc.io/plugins-mods/how-to-install-geysermc/)。"
+  },
+  "providers.provider.elfidc.description": {
+    "message": "下订单时选择Paper/Spigot + Geyser，系统会自动安装Geyser插件。使用Java版服务器的IP和端口进行连接。注意：该服务商仅在中国提供服务。"
+  },
+  "providers.provider.fadehost.description": {
+    "message": "将基岩版端口设置为Java版服务器的端口并使用该端口连接。或者，购买独立IP以支持其他端口。"
+  },
+  "providers.provider.fakaheda.description": {
+    "message": "在配置文件中将`bedrock port`设置为Java版服务器的端口，或使用服务器分配的任一可用端口，并使用该端口进行连接。"
+  },
+  "providers.provider.falixnodes.description": {
+    "message": "在游戏面板的“网络”页面自行开放一个端口，然后在Geyser配置文件的基岩版（bedrock）板块中使用该端口。"
+  },
+  "providers.provider.ferox_hosting.description": {
+    "message": "在其面板中自行开放一个端口，安装和配置Geyser的方法请参见[知识库文档](https://feroxhosting.nl/kb/)。"
+  },
+  "providers.provider.fusion_hosting.description": {
+    "message": "安装Geyser插件。在配置文件中将基岩版端口设置为与Java版服务器相同的端口（可手动设置，或启用“clone-remote-port”），并使用与Java版相同的IP和端口连接；也可在面板的“网络”标签页中创建一个端口并将其用于Geyser。"
+  },
+  "providers.provider.gportal.description": {
+    "message": "你需要根据查询端口调整Geyser端口。规则：查询端口为xxx65时，Geyser仅可使用xxx66至xxx70范围内的端口。例如，如果你的查询端口是12365，那么Geyser只能在12366-12370端口范围内运行。此外，你需要将Geyser配置文件中“Bedrock”部分的“address”修改为你的服务器IP。不要忘记删除`address`前的#符号。"
+  },
+  "providers.provider.heavynode.description": {
+    "message": "在控制面板的“网络”板块自行开放一个端口。仅当拥有独立IP时才可使用19132端口（需联系支持团队），否则需使用随机分配的端口。若位于加拿大和英国的服务器出现连接问题，可参考[此处](https://wiki.geysermc.org/geyser/port-forwarding/#ovh-and-soyoustart)的信息联系其支持团队解决。"
+  },
+  "providers.provider.hicoria.description": {
+    "message": "将服务器分配的任一可用端口设为配置文件中的基岩版端口，并使用该端口进行连接。"
+  },
+  "providers.provider.hosterfy.description": {
+    "message": "在配置文件中将基岩版端口设置为与Java版服务器相同的端口（可手动设置，或启用`clone-remote-port`），并使用与Java版相同的IP和端口连接。你也可以申请一个新端口。"
+  },
+  "providers.provider.hostez.description": {
+    "message": "支持自行安装Geyser插件，也可根据需求申请安装并分配独立端口。"
+  },
+  "providers.provider.hosting-minecraft.description": {
+    "message": "创建一个新端口并在配置文件中使用该端口。如果你的套餐属于“Boost”分类，需要提交[支持工单](https://my.hosting-minecraft.pro/submitticket.php)以获取启用UDP协议的端口。"
+  },
+  "providers.provider.humbleservers.description": {
+    "message": "将基岩版端口设置为Java版服务器的端口，或两个额外端口中的一个，并使用该端口连接。如果子域名无法使用，请使用常规的数字格式IP地址。"
+  },
+  "providers.provider.kaashosting.description": {
+    "message": "在Geyser配置文件中启用`clone-remote-port`，并使用Java版IP和端口连接；也可使用额外端口。更多详情请参见[KaasHosting 相关文档](https://www.kaashosting.nl/help/nl/minecraft/hoe-maak-ik-mijn-minecraft-server-crossplay-met-geysermc)。"
+  },
+  "providers.provider.kekshost.description": {
+    "message": "使用默认的基岩版端口（19132）和服务器IP连接基岩版客户端。无需修改Geyser配置文件。你也可以申请一个新端口并使用该端口。"
+  },
+  "providers.provider.kinetic_hosting.description": {
+    "message": "在“网络和端口”页面开放一个端口，并将该端口设为Geyser配置文件中的`bedrock port`。或者，在配置文件中启用`clone-remote-port`选项，将基岩版端口设为Java版服务器的端口。使用与Java版相同的IP和你选择的端口进行连接。更多信息请参见服务商的[支持文档](https://www.kinetichosting.net/articles/minecraft-java/plugins/geyser)。"
+  },
+  "providers.provider.mcpehost.ru.description": {
+    "message": "在服务器设置中创建一个额外端口并启用UDP协议，然后将该端口设为配置文件中的`bedrock port`。使用Java版IP和该新端口进行连接。"
+  },
+  "providers.provider.meloncube.description": {
+    "message": "联系支持团队获取用于Geyser的UDP端口。将该端口设为`bedrock port`并使用该端口连接。"
+  },
+  "providers.provider.netbela.description": {
+    "message": "通过专用的插件安装器安装Geyser。在配置文件中将基岩版端口设置为与Java版服务器相同的端口。使用与Java版服务器相同的地址和端口连接。"
+  },
+  "providers.provider.nfoservers.description": {
+    "message": "在Geyser配置文件中将`bedrock address`设置为服务器IP。此外，你也可以在非托管VDS上单独运行Geyser独立版。"
+  },
+  "providers.provider.nitrado.description": {
+    "message": "安装Geyser插件。将Java版服务器端口加4作为Geyser端口。具体操作说明请参见[此处](https://wiki.nitrado.net/en/How_to_install_GeyserMC_and_Floodgate)。"
+  },
+  "providers.provider.nodecraft.description": {
+    "message": "使用默认服务器端口，主机地址设为`0.0.0.0`或你的服务器IP。"
+  },
+  "providers.provider.pebblehost.description": {
+    "message": "启用`clone-remote-port`（或手动将`bedrock port`设置为Java版端口），并使用Java版IP和端口进行连接。PebbleHost专属教程请参见[该视频](https://youtu.be/v9lC80UBZF4)。"
+  },
+  "providers.provider.pubcs.description": {
+    "message": "将基岩版端口设置为Java版服务器的端口并使用该端口连接；或升级到包含独立IP的套餐以支持其他端口。"
+  },
+  "providers.provider.revivenode.description": {
+    "message": "将`bedrock port`设置为Java版服务器的端口（可手动设置，或启用`clone-remote-port`）。你也可以在“网络标签页”中创建一个二级端口并使用该端口。若遇到随机“无法连接”的问题，请参见[此处](https://wiki.geysermc.org/geyser/port-forwarding/#ovh-and-soyoustart)解决。"
+  },
+  "providers.provider.shockbyte.description": {
+    "message": "下载Geyser并重启服务器后，端口会自动设置。使用与Java版相同的IP和端口连接。Geyser独立版的安装说明请参见[此处](https://shockbyte.com/billing/knowledgebase/173/Introduction-to-GeyserMCorDragonProxy-How-GeyserMC-Works.html)。"
+  },
+  "providers.provider.skynode.pro.description": {
+    "message": "进入“服务器详情”页面，添加一个新端口，并将配置文件中的`bedrock port`设置为该端口。使用该端口和Java版服务器地址进行连接。"
+  },
+  "providers.provider.stipe.description": {
+    "message": "将基岩版端口设置为Java版服务器的端口并使用该端口连接；请注意，该服务商仅在澳大利亚提供服务。"
+  },
+  "providers.provider.syntexhosting.description": {
+    "message": "将基岩版端口设置为Java版服务器的端口并使用该端口连接；或申请一个（免费的）额外端口。"
+  },
+  "providers.provider.the_minecraft hosting.description": {
+    "message": "尝试将19132设为基岩版端口，如果无法使用，在配置文件中将`bedrock port`设置为与Java版服务器相同的端口，并使用该端口和Java版服务器IP连接。"
+  },
+  "providers.provider.volthosting.description": {
+    "message": "启用clone-remote-port（或手动将bedrock port设置为Java版端口），并使用Java版IP和端口进行连接。或者，申请一个额外端口，或购买独立IP地址。如果问题仍未解决，请[联系VoltHosting支持团队](https://volthosting.co.uk/contact.html)获取进一步帮助。"
+  },
+  "providers.provider.vultam.description": {
+    "message": "将`bedrock port`设置为Java版服务器的端口，或申请一个额外端口。如果购买了独立IP，额外端口可以设为19132。"
+  },
+  "providers.provider.winternode.description": {
+    "message": "将基岩版端口设置为Java版服务器的端口并使用该端口连接。或者，申请一个额外端口，或购买独立IP地址。"
+  },
+  "providers.provider.witherhosting.description": {
+    "message": "可使用Java版服务器的端口，或在面板的端口管理器中创建一个端口并将其用于基岩版。更多信息请参见服务商的[支持文档](https://support.witherhosting.com/en/article/how-to-install-and-use-geysermc-1xn5l6v/)。"
+  },
+  "providers.provider.myarena.description": {
+    "message": "看似可以运行，但Java版本过旧，导致Geyser无法正常工作。"
+  },
+  "providers.provider.nicraft.description": {
+    "message": "不提供基岩版支持，且受[防火墙配置问题](https://wiki.geysermc.org/geyser/port-forwarding/#ovh-and-soyoustart)影响，大多数玩家无法加入。"
+  },
+  "providers.provider.feather.description": {
+    "message": "其代理网络不支持UDP协议，因此不支持Geyser。作为替代方案，可搭建Paper服务器并使用playit.gg等工具，而非端口转发。"
+  },
+  "providers.provider.freemcserver_net.description": {
+    "message": "从“插件”标签页安装Geyser，然后使用你的Java版IP和端口连接到服务器。"
+  },
+  "providers.provider.ultraservers.description": {
+    "message": "在“更改版本”标签页下选择“Paper + Geyser”。你可以使用与Java版相同的IP和端口连接到服务器。已存在的服务器可通过“插件/我的世界模组”标签页安装Geyser。更多信息请参见[跨平台游玩](https://docs.ultraservers.com/minecraft/plugins-mods/crossplay-on-java-and-bedrock)。"
+  },
+  "providers.provider.bedrockhost.description": {
+    "message": "最简单的方法：进入托管面板 > 安装新引擎 > 现成解决方案，选择Geyser。这将安装Paper & Geyser-Spigot——无需额外设置，只需使用你的Java版IP和端口连接即可。更多详情或自定义设置说明（波兰语）请参见[BedrockHost 相关文档](https://bedrockhost.pl/w/geyser-czyli-serwer-minecraft-java-i-bedrock-w-jednym)。"
+  },
+  "pages.main.title": {
+    "message": "革新你的MC服务器"
+  },
+  "pages.main.subtitle": {
+    "message": "允许基岩版客户端加入你的Java版服务器"
+  },
+  "components.homepage_features.1.line1": {
+    "message": "Geyser 是一款能让我的世界：基岩版客户端加入我的世界：Java版服务器的程序，实现了两个版本游戏之间真正的跨平台游玩。"
+  },
+  "components.homepage_features.1.line2": {
+    "message": "该项目的最终目标是让我的世界：基岩版用户能够尽可能无缝地加入我的世界：Java版服务器。"
+  },
+  "components.homepage_features.2": {
+    "message": "Geyser 充当基岩版客户端与Java版服务器之间的“翻译器”。它接收来自基岩版客户端的数据，并将其转换为 Java 版服务器能理解的格式，反之亦然。Geyser 兼容所有现代我的世界版本，可作为插件安装或独立程序运行。"
+  },
+  "components.homepage_features.3.line1": {
+    "message": "Windows 10/11、iOS、Android 甚至主机平台的基岩版客户端均可连接 Geyser。Geyser 兼容众多服务商，也可作为独立代理工具连接任意我的世界服务器！"
+  },
+  "components.homepage_features.3.line2": {
+    "message": "如果你是服务器管理员，可以安装我们的 Floodgate 插件，允许通过 Xbox Live 认证的基岩版用户无需 Java 正版账号即可加入服务器！"
+  },
+  "pages.download.title": {
+    "message": "下载"
+  },
+  "pages.download.subheading": {
+    "message": "下载我们各项目的最新版本。"
+  },
+  "pages.download.description.geyser": {
+    "message": "一款桥接/代理工具，允许你使用我的世界：基岩版连接我的世界：Java版服务器。"
+  },
+  "pages.download.description.floodgate": {
+    "message": "混合模式插件，允许Geyser连接的玩家加入在线模式服务器。"
+  },
+  "pages.download.description.geyserconnect": {
+    "message": "一款插件，允许Geyser玩家无需使用代理即可连接到你的服务器。"
+  },
+  "pages.download.description.thirdpartycosmetics": {
+    "message": "一款扩展插件，为Java版玩家添加加载装饰性耳朵及其他第三方外观装饰的支持。"
+  },
+  "pages.download.description.emoteoffhand": {
+    "message": "一款扩展插件，允许基岩版玩家通过表情动作切换副手和主手物品。"
+  },
+  "pages.dumpviewer.title": {
+    "message": "Dump 文件查看器"
+  },
+  "pages.dumpviewer.subheading": {
+    "message": "查看你的 Geyser Dump 文件详情。"
+  },
+  "pages.dumpviewer.enterdumpid": {
+    "message": "在下方输入 Dump ID 或 URL，然后点击加载。"
+  },
+  "pages.dumpviewer.button.load": {
+    "message": "加载"
+  },
+  "pages.dumpviewer.versions": {
+    "message": "版本信息"
+  },
+  "pages.dumpviewer.versions.geyserver": {
+    "message": "Geyser 版本"
+  },
+  "pages.dumpviewer.versions.javaver": {
+    "message": "Java 版本"
+  },
+  "pages.dumpviewer.versions.os": {
+    "message": "操作系统"
+  },
+  "pages.dumpviewer.geyserver": {
+    "message": "Geyser 版本"
+  },
+  "pages.dumpviewer.geyserver.build": {
+    "message": "构建版本"
+  },
+  "pages.dumpviewer.geyserver.commit": {
+    "message": "提交哈希值"
+  },
+  "pages.dumpviewer.geyserver.branch": {
+    "message": "分支"
+  },
+  "pages.dumpviewer.platform": {
+    "message": "平台信息"
+  },
+  "pages.dumpviewer.platform.id": {
+    "message": "平台标识符"
+  },
+  "pages.dumpviewer.platform.name": {
+    "message": "平台名称"
+  },
+  "pages.dumpviewer.platform.version": {
+    "message": "平台版本"
+  },
+  "pages.dumpviewer.platform.apiver": {
+    "message": "平台 API 版本"
+  },
+  "pages.dumpviewer.platform.onlinemode": {
+    "message": "在线模式"
+  },
+  "pages.dumpviewer.sysinfo": {
+    "message": "系统信息"
+  },
+  "pages.dumpviewer.cpucount": {
+    "message": "CPU 核心数"
+  },
+  "pages.dumpviewer.cpuname": {
+    "message": "CPU 名称"
+  },
+  "pages.dumpviewer.ram": {
+    "message": "内存（RAM）"
+  },
+  "pages.dumpviewer.javaname": {
+    "message": "Java 名称"
+  },
+  "pages.dumpviewer.javavendor": {
+    "message": "Java 供应商"
+  },
+  "pages.dumpviewer.dockercheck": {
+    "message": "是否使用 Docker？"
+  },
+  "pages.dumpviewer.plugins": {
+    "message": "插件"
+  },
+  "pages.dumpviewer.plugins.noplugins": {
+    "message": "无插件可显示。"
+  },
+  "pages.dumpviewer.plugins.helptext": {
+    "message": "点击插件可查看更多信息。"
+  },
+  "pages.dumpviewer.config": {
+    "message": "配置"
+  },
+  "pages.dumpviewer.viewsource": {
+    "message": "查看 Dump 文件源内容"
+  },
+  "theme.ErrorPageContent.title": {
+    "message": "此页面崩溃了。",
+    "description": "The title of the fallback page when the page crashed"
+  },
+  "theme.BackToTopButton.buttonAriaLabel": {
+    "message": "滚动返回顶部",
+    "description": "The ARIA label for the back to top button"
+  },
+  "theme.blog.archive.title": {
+    "message": "归档",
+    "description": "The page & hero title of the blog archive page"
+  },
+  "theme.blog.archive.description": {
+    "message": "归档",
+    "description": "The page & hero description of the blog archive page"
+  },
+  "theme.blog.paginator.navAriaLabel": {
+    "message": "博客列表页面导航",
+    "description": "The ARIA label for the blog pagination"
+  },
+  "theme.blog.paginator.newerEntries": {
+    "message": "较新的文章",
+    "description": "The label used to navigate to the newer blog posts page (previous page)"
+  },
+  "theme.blog.paginator.olderEntries": {
+    "message": "较旧的文章",
+    "description": "The label used to navigate to the older blog posts page (next page)"
+  },
+  "theme.blog.post.paginator.navAriaLabel": {
+    "message": "博客文章页面导航",
+    "description": "The ARIA label for the blog posts pagination"
+  },
+  "theme.blog.post.paginator.newerPost": {
+    "message": "上一篇文章",
+    "description": "The blog post button label to navigate to the newer/previous post"
+  },
+  "theme.blog.post.paginator.olderPost": {
+    "message": "下一篇文章",
+    "description": "The blog post button label to navigate to the older/next post"
+  },
+  "theme.blog.post.plurals": {
+    "message": "{count} 篇文章",
+    "description": "Pluralized label for \"{count} posts\". Use as much plural forms (separated by \"|\") as your language support (see https://www.unicode.org/cldr/cldr-aux/charts/34/supplemental/language_plural_rules.html)"
+  },
+  "theme.blog.tagTitle": {
+    "message": "有 {nPosts} 篇文章标记为“{tagName}”",
+    "description": "The title of the page for a blog tag"
+  },
+  "theme.tags.tagsPageLink": {
+    "message": "查看所有标签",
+    "description": "The label of the link targeting the tag list page"
+  },
+  "theme.colorToggle.ariaLabel": {
+    "message": "切换深色/浅色模式（当前为 {mode}）",
+    "description": "The ARIA label for the navbar color mode toggle"
+  },
+  "theme.colorToggle.ariaLabel.mode.dark": {
+    "message": "深色模式",
+    "description": "The name for the dark color mode"
+  },
+  "theme.colorToggle.ariaLabel.mode.light": {
+    "message": "浅色模式",
+    "description": "The name for the light color mode"
+  },
+  "theme.docs.DocCard.categoryDescription.plurals": {
+    "message": "{count} 个项目",
+    "description": "The default description for a category card in the generated index about how many items this category includes"
+  },
+  "theme.docs.breadcrumbs.navAriaLabel": {
+    "message": "面包屑导航",
+    "description": "The ARIA label for the breadcrumbs"
+  },
+  "theme.docs.paginator.navAriaLabel": {
+    "message": "文档页面",
+    "description": "The ARIA label for the docs pagination"
+  },
+  "theme.docs.paginator.previous": {
+    "message": "上一页",
+    "description": "The label used to navigate to the previous doc"
+  },
+  "theme.docs.paginator.next": {
+    "message": "下一页",
+    "description": "The label used to navigate to the next doc"
+  },
+  "theme.docs.tagDocListPageTitle.nDocsTagged": {
+    "message": "{count} 篇文档标记",
+    "description": "Pluralized label for \"{count} docs tagged\". Use as much plural forms (separated by \"|\") as your language support (see https://www.unicode.org/cldr/cldr-aux/charts/34/supplemental/language_plural_rules.html)"
+  },
+  "theme.docs.tagDocListPageTitle": {
+    "message": "有 {nDocsTagged} 篇文档标记为“{tagName}”",
+    "description": "The title of the page for a docs tag"
+  },
+  "theme.docs.versionBadge.label": {
+    "message": "版本：{versionLabel}"
+  },
+  "theme.docs.versions.unreleasedVersionLabel": {
+    "message": "这是 {siteTitle} {versionLabel} 版本的未发布文档。",
+    "description": "The label used to tell the user that he's browsing an unreleased doc version"
+  },
+  "theme.docs.versions.unmaintainedVersionLabel": {
+    "message": "这是 {siteTitle} {versionLabel} 版本的文档，该版本已不再积极维护。",
+    "description": "The label used to tell the user that he's browsing an unmaintained doc version"
+  },
+  "theme.docs.versions.latestVersionSuggestionLabel": {
+    "message": "如需查看最新文档，请参见 {latestVersionLink}（{versionLabel} 版本）。",
+    "description": "The label used to tell the user to check the latest version"
+  },
+  "theme.docs.versions.latestVersionLinkLabel": {
+    "message": "最新版本",
+    "description": "The label used for the latest version suggestion link label"
+  },
+  "theme.common.editThisPage": {
+    "message": "编辑此页面",
+    "description": "The link label to edit the current page"
+  },
+  "theme.common.headingLinkTitle": {
+    "message": "指向 {heading} 的直接链接",
+    "description": "Title for link to heading"
+  },
+  "theme.lastUpdated.atDate": {
+    "message": " 于 {date}",
+    "description": "The words used to describe on which date a page has been last updated"
+  },
+  "theme.lastUpdated.byUser": {
+    "message": " 由 {user}",
+    "description": "The words used to describe by who the page has been last updated"
+  },
+  "theme.lastUpdated.lastUpdatedAtBy": {
+    "message": "最后更新时间{atDate}{byUser}",
+    "description": "The sentence used to display when a page has been last updated, and by who"
+  },
+  "theme.NotFound.title": {
+    "message": "页面未找到",
+    "description": "The title of the 404 page"
+  },
+  "theme.navbar.mobileVersionsDropdown.label": {
+    "message": "版本",
+    "description": "The label for the navbar versions dropdown on mobile view"
+  },
+  "theme.tags.tagsListLabel": {
+    "message": "标签：",
+    "description": "The label alongside a tag list"
+  },
+  "theme.AnnouncementBar.closeButtonAriaLabel": {
+    "message": "关闭",
+    "description": "The ARIA label for close button of announcement bar"
+  },
+  "theme.admonition.caution": {
+    "message": "注意",
+    "description": "The default label used for the Caution admonition (:::caution)"
+  },
+  "theme.admonition.danger": {
+    "message": "危险",
+    "description": "The default label used for the Danger admonition (:::danger)"
+  },
+  "theme.admonition.info": {
+    "message": "信息",
+    "description": "The default label used for the Info admonition (:::info)"
+  },
+  "theme.admonition.note": {
+    "message": "备注",
+    "description": "The default label used for the Note admonition (:::note)"
+  },
+  "theme.admonition.tip": {
+    "message": "提示",
+    "description": "The default label used for the Tip admonition (:::tip)"
+  },
+  "theme.admonition.warning": {
+    "message": "警告",
+    "description": "The default label used for the Warning admonition (:::warning)"
+  },
+  "theme.blog.sidebar.navAriaLabel": {
+    "message": "博客最新文章导航",
+    "description": "The ARIA label for recent posts in the blog sidebar"
+  },
+  "theme.CodeBlock.copied": {
+    "message": "已复制",
+    "description": "The copied button label on code blocks"
+  },
+  "theme.CodeBlock.copyButtonAriaLabel": {
+    "message": "复制代码到剪贴板",
+    "description": "The ARIA label for copy code blocks button"
+  },
+  "theme.CodeBlock.copy": {
+    "message": "复制",
+    "description": "The copy button label on code blocks"
+  },
+  "theme.CodeBlock.wordWrapToggle": {
+    "message": "切换自动换行",
+    "description": "The title attribute for toggle word wrapping button of code block lines"
+  },
+  "theme.DocSidebarItem.expandCategoryAriaLabel": {
+    "message": "展开侧边栏分类“{label}”",
+    "description": "The ARIA label to expand the sidebar category"
+  },
+  "theme.DocSidebarItem.collapseCategoryAriaLabel": {
+    "message": "折叠侧边栏分类“{label}”",
+    "description": "The ARIA label to collapse the sidebar category"
+  },
+  "theme.NavBar.navAriaLabel": {
+    "message": "主导航",
+    "description": "The ARIA label for the main navigation"
+  },
+  "theme.NotFound.p1": {
+    "message": "我们未找到你要访问的内容。",
+    "description": "The first paragraph of the 404 page"
+  },
+  "theme.NotFound.p2": {
+    "message": "请联系引导你访问此URL的网站所有者，告知其链接已失效。",
+    "description": "The 2nd paragraph of the 404 page"
+  },
+  "theme.navbar.mobileLanguageDropdown.label": {
+    "message": "语言",
+    "description": "The label for the mobile language switcher dropdown"
+  },
+  "theme.TOCCollapsible.toggleButtonLabel": {
+    "message": "本页目录",
+    "description": "The label used by the button on the collapsible TOC component"
+  },
+  "theme.blog.post.readMore": {
+    "message": "阅读更多",
+    "description": "The label used in blog post item excerpts to link to full blog posts"
+  },
+  "theme.blog.post.readMoreLabel": {
+    "message": "阅读更多关于 {title} 的内容",
+    "description": "The ARIA label for the link to full blog posts from excerpts"
+  },
+  "theme.blog.post.readingTime.plurals": {
+    "message": "阅读需 {readingTime} 分钟",
+    "description": "Pluralized label for \"{readingTime} min read\". Use as much plural forms (separated by \"|\") as your language support (see https://www.unicode.org/cldr/cldr-aux/charts/34/supplemental/language_plural_rules.html)"
+  },
+  "theme.docs.breadcrumbs.home": {
+    "message": "首页",
+    "description": "The ARIA label for the home page in the breadcrumbs"
+  },
+  "theme.docs.sidebar.collapseButtonTitle": {
+    "message": "折叠侧边栏",
+    "description": "The title attribute for collapse button of doc sidebar"
+  },
+  "theme.docs.sidebar.collapseButtonAriaLabel": {
+    "message": "折叠侧边栏",
+    "description": "The title attribute for collapse button of doc sidebar"
+  },
+  "theme.docs.sidebar.navAriaLabel": {
+    "message": "文档侧边栏",
+    "description": "The ARIA label for the sidebar navigation"
+  },
+  "theme.docs.sidebar.closeSidebarButtonAriaLabel": {
+    "message": "关闭导航栏",
+    "description": "The ARIA label for close button of mobile sidebar"
+  },
+  "theme.docs.sidebar.expandButtonTitle": {
+    "message": "展开侧边栏",
+    "description": "The ARIA label and title attribute for expand button of doc sidebar"
+  },
+  "theme.docs.sidebar.expandButtonAriaLabel": {
+    "message": "展开侧边栏",
+    "description": "The ARIA label and title attribute for expand button of doc sidebar"
+  },
+  "theme.navbar.mobileSidebarSecondaryMenu.backButtonLabel": {
+    "message": "← 返回主导航菜单",
+    "description": "The label of the back button to return to main menu, inside the mobile navbar sidebar secondary menu (notably used to display the docs sidebar)"
+  },
+  "theme.docs.sidebar.toggleSidebarButtonAriaLabel": {
+    "message": "切换导航栏",
+    "description": "The ARIA label for hamburger menu button of mobile navigation"
+  },
+  "theme.SearchBar.seeAll": {
+    "message": "查看全部 {count} 条结果"
+  },
+  "theme.SearchPage.documentsFound.plurals": {
+    "message": "找到 {count} 篇文档",
+    "description": "Pluralized label for \"{count} documents found\". Use as much plural forms (separated by \"|\") as your language support (see https://www.unicode.org/cldr/cldr-aux/charts/34/supplemental/language_plural_rules.html)"
+  },
+  "theme.SearchPage.existingResultsTitle": {
+    "message": "“{query}”的搜索结果",
+    "description": "The search page title for non-empty query"
+  },
+  "theme.SearchPage.emptyResultsTitle": {
+    "message": "搜索文档",
+    "description": "The search page title for empty query"
+  },
+  "theme.SearchPage.inputPlaceholder": {
+    "message": "在此输入搜索内容",
+    "description": "The placeholder for search page input"
+  },
+  "theme.SearchPage.inputLabel": {
+    "message": "搜索",
+    "description": "The ARIA label for search page input"
+  },
+  "theme.SearchPage.algoliaLabel": {
+    "message": "由 Algolia 提供搜索支持",
+    "description": "The ARIA label for Algolia mention"
+  },
+  "theme.SearchPage.noResultsText": {
+    "message": "未找到结果",
+    "description": "The paragraph for empty search result"
+  },
+  "theme.SearchPage.fetchingNewResults": {
+    "message": "正在获取新结果...",
+    "description": "The paragraph for fetching new search results"
+  },
+  "theme.SearchBar.label": {
+    "message": "搜索",
+    "description": "The ARIA label and placeholder for search button"
+  },
+  "theme.SearchModal.searchBox.resetButtonTitle": {
+    "message": "清除查询",
+    "description": "The label and ARIA label for search box reset button"
+  },
+  "theme.SearchModal.searchBox.cancelButtonText": {
+    "message": "取消",
+    "description": "The label and ARIA label for search box cancel button"
+  },
+  "theme.SearchModal.startScreen.recentSearchesTitle": {
+    "message": "最近搜索",
+    "description": "The title for recent searches"
+  },
+  "theme.SearchModal.startScreen.noRecentSearchesText": {
+    "message": "无最近搜索",
+    "description": "The text when no recent searches"
+  },
+  "theme.SearchModal.startScreen.saveRecentSearchButtonTitle": {
+    "message": "保存此搜索",
+    "description": "The label for save recent search button"
+  },
+  "theme.SearchModal.startScreen.removeRecentSearchButtonTitle": {
+    "message": "从历史记录中移除本次搜索",
+    "description": "The label for remove recent search button"
+  },
+  "theme.SearchModal.startScreen.favoriteSearchesTitle": {
+    "message": "收藏夹",
+    "description": "The title for favorite searches"
+  },
+  "theme.SearchModal.startScreen.removeFavoriteSearchButtonTitle": {
+    "message": "从收藏夹中移除本次搜索",
+    "description": "The label for remove favorite search button"
+  },
+  "theme.SearchModal.errorScreen.titleText": {
+    "message": "无法获取结果",
+    "description": "The title for error screen of search modal"
+  },
+  "theme.SearchModal.errorScreen.helpText": {
+    "message": "你可能需要检查网络连接。",
+    "description": "The help text for error screen of search modal"
+  },
+  "theme.SearchModal.footer.selectText": {
+    "message": "选择",
+    "description": "The explanatory text of the action for the enter key"
+  },
+  "theme.SearchModal.footer.selectKeyAriaLabel": {
+    "message": "回车键",
+    "description": "The ARIA label for the Enter key button that makes the selection"
+  },
+  "theme.SearchModal.footer.navigateText": {
+    "message": "导航",
+    "description": "The explanatory text of the action for the Arrow up and Arrow down key"
+  },
+  "theme.SearchModal.footer.navigateUpKeyAriaLabel": {
+    "message": "上箭头",
+    "description": "The ARIA label for the Arrow up key button that makes the navigation"
+  },
+  "theme.SearchModal.footer.navigateDownKeyAriaLabel": {
+    "message": "下箭头",
+    "description": "The ARIA label for the Arrow down key button that makes the navigation"
+  },
+  "theme.SearchModal.footer.closeText": {
+    "message": "关闭",
+    "description": "The explanatory text of the action for Escape key"
+  },
+  "theme.SearchModal.footer.closeKeyAriaLabel": {
+    "message": "Escape 键",
+    "description": "The ARIA label for the Escape key button that close the modal"
+  },
+  "theme.SearchModal.footer.searchByText": {
+    "message": "搜索提供方",
+    "description": "The text explain that the search is making by Algolia"
+  },
+  "theme.SearchModal.noResultsScreen.noResultsText": {
+    "message": "无搜索结果：",
+    "description": "The text explains that there are no results for the following search"
+  },
+  "theme.SearchModal.noResultsScreen.suggestedQueryText": {
+    "message": "尝试搜索",
+    "description": "The text for the suggested query when no results are found for the following search"
+  },
+  "theme.SearchModal.noResultsScreen.reportMissingResultsText": {
+    "message": "认为此查询应返回结果？",
+    "description": "The text for the question where the user thinks there are missing results"
+  },
+  "theme.SearchModal.noResultsScreen.reportMissingResultsLinkText": {
+    "message": "告诉我们。",
+    "description": "The text for the link to report missing results"
+  },
+  "theme.SearchModal.placeholder": {
+    "message": "搜索文档",
+    "description": "The placeholder of the input of the DocSearch pop-up modal"
+  },
+  "theme.ErrorPageContent.tryAgain": {
+    "message": "重试",
+    "description": "The label of the button to try again rendering when the React error boundary captures an error"
+  },
+  "theme.common.skipToMainContent": {
+    "message": "跳转到主要内容",
+    "description": "The skip to content label used for accessibility, allowing to rapidly navigate to main content with keyboard tab/enter navigation"
+  },
+  "theme.tags.tagsPageTitle": {
+    "message": "标签",
+    "description": "The title of the tag list page"
+  },
+  "theme.unlistedContent.title": {
+    "message": "未列出的页面",
+    "description": "The unlisted content banner title"
+  },
+  "theme.unlistedContent.message": {
+    "message": "此页面未列出。搜索引擎不会索引它，只有拥有直接链接的用户才能访问。",
+    "description": "The unlisted content banner message"
+  },
+  "providers.provider.not_listed.description": {
+    "message": "如果你的托管提供商未列出，请尝试在配置中启用 `clone-remote-port` 选项。然后重启服务器，并尝试使用与 Java 版相同的 IP 和端口连接。 <br> 如果这不起作用，请向你的服务器托管提供商请求一个 UDP 端口并使用它。对于 VPS/KVM 服务器，请按照自托管步骤操作。"
+  },
+  "providers.provider.wasabihosting.description": {
+    "message": "使用插件安装程序安装 Geyser。在 Geyser 配置中使用与 Java 服务器相同的端口。使用与 Java 服务器相同的地址和端口连接。"
+  },
+  "pages.download.description.hurricane": {
+    "message": "一个包含各种针对 Geyser 玩家的解决方案的插件，通过修改服务器来实现其目标。"
+  },
+  "theme.blog.author.pageTitle": {
+    "message": "{authorName} - {nPosts}",
+    "description": "The title of the page for a blog author"
+  },
+  "theme.blog.authorsList.pageTitle": {
+    "message": "作者",
+    "description": "The title of the authors page"
+  },
+  "theme.blog.authorsList.viewAll": {
+    "message": "查看所有作者",
+    "description": "The label of the link targeting the blog authors page"
+  },
+  "theme.blog.author.noPosts": {
+    "message": "该作者尚未发表任何文章。",
+    "description": "The text for authors with 0 blog post"
+  },
+  "theme.contentVisibility.unlistedBanner.title": {
+    "message": "未列出的页面",
+    "description": "The unlisted content banner title"
+  },
+  "theme.contentVisibility.unlistedBanner.message": {
+    "message": "此页面未列出。搜索引擎不会索引它，只有拥有直接链接的用户才能访问。",
+    "description": "The unlisted content banner message"
+  },
+  "theme.contentVisibility.draftBanner.title": {
+    "message": "草稿页面",
+    "description": "The draft content banner title"
+  },
+  "theme.contentVisibility.draftBanner.message": {
+    "message": "此页面是草稿。它仅在开发环境中可见，并将被排除在生产构建之外。",
+    "description": "The draft content banner message"
+  }
+}

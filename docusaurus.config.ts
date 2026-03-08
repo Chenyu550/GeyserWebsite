@@ -18,8 +18,8 @@ const config: Config = {
     onBrokenMarkdownLinks: 'warn',
 
     i18n: {
-        defaultLocale: 'en',
-        locales: ['en'],
+        defaultLocale: 'zh',
+        locales: ['en', 'zh'],
     },
 
     presets: [
@@ -157,10 +157,10 @@ const config: Config = {
                     position: 'right',
                     className: 'header-discord-link'
                 },
-                // {
-                //     type: 'localeDropdown',
-                //     position: 'right',
-                // },
+                {
+                    type: 'localeDropdown',
+                    position: 'right',
+                },
             ],
         },
         footer: {

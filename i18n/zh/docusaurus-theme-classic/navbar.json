@@ -1,0 +1,46 @@
+{
+  "title": {
+    "message": "GeyserMC",
+    "description": "The title in the navbar"
+  },
+  "logo.alt": {
+    "message": "GeyserMC logo",
+    "description": "The alt text of navbar logo"
+  },
+  "item.label.Wiki": {
+    "message": "指南",
+    "description": "Navbar item with label Wiki"
+  },
+  "item.label.Blog": {
+    "message": "博客",
+    "description": "Navbar item with label Blog"
+  },
+  "item.label.Utilities": {
+    "message": "工具",
+    "description": "Navbar item with label Utilities"
+  },
+  "item.label.Download": {
+    "message": "下载",
+    "description": "Navbar item with label Download"
+  },
+  "item.label.Geyser": {
+    "message": "Geyser",
+    "description": "Navbar item with label Geyser"
+  },
+  "item.label.Floodgate": {
+    "message": "Floodgate",
+    "description": "Navbar item with label Floodgate"
+  },
+  "item.label.REST APIs": {
+    "message": "REST API",
+    "description": "Navbar item with label REST APIs"
+  },
+  "item.label.Other": {
+    "message": "其它",
+    "description": "Navbar item with label Other"
+  },
+  "item.label.Dump Viewer": {
+    "message": "转储文件查看器",
+    "description": "Navbar item with label Dump Viewer"
+  }
+}

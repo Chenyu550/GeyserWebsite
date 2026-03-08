@@ -1,0 +1,30 @@
+---
+title: 概述
+permalink: /other/
+description: '本分类包含并非直接关联 Geyser 或 Floodgate 的其他项目或使用指南。'
+---
+
+import DocCardList from '@theme/DocCardList'
+import { useDocById } from '@docusaurus/plugin-content-docs/client'
+
+# 其他项目概述 {#overview-of-other-projects}
+
+“其他”分类为你提供关于各类非 Geyser 或 Floodgate 相关项目的信息。
+这其中既包含社区项目，也涵盖 GeyserMC 团队开发的其他项目（例如 Hurricane 或 Hydraulic）。
+
+<DocCardList items={[
+    'community-geyser-projects',
+    'hurricane',
+    'thunder',
+    'thirdpartycosmetics',
+    'hydraulic',
+    'geyserconnect',
+].map((id) => {
+    const metadata = useDocById("other/" + id)
+    return {
+        type: 'link',
+        label: metadata.title,
+        href: id,
+        docId: 'other/' + id
+    }
+})} />

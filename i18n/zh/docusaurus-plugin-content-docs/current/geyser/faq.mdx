@@ -1,0 +1,260 @@
+---
+title: 常见问题解答
+description: 关于 Geyser 的常见问题解答，包括其工作原理、不兼容的插件等相关内容。
+---
+
+import { Questions, Q, A } from "@site/src/components/Questions";
+import { Versions } from '@site/src/components/Versions'
+
+### 通用问题 {#general-questions}
+
+你可以在这里找到关于 Geyser 的常见问题答案——如果你有其他未被解答的问题，欢迎在我们的 [Discord](https://discord.gg/GeyserMC) 社区提问！
+
+<Questions>
+    <Q> 
+        Geyser 的工作原理是什么？
+        <A>
+            Geyser 充当翻译器的角色，会将客户端发送的请求数据包和服务器返回的响应数据包相互转换，处理成客户端和服务器双方都能识别的格式。从工作逻辑来说，Geyser 会模拟一个我的世界 Java 版客户端，因此服务器会将基岩版玩家识别为 Java 版玩家。只要服务器支持最新的原版（未修改）我的世界版本，无论服务器本身配置如何、安装了哪些插件，都可以通过 Geyser 让基岩版玩家加入。
+        </A>
+    </Q>
+    <Q>
+        所以，红石系统能正常工作吗？
+        <A>
+            可以。红石系统，以及命令、农场等所有游戏机制，在 Geyser 中都和 Java 版完全一致，因为 Geyser 仅实现跨版本连接，不会修改服务器的任何运行行为。
+        </A>
+    </Q>
+    <Q>
+        使用 Geyser 需要付费吗？
+        <A>
+            不需要。Geyser 及其所有相关项目均为完全免费的开源项目，基于 MIT 协议授权。
+        </A>
+    </Q>
+    <Q>
+        哪些插件与 Geyser 不兼容？
+        <A>
+            由于 Geyser 会模拟 Java 版客户端，因此它通常能与各类插件兼容，但也存在以下例外情况：
+
+            * [TCPShield](https://tcpshield.com/)：未开通付费套餐时，需要关闭 `only-allow-proxy-connections` 配置项才能兼容。其「高级版（Premium）」套餐原生支持 Geyser——配置方法请参考[此文档](https://docs.tcpshield.com/miscellaneous/geyser)。
+
+            Floodgate 因修改了服务器的登录验证流程，可能会与部分插件产生冲突。*请注意：本文档仅作离线模式验证插件的兼容性记录，Geyser 本身不支持在离线模式下使用。*
+
+            * [DynamicBungeeAuth](https://www.spigotmc.org/resources/27480/)：目前最新版本 10.28B+ 可正常使用（10.27B 及更早版本会导致基岩版玩家出现凭证无效的问题）
+            * [FastLogin](https://www.spigotmc.org/resources/14153/)：会导致 Floodgate 无法为基岩版玩家添加用户名前缀。
+            * [ExploitFixer](https://www.spigotmc.org/resources/62842/)：会将 Floodgate 玩家判定为 UUID 伪造——需在 ExploitFixer 的配置文件中关闭 `uuidspoof` 配置项。
+            * [JPremium](https://www.spigotmc.org/resources/27766/)：会修改玩家的 UUID，导致 Floodgate 无法从映射表中获取基岩版玩家的相关数据。
+            * [LibHatesMods](https://www.spigotmc.org/resources/78202/)：会导致登录验证失败，抛出 `com.github.steveice10.mc.auth.exception.request.InvalidCredentialsException` 异常。
+            * [ProtocolSupport](https://www.spigotmc.org/resources/7201/)：~~目前与 Floodgate 不兼容。~~ 现已兼容 Floodgate，但我们更推荐使用 [ViaBackwards](https://hangar.papermc.io/ViaVersion/ViaBackwards) 替代。
+            * [ProtocolSupportBungee](https://www.spigotmc.org/resources/8733/)：修改了服务器的登录流程，会导致 Floodgate 的注入代码失效。
+            * [SayNoToMcLeaks](https://www.spigotmc.org/resources/40906/)：会阻止 Floodgate 完成自身的登录验证流程。
+
+            如果你发现了其他不兼容的插件，欢迎通过 [Discord](https://discord.gg/geysermc) 告知我们。
+        </A>
+    </Q>
+    <Q>
+        Geyser 支持哪些版本的服务器？
+        <A>
+            详细的版本支持信息请参考[此页面](/wiki/geyser/supported-versions)。
+        </A>
+    </Q>
+    <Q>
+        我应该选择哪个插件版本的 Geyser？
+        <A>
+            以下为不同插件版本的 Geyser 对应的运行平台（独立版 Standalone 不属于插件，可在任意平台使用），本列表并非完整清单：
+            * Geyser-Spigot 支持的平台：
+            * [Spigot](https://www.spigotmc.org/)
+            * [Paper](https://papermc.io/downloads/paper)（推荐使用）
+            * 基于上述两款服务端的其他衍生版本
+            * Geyser-Bungee 支持的平台：
+            * [BungeeCord](https://www.spigotmc.org/wiki/bungeecord/)
+            * [Waterfall](https://papermc.io/downloads/Waterfall)
+            * 基于上述两款代理端的其他衍生版本
+            * Geyser-Velocity 支持 [Velocity](https://www.velocitypowered.com/) 代理端
+            * Geyser-Fabric 支持 [Fabric](https://www.fabricmc.net/) 服务端，且服务器需同时安装 FabricAPI 插件。
+            * Geyser-NeoForge 支持 [NeoForge](https://neoforged.net/) 服务端
+            * Geyser-ViaProxy 支持 [ViaProxy](https://github.com/ViaVersion/ViaProxy) 代理端。
+        </A>
+    </Q>
+    <Q>
+        Geyser 的独立版和插件版哪个更好用？
+        <A>
+            插件版的 Geyser 可以对接插件平台的底层优化，因此体验优于独立版。在 Spigot、Velocity、Fabric/NeoForge 和 BungeeCord 平台上，插件版 Geyser 的直连模式拥有更快的加载速度、更低的网络延迟，还能精准获取玩家真实 IP，且无需依赖 Floodgate。其中，Spigot、Fabric 和 NeoForge 平台的 Geyser 插件还因能直接访问游戏世界数据，做了进一步优化，内存占用更低，协议翻译的准确性也更高。不过，大型服务器集群可能更适合使用独立版 Geyser，因为独立版的更新无需重启其他代理端或服务器，还能将资源占用分担到独立的服务器节点上。
+        </A>
+    </Q>
+    <Q>
+        若使用 BungeeCord 或其衍生代理端，Geyser/Floodgate 应该部署在哪里？
+        <A>
+            只要不使用 Floodgate API，仅需在 BungeeCord 代理端部署 Geyser 和/或 Floodgate 即可。若需使用 Floodgate API，则后端的所有游戏服务器也需要安装 Floodgate。
+        </A>
+    </Q>
+    <Q>
+        基岩版玩家需要使用什么 IP 地址加入服务器？
+        <A>
+            通常情况下，基岩版玩家使用的加入 IP 为你的 Java 版服务器 IP，端口为 Geyser 配置文件中 `bedrock` 节点下的 `port` 配置项所定义的端口。例如，Java 版玩家的加入地址为 `test.geysermc.org`，Geyser 配置中 `bedrock` 节点的 `port` 设为 19132，那么基岩版玩家需使用 IP `test.geysermc.org` + 端口 `19132` 加入服务器。
+        </A>
+    </Q>
+    <Q>
+        如何让基岩版玩家加载资源包？
+        <A>
+            你可以将基岩版资源包放入 Geyser 配置文件所在目录的 `packs` 文件夹中，基岩版客户端会自动下载并加载这些资源包。目前 Geyser 暂不支持 Java 版资源包到基岩版的自动转换，但你可以通过[这个工具](https://rtm516.github.io/ConvertJavaTextureToBedrock/)将 Java 版资源包转换为基岩版后再部署到服务器。该转换器目前仅支持 1.17 及以下版本的资源包；对于更高版本的资源包，你需要使用其他转换工具，或[手动进行转换](https://learn.microsoft.com/zh-cn/minecraft/creator/documents/convertingtexturepacks)。
+        </A>
+    </Q>
+    <Q>
+        基岩版玩家如何将物品放在副手栏？
+        <A>
+            玩家可以使用命令 `/geyser offhand`，该命令会交换主手和副手的物品。你也可以在 Geyser 配置文件中启用 `emote-offhand-workaround` 配置项，让基岩版玩家通过发送表情动作来切换主手和副手的物品。
+        </A>
+    </Q>
+    <Q>
+        使用 Floodgate 时，如何在命令中指定基岩版玩家？
+        <A>
+            若 Floodgate 为基岩版玩家的用户名添加了前缀，在命令中必须带上该前缀。此外，Floodgate 会将玩家名中的空格替换为下划线，因此执行命令时需将玩家名中的空格替换为下划线；若这样操作仍无效，可将玩家名用双引号包裹。
+
+            示例：`/tp ".<bedrock_username>"`
+        </A>
+    </Q>
+    <Q>
+        使用 Floodgate 时，如何将基岩版玩家添加到白名单？
+        <A>
+            有三种方法可以实现，你可根据自身需求和服务器配置选择：
+
+            1. 使用 Floodgate 内置的白名单命令：`/fwhitelist add <bedrock_username>`。该命令仅对已加入过任意 Geyser 服务器的玩家生效。
+
+            2. 先执行 `/whitelist off` 关闭服务器白名单，让基岩版玩家加入服务器；接着执行 `/whitelist add ".<bedrock_username>"` 将其添加到白名单；最后执行 `/whitelist on` 重新开启白名单。
+            若使用本地账号关联功能（Local Linking）：若将基岩版账号关联到已在白名单中的 Java 版账号，则无需单独将基岩版账号加入白名单，关联完成后可直接重新开启白名单。
+
+            3. 将 Floodgate 分配给该基岩版玩家的 UUID 添加到服务器的 `whitelist.json` 文件中，然后执行 `/whitelist reload` 重载白名单配置。
+
+            Choose the method that suits your preferences and server setup.
+        </A>
+    </Q>
+    <Q>
+        使用 Floodgate 时，如何在玩家未加入服务器的情况下获取其 UUID？
+        <A>
+            可通过[此页面](https://mcprofile.io)查询。若该方法无效，可尝试以下步骤：
+        
+            首先，获取玩家的 Xbox 唯一标识（XUID），你可以通过多个第三方网站查询，例如[这个网站](https://cxkes.me/xbox/xuid)（与 Geyser 无关），注意查询时需选择「十六进制（Hexidecimal）」格式。输入玩家的 Xbox 游戏昵称（Gamertag）提交后，会得到格式为 `xxxxxxxxxxxxxxxx` 的 XUID。要将该 XUID 转换为 Java 版服务器可识别的 UUID，需将其按 `00000000-0000-0000-xxxx-xxxxxxxxxxxx` 的格式拼接，格式正确的情况下，Java 版服务器会将其识别为合法的 UUID。
+        </A>
+    </Q>
+    <Q>
+        可以移除 Floodgate 为基岩版玩家添加的用户名前缀吗？
+        <A>
+            虽然技术上可以移除，但我们通常不建议这样做，目的是避免出现基岩版和 Java 版玩家重名的情况（例如：基岩版玩家名 `JohnDoe`，Java 版玩家名 `JohnDoe`）。尽管两者的 UUID 不同，但相同的用户名可能会导致涉及玩家名的命令执行异常。如果为了方便执行命令而想要移除前缀，可尝试将玩家名用双引号包裹，示例：`/tp ".<bedrock_username>"`。若确需移除前缀，可在 Floodgate 的 `config.yml` 配置文件中找到 `username-prefix:` 项进行修改。
+        </A>
+    </Q>
+    <Q>
+        使用 Geyser 必须安装 Floodgate 吗？
+        <A>
+            不需要。仅当你希望让基岩版玩家无需通过 Java 版服务器的正版验证即可加入时，才需要安装 Floodgate。未安装 Floodgate 时，Geyser 会让基岩版玩家以两种方式加入服务器：一是通过 Mojang 正版验证加入在线模式服务器，二是无需验证加入离线模式服务器（但该方式不受 Geyser 官方支持，且存在安全风险，任何人都可随意加入服务器，同时该行为违反 Mojang 的最终用户许可协议（EULA））。
+        </A>
+    </Q>
+    <Q>
+        当我前往世界的偏远区域时，画面会出现各种奇怪的视觉BUG，这是为什么？
+        <A>
+            这是基岩版客户端的自身问题，原因是基岩版为 32 位程序，而 Java 版为 64 位程序，两者的坐标计算精度不同。更多相关信息可参考[此文档](https://minecraft.wiki/w/Bedrock_Edition_distance_effects)。你可以通过一款非官方的 Geyser 扩展[GeyserFloatingPoints](https://github.com/oryxel1/GeyserFloatingPoints)解决该问题，该扩展会模拟玩家的位置坐标，规避精度差异带来的视觉BUG。
+        </A>
+    </Q>
+    <Q>
+        可以用 Geyser 让 Java 版玩家加入基岩版服务器吗？
+        <A>
+            不可以。Geyser 是一款专为基岩版玩家加入 Java 版服务器设计的协议翻译工具，不支持反向的跨版本连接。
+        </A>
+    </Q>
+    <Q>
+        Geyser 可以和 Pterodactyl 面板配合使用吗？
+        <A>
+            可以。你可以将 Geyser 作为插件或模组，部署在 Pterodactyl 面板运行的我的世界服务端上；面板也有适用于 Geyser 独立版的官方镜像（Egg），该镜像支持自动更新，且所有配置项都可便捷编辑，你可以在[此仓库](https://github.com/GeyserMC/pterodactyl-stuff)下载该 JSON 格式的镜像文件并导入面板。注意需将 Geyser 的 UDP 端口暴露到宿主机，并为服务器分配该端口。
+        </A>
+    </Q>
+    <Q>
+        Geyser 可以和 Ngrok 配合使用吗？
+        <A>
+            遗憾的是，Ngrok 仅支持 TCP 协议，因此无法与 Geyser 兼容。你可以使用[playit.gg](https://playit.gg)作为替代方案，该工具同时支持 TCP 和 UDP 协议。
+        </A>
+    </Q>
+    <Q>
+        如何配置 Cosmic Guard？
+        <A>
+            1. 你需要拥有服务器宿主机的终端操作权限。注意：本配置指南仅适用于 Linux 系统！
+            2. 新建一个「Guard」实例，选择游戏类型为我的世界：基岩版。
+            3. 点击 Linux 系统的配置按钮，运行守护进程安装程序并启动该服务。
+            4. 执行 `guardian status` 命令，记录输出结果中的「本地 IP（Local IP）」，该 IP 格式为 `10.31.x.x`。
+            5. 打开 Geyser 的 `config.yml` 配置文件，将 `bedrock` 节点下的 `address` 配置项修改为上述本地 IP。
+            6. 重启我的世界服务器并进行测试，配置完成后 Java 版和基岩版玩家均可正常加入。
+        </A>
+    </Q>
+    <Q>
+        可以用 Geyser 连接旧版本的 Java 版服务器吗？
+        <A>
+            若服务器安装了 ViaVersion 插件，或本身支持最新的我的世界版本，则可以连接。但由于 Java 版支持库的限制，Geyser 官方无法为旧版本我的世界服务器提供技术支持。
+        </A>
+    </Q>
+    <Q>
+        可以用 Geyser 连接模组服（Forge/Fabric/NeoForge）吗？
+        <A>
+            简单来说：如果原版 Java 版客户端能加入该模组服，那么 Geyser 也能实现基岩版玩家的加入。
+
+            详细来说：目前 Geyser 无法对大部分模组新增的功能（如方块、物品等）进行协议翻译，因此**需要玩家客户端安装对应模组才能加入的模组服**，无法通过 Geyser 实现基岩版玩家的加入。
+        </A>
+    </Q>
+    <Q>
+        如何实现 Geyser 的自动更新？
+        <A>
+            你可以使用 GeyserUpdater 插件（[GitHub 地址](https://github.com/kejonaMC/GeyserUpdater)/[Spigot 地址](https://www.spigotmc.org/resources/88555/)），该插件支持 Spigot/BungeeCord 平台，可实现 Geyser 的自动更新。请注意：该插件为第三方开发，与 Geyser 官方无关，官方也不提供相关技术支持，插件的使用问题请前往其[Discord](https://discord.gg/U5MC2tcCz9)社区咨询。
+        </A>
+    </Q>
+    <Q>
+        如何让 DiscordSRV 显示 Floodgate 2.0 或 GeyserSkinManager 加载的皮肤？
+        <A>
+            将 DiscordSRV 配置文件中的 `AvatarUrl` 配置行替换为：`AvatarUrl: https://mc-heads.net/avatar/{texture}/{size}.png`
+
+            注意：你的 DiscordSRV 版本需为 v1.22.0 或更高。同时，仍需安装 Floodgate 2.0 或 GeyserSkinRestorer，才能让 Java 版玩家看到基岩版玩家的皮肤，且上述配置才能生效。
+
+            若上述配置无法生效，或你需要在其他不支持纹理 ID 的插件中实现皮肤显示，可使用[星光皮肤 API（Starlight Skin API）](https://docs.lunareclipse.studio/)。
+        </A>
+    </Q>
+    <Q>
+        Geyser 可以和 Buycraft (Tebex) 配合使用吗？
+        <A>
+            可以！Buycraft 的离线商店模式同时支持 Java 版和基岩版玩家 **（推荐搭配 Floodgate 使用）**
+
+            **（目前 Buycraft 不支持 `*`、`-` 等特殊符号作为玩家名前缀，因此你需要将 Floodgate 的前缀修改为 `_`，或直接移除前缀。）**
+            <h3>搭建支持双版本玩家的 Buycraft 商店步骤</h3>
+            - 进入 Buycraft 后台 → 新建网页商店
+            - 选择游戏类型 → 我的世界 离线模式
+            - 点击继续 → 选择「创建我的网页商店」
+            - 填写服务器名称 & 选择结算货币 → 点击继续
+            - 选择对应的游戏服务器 → 点击继续
+            - 下载适配你服务器的 Buycraft 插件版本并安装。
+            - 在服务器控制台执行后台生成的密钥命令
+
+            配置完成后，你的商店即可同时支持基岩版和 Java 版玩家。
+
+            **（请注意：若你为 Floodgate 配置了玩家名前缀，基岩版玩家在商店中填写用户名时必须带上该前缀。）**
+        </A>
+    </Q>
+    <Q>
+        Geyser 可以和 CraftingStore 配合使用吗？
+        <A>
+            可以。但如果你的 Floodgate 配置的玩家名前缀不是 `+`，则需要关闭 CraftingStore 中「高级用户名验证」的配置项。
+        </A>
+    </Q>
+</Questions>
+
+### 其他问题 {#additional-questions}
+
+以下为与 Geyser 游戏使用无关的常见问题。
+
+<Questions>
+    <Q>
+        CubeCraft 和 Geyser 是什么关系？
+        <A>
+            Redned 在 2019 年 7 月创立了 Geyser 项目。2020 年 5 月，CubeCraft 收购了 GeyserMC 品牌，这意味着 CubeCraft 成为该项目的管理方（目前仅为轻量管理），但 CubeCraft 并不拥有 Geyser 的代码版权。
+        </A>
+    </Q>
+    <Q>
+        CubeCraft 官方服务器使用 Geyser 吗？
+        <A>
+            不使用。CubeCraft 拥有自研的基岩版服务器技术，更多相关信息可参考[此文章](https://www.cubecraft.net/threads/behind-the-cube-1-feelin-lucky.264600/)。
+        </A>
+    </Q>
+</Questions>
