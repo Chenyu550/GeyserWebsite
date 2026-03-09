@@ -1,32 +1,32 @@
 ---
-title: Custom Blocks
-description: Geysers allows custom blocks to be mapped to Vanilla Java blockstates or modded blocks to allow custom block models.
+title: 自定义方块
+description: Geyser 允许将自定义方块映射到原版 Java 版方块状态或模组方块，以实现自定义方块模型。
 ---
 
-To setup custom blocks in geyser, you have to choose how you are going to register your blocks. The easiest is [using a json file](#json-mappings) but you can also [use a Geyser extension](#geyser-extensions).
+要在 Geyser 中设置自定义方块，你必须选择如何注册你的方块。最简单的方法是[使用 JSON 文件](#json-映射)，但你也可以[使用 Geyser 扩展](#geyser-扩展)。
 
-It should be noted that blocks and their associated components are not very stable. Mojang tends to make changes to these much more often than they do for items. This means that any components Geyser allows you to register are liable to break in future versions of Bedrock.
+需要注意的是，方块及其相关组件并不十分稳定。Mojang 倾向于比物品更频繁地对这些内容进行修改。这意味着 Geyser 允许你注册的任何组件都有可能在未来的基岩版中失效。
 
-## Enabling custom blocks {#enabling-custom-blocks}
+## 启用自定义方块 {#enabling-custom-blocks}
 
-Before beginning, ensure that `gameplay.enable-custom-content` is set to `true` in your `config.yml` file.
+在开始之前，请确保你的 `config.yml` 文件中 `gameplay.enable-custom-content` 已设置为 `true`。
 
 ```yml
-# Whether to add any items and blocks which normally does not exist in Bedrock Edition.
-# This should only need to be disabled if using a proxy that does not use the "transfer packet" style of server switching.
-# If this is disabled, furnace minecart items will be mapped to hopper minecart items.
-# Geyser's block, item, and skull mappings systems will also be disabled.
-# This option requires a restart of Geyser in order to change its setting.
+# 是否添加任何在基岩版中通常不存在的物品和方块。
+# 仅当使用不使用"转移数据包"风格的服务器切换代理时，才需要禁用此选项。
+# 如果禁用此选项，熔炉矿车物品将被映射到漏斗矿车物品。
+# Geyser 的方块、物品和头颅映射系统也将被禁用。
+# 此选项需要重启 Geyser 才能更改其设置。
 enable-custom-content: true
 ```
 
-## JSON mappings {#json-mappings}
+## JSON 映射 {#json-mappings}
 
-The JSON mappings use a similar structure to that of behavior packs registering blocks. The equivalent components are listed in the [Minecraft: Bedrock Edition Creator Documentation](https://learn.microsoft.com/en-us/minecraft/creator/reference/content/blockreference/examples/blockcomponents/blockcomponentslist).
+JSON 映射使用与行为包注册方块类似的结构。等效组件列于 [Minecraft：基岩版创作者文档](https://learn.microsoft.com/en-us/minecraft/creator/reference/content/blockreference/examples/blockcomponents/blockcomponentslist)中。
 
-Custom mappings files that register blocks or items should be placed in the `custom_mappings` folder. This folder is created when you start your server. It is located in the same folder as the `Geyser-Standalone.jar` file for standalone and inside your Geyser data folder for a plugin. If you do not have this folder, ensure you are on the latest version of Geyser.
+注册方块或物品的自定义映射文件应放置在 `custom_mappings` 文件夹中。此文件夹在你启动服务器时创建。对于独立版，它位于与 `Geyser-Standalone.jar` 文件相同的文件夹中；对于插件版，它位于你的 Geyser 数据文件夹内。如果你没有此文件夹，请确保你使用的是最新版本的 Geyser。
 
-### Example mappings file {#example-mappings-file}
+### 映射文件示例 {#example-mappings-file}
 
 ```json
 {
@@ -34,7 +34,7 @@ Custom mappings files that register blocks or items should be placed in the `cus
 	"blocks": {
 		"minecraft:granite_wall": {
 			"name": "my_block",
-			"display_name": "Custom Granite Wall",
+			"display_name": "自定义花岗岩墙",
 			"geometry": "geometry.blocks.my_block_geo",
 			"material_instances": {
 				"*": {
@@ -79,248 +79,248 @@ Custom mappings files that register blocks or items should be placed in the `cus
 }
 ```
 
-### Schema {#schema}
+### 架构 {#schema}
 
-The following details the schema for the mappings file. Only the `name` field is strictly required. All other fields are optional.
+以下详细说明了映射文件的架构。只有 `name` 字段是严格必需的。所有其他字段都是可选的。
 
 <div class="long-list" markdown="1">
 
 - `format_version`: 
-  - Type: `integer`
-    - Description: The version of the format of the mappings file.
+  - 类型：`integer`
+    - 描述：映射文件格式的版本。
 - `blocks`:
-  - Type: `object`
-    - Description: An object containing a list of block definitions.
+  - 类型：`object`
+    - 描述：包含方块定义列表的对象。
         - `minecraft:some_block`:
-            - Type: `object`
-                - Description: A block definition to be used to override the specified java block.
+            - 类型：`object`
+                - 描述：用于覆盖指定 Java 版方块的方块定义。
                     - `name`: 
-                        - Type: `string`
-                            - Default: none
-                            - Description: The name of the custom block.
+                        - 类型：`string`
+                            - 默认值：无
+                            - 描述：自定义方块的名称。
                     - `collision_box`:
-                        - Type: `object`
+                        - 类型：`object`
                             - `origin`: 
-                                - Type: `array`
-                                    - Default: Inferred from overridden block
-                                    - Description: An array of x, y, and z origin values
-                                    - Range: Must be in range `[-8, 0, -8]` to `[8, 16, 8]`, inclusive
+                                - 类型：`array`
+                                    - 默认值：从被覆盖的方块推断
+                                    - 描述：x、y 和 z 原点值的数组
+                                    - 范围：必须在 `[-8, 0, -8]` 到 `[8, 16, 8]` 范围内（含）
                                         - `items`:
-                                            - Type: `float`
-                                                - Default: Inferred from overridden block
-                                                - Description: An origin value for a single axis
+                                            - 类型：`float`
+                                                - 默认值：从被覆盖的方块推断
+                                                - 描述：单轴的原点值
                             - `size`: 
-                                - Type: `array`
-                                    - Default: Inferred from overridden block
-                                    - Description: An array of x, y, and z size values
+                                - 类型：`array`
+                                    - 默认值：从被覆盖的方块推断
+                                    - 描述：x、y 和 z 尺寸值的数组
                                         - `items`:
-                                            - Type: `float`
-                                                - Default: Inferred from overridden block
-                                                - Description: An size value for a single axis
-                            - Range: Addittion of `origin` and `size` must be in range `[-8, 0, -8]` to `[8, 16, 8]`, inclusive.
+                                            - 类型：`float`
+                                                - 默认值：从被覆盖的方块推断
+                                                - 描述：单轴的尺寸值
+                            - 范围：`origin` 和 `size` 的总和必须在 `[-8, 0, -8]` 到 `[8, 16, 8]` 范围内（含）。
                     - `destructible_by_mining`:
-                        - Type: `integer`
-                            - Default: Inferred from overridden block
-                            - Description: The time in seconds to mine the block with base tools.
+                        - 类型：`integer`
+                            - 默认值：从被覆盖的方块推断
+                            - 描述：使用基础工具挖掘方块所需的时间（秒）。
                     - `display_name`: 
-                        - Type: `string`
-                            - Default: the name of the custom block
-                            - Description: The display name of the block.
+                        - 类型：`string`
+                            - 默认值：自定义方块的名称
+                            - 描述：方块的显示名称。
                     - `extended_collision_box`:
-                        - Type: `object`
+                        - 类型：`object`
                             - `origin`: 
-                                - Type: `array`
-                                    - Default: Inferred from overridden block
-                                    - Description: An array of x, y, and z origin values
-                                    - Range: Must be in range `[-8, 0, -8]` to `[8, 16, 8]`, inclusive
+                                - 类型：`array`
+                                    - 默认值：从被覆盖的方块推断
+                                    - 描述：x、y 和 z 原点值的数组
+                                    - 范围：必须在 `[-8, 0, -8]` 到 `[8, 16, 8]` 范围内（含）
                                         - `items`:
-                                            - Type: `float`
-                                                - Default: Inferred from overridden block
-                                                - Description: An origin value for a single axis
+                                            - 类型：`float`
+                                                - 默认值：从被覆盖的方块推断
+                                                - 描述：单轴的原点值
                             - `size`: 
-                                - Type: `array`
-                                    - Default: Inferred from overridden block
-                                    - Description: An array of x, y, and z size values
+                                - 类型：`array`
+                                    - 默认值：从被覆盖的方块推断
+                                    - 描述：x、y 和 z 尺寸值的数组
                                         - `items`:
-                                            - Type: `float`
-                                                - Default: Inferred from overridden block
-                                                - Description: An size value for a single axis
-                            - Range: Addittion of `origin` and `size` must be in range `[-8, 0, -8]` to `[8, 16, 8]`, inclusive.
+                                            - 类型：`float`
+                                                - 默认值：从被覆盖的方块推断
+                                                - 描述：单轴的尺寸值
+                            - 范围：`origin` 和 `size` 的总和必须在 `[-8, 0, -8]` 到 `[8, 16, 8]` 范围内（含）。
                     - `friction`:
-                        - Type: `float`
-                            - Range: `0.0` to `1.0`
-                            - Default: `0.4`
-                            - Description: The friction value for entities traversing the block.
+                        - 类型：`float`
+                            - 范围：`0.0` 到 `1.0`
+                            - 默认值：`0.4`
+                            - 描述：实体在方块上移动时的摩擦值。
                     - `geometry`: 
-                        - Type: `string`
-                            - Default: none
-                            - Description: The geometry identifier of the block.
-                        - Type: `object`
-                            - Description: The geometry of the block with bone visbility filters
+                        - 类型：`string`
+                            - 默认值：无
+                            - 描述：方块的几何标识符。
+                        - 类型：`object`
+                            - 描述：带有骨骼可见性过滤器的方块几何形状
                                 - `identifier`
-                                    - Type: `string`
-                                        - Default: none
-                                        - Description: The geometry identifier of the block.
+                                    - 类型：`string`
+                                        - 默认值：无
+                                        - 描述：方块的几何标识符。
                                 - `bone_visibility`:
-                                    - Type: `object`
-                                        - Description: An object containing the bone visibility filters for the block.
+                                    - 类型：`object`
+                                        - 描述：包含方块骨骼可见性过滤器的对象。
                                             - `bone_name`:
-                                                - Type: `string`
-                                                    - Default: none
-                                                    - Description: A molang string dictating whether the bone is visible.
-                                                - Type: `boolean`
-                                                    - Default: none
-                                                    - Description: Whether the bone is visible.
+                                                - 类型：`string`
+                                                    - 默认值：无
+                                                    - 描述：决定骨骼是否可见的 molang 字符串。
+                                                - 类型：`boolean`
+                                                    - 默认值：无
+                                                    - 描述：骨骼是否可见。
                     - `light_emission`:
-                        - Type: `integer`
-                            - Range: `0` to `15`
-                            - Default: `0`
-                            - Description: The amount of light emitted by the block.
+                        - 类型：`integer`
+                            - 范围：`0` 到 `15`
+                            - 默认值：`0`
+                            - 描述：方块发出的光量。
                     - `light_dampening`:
-                        - Type: `integer`
-                            - Range: `0` to `15`
-                            - Default: `15`
-                            - Description: The amount of light dampened by the block as it passes through.
+                        - 类型：`integer`
+                            - 范围：`0` 到 `15`
+                            - 默认值：`15`
+                            - 描述：光线穿过方块时被衰减的量。
                     - `material_instances`:
-                        - Type: `object`
-                            - Description: An object containing the material instances for the block.
+                        - 类型：`object`
+                            - 描述：包含方块材质实例的对象。
                                 - `key`:
-                                    - Type: `object`
-                                        - Description: The default material instance for the block. Other globs or specific instances can be used.
+                                    - 类型：`object`
+                                        - 描述：方块的默认材质实例。可以使用其他通配符或特定实例。
                                             - `texture`:
-                                                - Type: `string`
-                                                    - Default: the name of the custom block
-                                                    - Description: The texture resource path of the block.
+                                                - 类型：`string`
+                                                    - 默认值：自定义方块的名称
+                                                    - 描述：方块的纹理资源路径。
                                             - `render_method`:
-                                                - Type: `string`
-                                                    - Default: `alpha_test`
-                                                    - Description: The render method used for the block.
+                                                - 类型：`string`
+                                                    - 默认值：`alpha_test`
+                                                    - 描述：方块使用的渲染方法。
                                             - `face_dimming`:
-                                                - Type: `boolean`
-                                                    - Default: `false`
-                                                    - Description: Whether face dimming is enabled for the block.
+                                                - 类型：`boolean`
+                                                    - 默认值：`false`
+                                                    - 描述：是否为方块启用面明暗处理。
                                             - `ambient_occlusion`:
-                                                - Type: `boolean`
-                                                    - Default: `false`
-                                                    - Description: Whether ambient occlusion is enabled for the block.
+                                                - 类型：`boolean`
+                                                    - 默认值：`false`
+                                                    - 描述：是否为方块启用环境光遮蔽。
                     - `place_air`:
-                        - Type: `boolean`
-                            - Default: `true`
-                            - Description: Whether the block should place air to prevent double placement.
+                        - 类型：`boolean`
+                            - 默认值：`true`
+                            - 描述：方块是否应放置空气以防止重复放置。
                     - `placement_filter`:
-                        - Type: `object`
-                            - Description: An object containing the placement filter for the block.
+                        - 类型：`object`
+                            - 描述：包含方块放置过滤器的对象。
                                 - `conditions`:
-                                    - Type: `array`
-                                        - Description: An array of conditions that must be met for the block to be placed.
+                                    - 类型：`array`
+                                        - 描述：放置方块必须满足的条件数组。
                                             - `allowed_faces`:
-                                                - Type: `array`
-                                                    - Description: An array of faces that the block can be placed on.
+                                                - 类型：`array`
+                                                    - 描述：可以放置方块的面的数组。
                                                         - `items`:
-                                                            - Type: `string`
-                                                                - Range: `up`, `down`, `north`, `south`, `east`, `west`
-                                                                - Description: A face that the block can be placed on.
+                                                            - 类型：`string`
+                                                                - 范围：`up`、`down`、`north`、`south`、`east`、`west`
+                                                                - 描述：可以放置方块的面。
                                                         - `block_filter`:
-                                                            - Type: `array`
-                                                                - Description: An array of blocks or true molang queries that the block can be placed on.
+                                                            - 类型：`array`
+                                                                - 描述：可以放置方块的方块或 true molang 查询的数组。
                                                                     - `items`:
-                                                                        - Type: `string`
-                                                                            - Description: A block that the block can be placed on.
-                                                                                - Type `object`
-                                                                                    - Description: Holds a true molang query that the block can be placed on.
+                                                                        - 类型：`string`
+                                                                            - 描述：可以放置方块的方块。
+                                                                                - 类型 `object`
+                                                                                    - 描述：保存可以放置方块的 true molang 查询。
                                                                                         - `tags`:
-                                                                                            - Type: `array`
-                                                                                                - Description: A true molang query that the block can be placed on.
+                                                                                            - 类型：`array`
+                                                                                                - 描述：可以放置方块的 true molang 查询。
                     - `selection_box`:
-                        - Type: `object`
+                        - 类型：`object`
                             - `origin`: 
-                                - Type: `array`
-                                    - Default: Inferred from overridden block
-                                    - Description: An array of x, y, and z origin values
-                                    - Range: Must be in range `[-8, 0, -8]` to `[8, 16, 8]`, inclusive
+                                - 类型：`array`
+                                    - 默认值：从被覆盖的方块推断
+                                    - 描述：x、y 和 z 原点值的数组
+                                    - 范围：必须在 `[-8, 0, -8]` 到 `[8, 16, 8]` 范围内（含）
                                         - `items`:
-                                            - Type: `float`
-                                                - Default: Inferred from overridden block
-                                                - Description: An origin value for a single axis
+                                            - 类型：`float`
+                                                - 默认值：从被覆盖的方块推断
+                                                - 描述：单轴的原点值
                             - `size`: 
-                                - Type: `array`
-                                    - Default: Inferred from overridden block
-                                    - Description: An array of x, y, and z size values
+                                - 类型：`array`
+                                    - 默认值：从被覆盖的方块推断
+                                    - 描述：x、y 和 z 尺寸值的数组
                                         - `items`:
-                                            - Type: `float`
-                                                - Default: Inferred from overridden block
-                                                - Description: An size value for a single axis
-                            - Range: Addittion of `origin` and `size` must be in range `[-8, 0, -8]` to `[8, 16, 8]`, inclusive.
+                                            - 类型：`float`
+                                                - 默认值：从被覆盖的方块推断
+                                                - 描述：单轴的尺寸值
+                            - 范围：`origin` 和 `size` 的总和必须在 `[-8, 0, -8]` 到 `[8, 16, 8]` 范围内（含）。
                     - `tags`:
-                        - Type: `array`
-                            - Description: An array of tags associated with the block.
+                        - 类型：`array`
+                            - 描述：与方块关联的标签数组。
                                 - `items`: 
-                                    - Type: `string`
+                                    - 类型：`string`
                     - `transformation`:
-                        - Type: `object`
-                            - Description: Translation, scale, and rotation values to apply to the block.
+                        - 类型：`object`
+                            - 描述：应用于方块的平移、缩放和旋转值。
                                 - `scale`
-                                    - Type: `array`
-                                        - Default: `[1, 1, 1]`
-                                        - Description: An array of x, y, and z scale values
+                                    - 类型：`array`
+                                        - 默认值：`[1, 1, 1]`
+                                        - 描述：x、y 和 z 缩放值的数组
                                             - `items`:
-                                                - Type: `float`
-                                                    - Default: `1`
-                                                    - Description: A scale value for a single axis
+                                                - 类型：`float`
+                                                    - 默认值：`1`
+                                                    - 描述：单轴的缩放值
                                 - `translation`:
-                                    - Type: `array`
-                                        - Default: `[0, 0, 0]`
-                                        - Description: An array of x, y, and z translation values
+                                    - 类型：`array`
+                                        - 默认值：`[0, 0, 0]`
+                                        - 描述：x、y 和 z 平移值的数组
                                             - `items`:
-                                                - Type: `float`
-                                                    - Default: `0`
-                                                    - Description: A translation value for a single axis
+                                                - 类型：`float`
+                                                    - 默认值：`0`
+                                                    - 描述：单轴的平移值
                                 - `rotation`
-                                    - Type: `array`
-                                        - Default: `[0, 0, 0]`
-                                        - Description: An array of x, y, and z rotation values in increments of 90 degrees (e.g. `[90, -180, 0]`)
+                                    - 类型：`array`
+                                        - 默认值：`[0, 0, 0]`
+                                        - 描述：x、y 和 z 旋转值的数组，以 90 度为增量（例如 `[90, -180, 0]`）
                                             - `items`:
-                                                - Type: `integer`
-                                                    - Range: `0`, `90`, `180`, & `270`
-                                                    - Default: `0`
-                                                    - Description: A rotation value for a single axis
+                                                - 类型：`integer`
+                                                    - 范围：`0`、`90`、`180` 和 `270`
+                                                    - 默认值：`0`
+                                                    - 描述：单轴的旋转值
                     - `unit_cube`:
-                        - Type: `boolean`
-                            - Default: `false`
-                            - Description: Whether a unit cube is to be used with tessellation.
+                        - 类型：`boolean`
+                            - 默认值：`false`
+                            - 描述：是否在曲面细分中使用单位立方体。
                     - `creative_category`: 
-                        - Type: `string`
-                            - Default: `building_blocks`
-                            - Description: The creative category to place the block in.
-                            - Range: See [Menu Categories](https://wiki.bedrock.dev/documentation/menu-categories.html#list-of-categories) on the Bedrock Wiki.
+                        - 类型：`string`
+                            - 默认值：`building_blocks`
+                            - 描述：放置方块的创造模式类别。
+                            - 范围：请参阅基岩版 Wiki 上的[菜单类别](https://wiki.bedrock.dev/documentation/menu-categories.html#list-of-categories)。
                     - `creative_group`:
-                        - Type: `string`
-                            - Default: none
-                            - Description: The creative group to place the block in.
-                            - Range: See [Menu Groups](https://wiki.bedrock.dev/documentation/menu-categories.html#list-of-groups) on the Bedrock Wiki.
+                        - 类型：`string`
+                            - 默认值：无
+                            - 描述：放置方块的创造模式组。
+                            - 范围：请参阅基岩版 Wiki 上的[菜单组](https://wiki.bedrock.dev/documentation/menu-categories.html#list-of-groups)。
                     - `included_in_creative_inventory`:
-                        - Type: `boolean`
-                            - Default: `true`
-                            - Description: Whether the block is included in the creative inventory.
+                        - 类型：`boolean`
+                            - 默认值：`true`
+                            - 描述：方块是否包含在创造模式物品栏中。
                     - `only_override_states`:
-                        - Type: `boolean`
-                            - Default: `false`
-                            - Description: Whether the block should only override the states specified in `state_overrides`.
+                        - 类型：`boolean`
+                            - 默认值：`false`
+                            - 描述：方块是否应仅覆盖 `state_overrides` 中指定的状态。
                     - `state_overrides`:
-                        - Type: `object`
-                            - Description: An object containing state overrides for the block.
+                        - 类型：`object`
+                            - 描述：包含方块状态覆盖的对象。
                                 - `property1=value1,property2=value2,...`:
-                                    - Type: `object`
-                                        - Description: An override for a specific block state. Possible states are listed in Geyser's [Block Mappings](https://raw.githubusercontent.com/GeyserMC/mappings/6b661f0d517d895aebc1f55a25d2c86f033beb1d/blocks.json)
-                                        - Accepts all of the same properties as a block definition except `creative_category`, `creative_group`, `included_in_creative_inventory`, `only_override_states`, and `state_overrides`.
+                                    - 类型：`object`
+                                        - 描述：特定方块状态的覆盖。可能的状态列于 Geyser 的[方块映射](https://raw.githubusercontent.com/GeyserMC/mappings/6b661f0d517d895aebc1f55a25d2c86f033beb1d/blocks.json)中
+                                        - 接受与方块定义相同的所有属性，但 `creative_category`、`creative_group`、`included_in_creative_inventory`、`only_override_states` 和 `state_overrides` 除外。
 
 </div>
 
-## Geyser extensions {#geyser-extensions}
+## Geyser 扩展 {#geyser-extensions}
 
-In this example, we will create a custom block that overrides the vanilla redstone dot. This block will be placed on top of a block and will emit a visible redstone signal when powered.
+在此示例中，我们将创建一个自定义方块，覆盖原版的红石线点。此方块将放置在方块顶部，并在充能时发出可见的红石信号。
 
-First, create a class that implements Geyser's Extension class:
+首先，创建一个实现 Geyser 的 Extension 类的类：
 
 ```java
 public class RedstoneDot implements Extension {
@@ -328,7 +328,7 @@ public class RedstoneDot implements Extension {
 }
 ```
 
-Next, create a method to register your blocks in the `GeyserDefineCustomBlocksEvent`:
+接下来，创建一个方法在 `GeyserDefineCustomBlocksEvent` 中注册你的方块：
 
 ```java
 public class RedstoneDot implements Extension {
@@ -339,7 +339,7 @@ public class RedstoneDot implements Extension {
 }
 ```
 
-Build the `CustomBlockComponents`, `CustomBlockData`, and list of `CustomBlockPermutation` (if needed) for the block:
+为方块构建 `CustomBlockComponents`、`CustomBlockData` 和 `CustomBlockPermutation` 列表（如果需要）：
 
 ```java
 public class RedstoneDot implements Extension {

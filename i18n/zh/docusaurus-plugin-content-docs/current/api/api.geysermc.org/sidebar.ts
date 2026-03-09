@@ -13,7 +13,7 @@ const sidebar: SidebarsConfig = {
         {
           type: "doc",
           id: "api/api.geysermc.org/global-api-web-api-health-controller-health",
-          label: "Simple server online check",
+          label: "简单的服务器在线检查",
           className: "api-method get",
         },
       ],
@@ -37,13 +37,13 @@ const sidebar: SidebarsConfig = {
         {
           type: "doc",
           id: "api/api.geysermc.org/global-api-web-api-link-controller-get-bedrock-link-v-2",
-          label: "Get linked Java account from Bedrock xuid",
+          label: "通过基岩版 XUID 获取关联的 Java 账号",
           className: "api-method get",
         },
         {
           type: "doc",
           id: "api/api.geysermc.org/global-api-web-api-link-controller-get-java-link-v-2",
-          label: "Get linked Bedrock account from Java UUID",
+          label: "通过 Java UUID 获取关联的基岩版账号",
           className: "api-method get",
         },
       ],
@@ -55,13 +55,13 @@ const sidebar: SidebarsConfig = {
         {
           type: "doc",
           id: "api/api.geysermc.org/global-api-web-api-stats-controller-get-all-stats",
-          label: "Get all publicly available Global Api statistics",
+          label: "获取所有公开可用的全局 API 统计数据",
           className: "api-method get",
         },
         {
           type: "doc",
           id: "api/api.geysermc.org/global-api-web-api-stats-controller-get-all-stats-2",
-          label: "Get all publicly available Global Api statistics",
+          label: "获取所有公开可用的全局 API 统计数据",
           className: "api-method get",
         },
       ],
@@ -85,13 +85,13 @@ const sidebar: SidebarsConfig = {
         {
           type: "doc",
           id: "api/api.geysermc.org/global-api-web-api-xbox-controller-get-gamertag-v-2",
-          label: "Get the gamertag from a xuid",
+          label: "通过 XUID 获取 Xbox游戏标签",
           className: "api-method get",
         },
         {
           type: "doc",
           id: "api/api.geysermc.org/global-api-web-api-xbox-controller-get-xuid-v-2",
-          label: "Get the xuid from a gamertag",
+          label: "通过Xbox游戏标签获取 XUID",
           className: "api-method get",
         },
       ],
@@ -103,19 +103,19 @@ const sidebar: SidebarsConfig = {
         {
           type: "doc",
           id: "api/api.geysermc.org/global-api-web-api-skin-controller-get-recent-uploads-page",
-          label: "Get a list of the most recently uploaded skins",
+          label: "获取最近上传的皮肤列表",
           className: "api-method get",
         },
         {
           type: "doc",
           id: "api/api.geysermc.org/global-api-web-api-skin-controller-get-recent-uploads",
-          label: "Get a list of the most recently uploaded skins",
+          label: "获取最近上传的皮肤列表",
           className: "api-method get",
         },
         {
           type: "doc",
           id: "api/api.geysermc.org/global-api-web-api-skin-controller-get-skin",
-          label: "Get the most recently converted skin of a Bedrock player",
+          label: "获取基岩版玩家最近转换的皮肤",
           className: "api-method get",
         },
       ],
@@ -127,7 +127,7 @@ const sidebar: SidebarsConfig = {
         {
           type: "doc",
           id: "api/api.geysermc.org/global-api-web-api-utils-controller-get-bedrock-or-java-uuid",
-          label: "Utility endpoint to get either a Java UUID or a Bedrock xuid",
+          label: "用于获取 Java UUID 或基岩版 XUID 的工具端点",
           className: "api-method get",
         },
       ],

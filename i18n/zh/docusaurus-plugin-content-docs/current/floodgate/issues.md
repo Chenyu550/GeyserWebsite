@@ -1,5 +1,5 @@
 ---
-title: 常见问题
+title: 已知问题与注意事项
 description: 排查Floodgate的常见问题。获取连接故障、配置错误及已知限制的解决方案。
 ---
 

@@ -1,72 +1,72 @@
 ---
-title: Geyser Events
-description: Geyser has a powerful event system that allows you to listen to events that are sent by Geyser. Events are at the heart of Geyser Extensions, and can be used by plugins and mods as well.
+title: Geyser 事件系统
+description: Geyser 拥有强大的事件系统，允许你监听 Geyser 发送的事件。事件是 Geyser 扩展的核心，同时也可被插件和模组使用。
 ---
 
-# Geyser Events
-Geyser has a powerful event system that allows you to listen to events that are sent by Geyser. Events are at the heart of Geyser Extensions, and can be used by plugins and mods as well.
+# Geyser 事件系统
+Geyser 拥有强大的事件系统，允许你监听 Geyser 发送的事件。事件是 Geyser 扩展的核心，同时也可被插件和模组使用。
 
-Full documentation can be found [here](https://github.com/GeyserMC/Geyser/tree/master/api/src/main/java/org/geysermc/geyser/api/event).
+完整文档可查看 [此处](https://github.com/GeyserMC/Geyser/tree/master/api/src/main/java/org/geysermc/geyser/api/event)。
 
-## Event Categories {#event-categories}
-To use events in a Spigot/Paper plugin or a Fabric mod, you need to register the Geyser Event Bus as a listener and then subscribe to the events you want to listen to.
-Extensions can use the @Subscribe annotation.
+## 事件分类 {#event-categories}
+要在 Spigot/Paper 插件或 Fabric 模组中使用事件，你需要先将 Geyser 事件总线注册为监听器，然后订阅你想要监听的事件。
+扩展可直接使用 @Subscribe 注解。
 
-Events are categorized into the following categories:
-- [Bedrock](https://github.com/GeyserMC/Geyser/tree/master/api/src/main/java/org/geysermc/geyser/api/event/bedrock): Events that are sent for each connecting Bedrock client,
-  for example the ClientEmoteEvent that is sent when a Bedrock player uses an emote - or the SessionLoginEvent that is sent when a Bedrock player logged in and is about to join a server.
-- [Java](https://github.com/GeyserMC/Geyser/tree/master/api/src/main/java/org/geysermc/geyser/api/event/java): Events that are sent for the java server, for example
-  the ServerDefineCommandsEvent - it is fired when the Java sends the commands to show for Bedrock players.
-- [Connection](https://github.com/GeyserMC/Geyser/tree/master/api/src/main/java/org/geysermc/geyser/api/event/connection): Connection-related events, such as a ping event to return e.g. a custom MOTD.
-- [Lifecycle](https://github.com/GeyserMC/Geyser/tree/master/api/src/main/java/org/geysermc/geyser/api/event/lifecycle): Events that are sent during Geyser's lifecycle, such as the loading of custom items, resource packs, or Geyser commands.
+事件分为以下类别：
+- [基岩版](https://github.com/GeyserMC/Geyser/tree/master/api/src/main/java/org/geysermc/geyser/api/event/bedrock)：针对每个连接的基岩版客户端发送的事件，
+  例如当基岩版玩家使用表情时触发的 ClientEmoteEvent，或当基岩版玩家登录并即将加入服务器时触发的 SessionLoginEvent。
+- [Java 版](https://github.com/GeyserMC/Geyser/tree/master/api/src/main/java/org/geysermc/geyser/api/event/java)：针对 Java 版服务器发送的事件，例如
+  ServerDefineCommandsEvent——当 Java 版服务器向基岩版玩家发送要显示的命令时触发。
+- [连接](https://github.com/GeyserMC/Geyser/tree/master/api/src/main/java/org/geysermc/geyser/api/event/connection)：与连接相关的事件，例如用于返回自定义 MOTD 等内容的 ping 事件。
+- [生命周期](https://github.com/GeyserMC/Geyser/tree/master/api/src/main/java/org/geysermc/geyser/api/event/lifecycle)：在 Geyser 生命周期中发送的事件，例如加载自定义物品、资源包或 Geyser 命令时触发的事件。
 
-To see all the events in the respective categories, click on the links above.
+要查看各分类下的所有事件，请点击上方链接。
 
-## Usage Examples: {#usage-examples}
+## 使用示例 {#usage-examples}
 
-Each method that you want to subscribe to an event needs to be annotated with the @Subscribe annotation (from the GeyserMC events package).
+每个要订阅事件的方法都需要使用 @Subscribe 注解（来自 GeyserMC 事件包）。
 ```java
 @Subscribe
 public void onGeyserLoadResourcePacksEvent(GeyserLoadResourcePacksEvent event) {
     logger().info("Loading: " + event.resourcePacks().size() + " resource packs.");
-    // you could add a resource pack with event.resourcePacks().add(path-to-pack)
+    // 你可以通过 event.resourcePacks().add(资源包路径) 添加资源包
 }
 ```
-If you wish to listen to events in a Spigot/Paper plugin or a Fabric mod, you need to register the Geyser Event Bus as a listener first. Just make sure you implement `EventRegistrar` in the main class of your mod or plugin.
-Extensions do not need to do that - they are automatically registered, so a simple @Subscribe annotation is enough.
+如果你希望在 Spigot/Paper 插件或 Fabric 模组中监听事件，需要先注册 Geyser 事件总线作为监听器。只需确保你的模组或插件主类实现了 `EventRegistrar` 接口即可。
+扩展无需执行此操作——它们会自动注册，因此只需简单添加 @Subscribe 注解即可。
 
-**Paper/Spigot plugin example:**
+**Paper/Spigot 插件示例：**
 
-1. In your plugin.yml, add the following lines:
+1. 在你的 plugin.yml 中添加以下内容：
 ```yaml
   depend: ["Geyser-Spigot"]
 ```
-This ensures that your plugin loads after Geyser has, so the Geyser API would be available.
+这可确保你的插件在 Geyser 之后加载，从而保证 Geyser API 可用。
 
-2. In your main class, implement the EventRegistrar interface and register the event bus in the onEnable method:
+2. 在你的主类中实现 EventRegistrar 接口，并在 onEnable 方法中注册事件总线：
 ```java
 public class ExamplePlugin extends JavaPlugin implements EventRegistrar {
     
     @Override
     public void onEnable(){
-        getLogger().info("Registering Geyser event bus!");
-        GeyserApi.api().eventBus().register(this, this); // register your plugin & this class instance as a listener
+        getLogger().info("注册 Geyser 事件总线！");
+        GeyserApi.api().eventBus().register(this, this); // 将你的插件 & 此类实例注册为监听器
     }
 
-    // here an event, we subscribe as usual with the @Subscribe annotation
+    // 这里是一个事件，我们像往常一样使用 @Subscribe 注解订阅
     @Subscribe
     public void onGeyserPostInitializeEvent(GeyserPostInitializeEvent event) {
-        getLogger().info("Geyser started!");
+        getLogger().info("Geyser 已启动！");
     }
 }
 ```
-3. If you want to provide your event with a consumer, rather than annotating it, you can also manually subscribe your method to the event bus:
+3. 如果你希望为事件提供消费者，而非使用注解，也可以手动将方法订阅到事件总线：
 ```java
-// add this after you register your event registrar in onEnable
+// 在 onEnable 中注册事件注册器后添加以下内容
 GeyserApi.api().eventBus().subscribe(this, GeyserPostInitializeEvent.class, this::onGeyserPostInitializeEvent);
 ```
 
-**Fabric mod example:**
+**Fabric 模组示例：**
 ```java
 public class ExampleMod implements ModInitializer, EventRegistrar {
     public static final Logger LOGGER = LoggerFactory.getLogger("modid");
@@ -74,30 +74,30 @@ public class ExampleMod implements ModInitializer, EventRegistrar {
     @Override 
     public void onInitialize() {
         ServerLifecycleEvents.SERVER_STARTING.register((server) -> {
-            GeyserApi.api().eventBus().register(this, this); // register your mod & this class instance as a listener
+            GeyserApi.api().eventBus().register(this, this); // 将你的模组 & 此类实例注册为监听器
         });
         
-        LOGGER.info("Geyser is cool!");
+        LOGGER.info("Geyser 太棒了！");
     }
     
-    // here an event, we subscribe as usual with the @Subscribe annotation
+    // 这里是一个事件，我们像往常一样使用 @Subscribe 注解订阅
     @Subscribe 
     public void onGeyserPostInitializeEvent(GeyserPostInitializeEvent event) {
-        LOGGER.info("Geyser started!");
+        LOGGER.info("Geyser 已启动！");
     }
 }
 ```
 :::info
-    Note: We cannot directly register the event bus in the mod initializer, since the Geyser API would not be loaded yet.
+    注意：我们无法直接在模组初始化器中注册事件总线，因为此时 Geyser API 尚未加载。
 :::
 
-Therefore, we register it in the server starting event provided by the Fabric API.
+因此，我们在 Fabric API 提供的服务器启动事件中注册它。
 
-## Event Priority {#event-priority}
-Events can have a priority, which is used to determine the order in which the listeners are called. The default priority is NORMAL.
-To (optionally) set the priority of your event listener, you can add the priority to the `@Subscribe` annotation:
+## 事件优先级 {#event-priority}
+事件可以设置优先级，用于确定监听器的调用顺序。默认优先级为 NORMAL。
+要（可选地）设置事件监听器的优先级，你可以在 `@Subscribe` 注解中添加优先级参数：
 ```java
 @Subscribe(postOrder = PostOrder.EARLY)
 ```
-If you do not specify a priority, the default priority is used. For all available priorities, see
-[here](https://github.com/GeyserMC/Events/blob/master/src/main/java/org/geysermc/event/PostOrder.java).
+如果你未指定优先级，则会使用默认优先级。所有可用优先级请查看
+[此处](https://github.com/GeyserMC/Events/blob/master/src/main/java/org/geysermc/event/PostOrder.java)。

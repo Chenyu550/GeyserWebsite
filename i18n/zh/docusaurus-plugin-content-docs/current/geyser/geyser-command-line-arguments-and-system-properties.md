@@ -1,91 +1,91 @@
 ---
-title: Geyser Command Line Arguments and System Properties
-description: Geyser offers a few command line arguments/system properties to allow you to configure Geyser without editing the config files.
+title: Geyser 命令行参数与系统属性
+description: Geyser 提供了一些命令行参数/系统属性，让您无需编辑配置文件即可配置 Geyser。
 ---
 
-# Geyser Command Line Arguments and System Properties
+# Geyser 命令行参数与系统属性
 
-Geyser offers a few command line arguments/system properties to allow you to configure Geyser without editing the config files.
-Additionally, you can suppress some warnings that may be printed to the console.
+Geyser 提供了一些命令行参数/系统属性，让您无需编辑配置文件即可配置 Geyser。
+此外，您还可以抑制一些可能会打印到控制台的警告。
 
-## Configuration system properties {#configuration-system-properties}
+## 配置系统属性 {#configuration-system-properties}
 
-You can set Geyser to automatically bind to a specific address and port by using the following command line arguments.   
-This is primarily aimed at server hosting providers to automatically configure servers for users.
+您可以使用以下命令行参数将 Geyser 自动绑定到特定地址和端口。
+这主要针对服务器托管提供商，用于为用户自动配置服务器。
 
 :::note
 
-The Geyser specific properties are prioritized over the plugin properties!
+Geyser 特定属性的优先级高于插件属性！
 
 :::
 
-- ```-DgeyserUdpPort=server``` or ```-DpluginUdpPort=server```
-  - ```-1``` means UDP is not supported and will forcibly stop Geyser.
-  - ```server``` means to match the port of the TCP server.
-  - any other number means to use that specific port
+- ```-DgeyserUdpPort=server``` 或 ```-DpluginUdpPort=server```
+  - ```-1``` 表示不支持 UDP，将强制停止 Geyser。
+  - ```server``` 表示匹配 TCP 服务器的端口。
+  - 任何其他数字表示使用该特定端口
 
-- ```-DgeyserUdpAddress=server``` or ```-DpluginUdpAddress=server```
-  - ```server``` means to match the bind address of the TCP server
-  - any other string will be used as-is for the bind address.
+- ```-DgeyserUdpAddress=server``` 或 ```-DpluginUdpAddress=server```
+  - ```server``` 表示匹配 TCP 服务器的绑定地址
+  - 任何其他字符串将直接用作绑定地址。
 
 - ```-DgeyserBroadcastPort=19132```
-    - This can be used in cases where the port Geyser runs on does not match the port players use to connect to (e.g. due to port forwarding routings).
-    - When not set or set to 0, it defaults to the same port that Geyser runs on
+    - 当 Geyser 运行的端口与玩家连接使用的端口不匹配时（例如由于端口转发路由），可以使用此参数。
+    - 如果未设置或设置为 0，则默认为 Geyser 运行的端口
 
-## Disabling warnings and advanced configuration {#disabling-warnings-and-advanced-configuration}
-You may disable some warnings that may be printed to the console by using the following command line arguments. The values shown are the defaults used by Geyser, unless otherwise noted.
+## 禁用警告和高级配置 {#disabling-warnings-and-advanced-configuration}
+
+您可以使用以下命令行参数禁用一些可能会打印到控制台的警告。除非另有说明，否则显示的值是 Geyser 使用的默认值。
 
 :::caution
 
-Disabling Geyser warnings from being logged will not fix the real issue! Only disable them if you know what you are doing.
+禁用 Geyser 警告日志并不能解决实际问题！只有在您了解自己在做什么的情况下才禁用它们。
 
 :::
 
 - `-DGeyser.PrintSecureChatInformation=true`
-  - Allows you to disable the warning about secure chat being disabled. 
-  Since the warning is sent when the server sends the warning, this option does not do much anymore.
+  - 允许您禁用有关安全聊天已禁用的警告。
+  由于该警告是在服务器发送警告时触发的，因此此选项现在作用不大。
 - `-DGeyser.ShowScoreboardLogs=true`
-  - Allows you to disable warnings related to scoreboards, such as "Tried to update score without the existence of its requested objective".
+  - 允许您禁用与计分板相关的警告，例如“尝试在不存在请求的目标的情况下更新分数”。
 - `-DGeyser.ShowResourcePackLengthWarning=true`
-  - Allows you to disable the warning about a resource pack having too long paths. Disabling this warning will not fix the underlying issue! 
-  Console players might not be able to join your server at all if you have a resource pack with paths exceeding the 80 character limit.
+  - 允许您禁用有关资源包路径过长的警告。禁用此警告并不能解决潜在问题！
+  如果您的资源包路径超过 80 个字符，控制台玩家可能根本无法加入您的服务器。
 - `-DGeyser.PrintPingsInDebugMode=true`
-  - Controls if pings are being logged in debug mode.
+  - 控制是否在调试模式下记录 ping 信息。
 - `-DGeyser.UseDirectAdapters=true`
-  - Allows you to disable the usage of NMS adapters. Disabling will result in a performance penalty and should only be used for debugging.
-  This is Spigot-only and will not work on other platforms.
+  - 允许您禁用 NMS 适配器的使用。禁用会导致性能下降，仅应用于调试。
+  这仅适用于 Spigot，在其他平台上不起作用。
 - `-DGeyser.BedrockNetworkThreads=8`
-  - Allows you to set the number of threads used for the Bedrock networking. This is not set to a specific number by default, but is instead calculated based on the available resources.
+  - 允许您设置用于 Bedrock 网络的线程数。默认情况下不设置为特定数字，而是根据可用资源计算。
 - `-DGeyser.AddTeamSuggestions=true`
-  - Allows you to turn off suggestions for teams in the scoreboard command. This is enabled by default, disabling this can help with performance if there are a lot of teams defined. 
-  Setting "command-suggestions" to false in the config will also disable this.
+  - 允许您关闭计分板命令中的队伍建议。默认启用，如果定义了大量队伍，禁用此功能有助于提高性能。在配置中将“command-suggestions”设置为 false 也会禁用此功能。
 - `-DGeyser.NoPlayerListPS=true`
-  - Enables a less-than-ideal workaround to resolve client crashing when chatting / typing commands on PlayStation consoles with lots of player online.
-  Disabled by default, as it is not needed for most setups.
+  - 启用一个不太理想的解决方法，以解决 PlayStation 主机上在线玩家较多时聊天/输入命令导致客户端崩溃的问题。
+  默认禁用，因为大多数设置不需要它。
 - `-DGeyser.RakPacketLimit=120`
-  - Sets RakNet's per-ip per-tick (10ms) post-connection packet limit.
+  - 设置 RakNet 每 IP 每 tick（10ms）的连接后数据包限制。
 - `-DGeyser.RakGlobalPacketLimit=100000`
-  - Sets RakNet's per-tick (10ms) overall packet limit.
+  - 设置 RakNet 每 tick（10ms）的全局数据包限制。
 - `-DGeyser.RakRateLimitingDisabled=false`
-  - Allows you to disable RakNet's post-connection rate limiter. The rate limiter should not be disabled unless initial RakNet connections are being handled by a reverse proxy.
+  - 允许您禁用 RakNet 的连接后速率限制器。除非初始 RakNet 连接由反向代理处理，否则不应禁用速率限制器。
 - `-DGeyser.RakSendCookie=true`
-  - Allows you to disable sending and validation of a cookie challenge in [Open Connection Reply 1](https://wiki.vg/Raknet_Protocol#Open_Connection_Reply_1) packet. This should not be set to `false` unless Geyser is running behind a reverse proxy that is also sending a challenge to prevent IP spoofing.
+  - 允许您禁用在 [Open Connection Reply 1](https://wiki.vg/Raknet_Protocol#Open_Connection_Reply_1) 数据包中发送和验证 cookie 挑战。除非 Geyser 在也发送挑战以防止 IP 欺骗的反向代理后面运行，否则不应将其设置为 `false`。
 
-## Geyser-Standalone Specific Options {#geyser-standalone-specific-options}
+## Geyser 独立版特定选项 {#geyser-standalone-specific-options}
 
 ### `--config [file]` {#--config-file}
-- **Alias: `-c`**
-- Points to an alternative config file to use.
+- **别名: `-c`**
+- 指定要使用的替代配置文件。
 
 ### `--gui` / `--nogui` {#--gui----nogui}
-- **Alias: `gui` / `nogui`**:
-- Forces GUI or non-GUI usage, depending on context.
+- **别名: `gui` / `nogui`**:
+- 根据上下文强制使用 GUI 或 非GUI。
 
-## Overriding specific config values {#overriding-specific-config-values}
-Overriding a standard config option (e.g. `command-suggestions`):
+## 覆盖特定配置值 {#overriding-specific-config-values}
+覆盖标准配置选项（例如 `command-suggestions`）：
 
 `--command-suggestions=false`
 
-Overriding a nested config option(e.g. the `remote` section with `address`):
+覆盖嵌套配置选项（例如 `remote` 部分的 `address`）：
 
 `--remote.address=test.geysermc.org`

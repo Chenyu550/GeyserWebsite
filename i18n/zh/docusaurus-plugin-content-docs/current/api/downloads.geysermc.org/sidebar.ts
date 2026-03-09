@@ -13,7 +13,7 @@ const sidebar: SidebarsConfig = {
         {
           type: "doc",
           id: "api/downloads.geysermc.org/projects",
-          label: "Gets a list of all available projects.",
+          label: "获取所有可用项目的列表。",
           className: "api-method get",
         },
       ],
@@ -25,7 +25,7 @@ const sidebar: SidebarsConfig = {
         {
           type: "doc",
           id: "api/downloads.geysermc.org/project",
-          label: "Gets information about a project.",
+          label: "获取项目的信息。",
           className: "api-method get",
         },
       ],
@@ -37,7 +37,7 @@ const sidebar: SidebarsConfig = {
         {
           type: "doc",
           id: "api/downloads.geysermc.org/version",
-          label: "Gets information about a version.",
+          label: "获取版本的信息。",
           className: "api-method get",
         },
       ],
@@ -49,7 +49,7 @@ const sidebar: SidebarsConfig = {
         {
           type: "doc",
           id: "api/downloads.geysermc.org/builds",
-          label: "Gets all available builds for a project's version.",
+          label: "获取项目版本的所有可用构建。",
           className: "api-method get",
         },
       ],
@@ -61,13 +61,13 @@ const sidebar: SidebarsConfig = {
         {
           type: "doc",
           id: "api/downloads.geysermc.org/build-specific",
-          label: "Gets information related to a specific build.",
+          label: "获取特定构建的相关信息。",
           className: "api-method get",
         },
         {
           type: "doc",
           id: "api/downloads.geysermc.org/build-latest",
-          label: "Gets information related to a specific build.",
+          label: "获取特定构建的相关信息。",
           className: "api-method get",
         },
       ],
@@ -79,13 +79,13 @@ const sidebar: SidebarsConfig = {
         {
           type: "doc",
           id: "api/downloads.geysermc.org/download-specific",
-          label: "Downloads the given file from a build's data.",
+          label: "从构建数据中下载指定文件。",
           className: "api-method get",
         },
         {
           type: "doc",
           id: "api/downloads.geysermc.org/download-latest",
-          label: "Downloads the given file from a build's data.",
+          label: "从构建数据中下载指定文件。",
           className: "api-method get",
         },
       ],

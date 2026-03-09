@@ -1,37 +1,36 @@
 ---
 title: Rainbow
-description: A Minecraft mod to generate Geyser item mappings and bedrock resourcepacks for use with Geyser's Custom Item API V2.
+description: 一个用于生成 Geyser 物品映射和基岩版资源包的 Minecraft 模组，可与 Geyser 的自定义物品 API V2 配合使用。
 ---
 
-Rainbow is a Fabric client-sided Minecraft mod to generate Geyser item mappings and bedrock resourcepacks for use with Geyser's custom item API (v2) for use on servers. 
+Rainbow 是一个 Fabric 客户端 Minecraft 模组，用于生成 Geyser 物品映射和基岩版资源包，可与 Geyser 的自定义物品 API (v2) 配合在服务器上使用。
 
-## What is Rainbow? {#what-is-rainbow}
+## 什么是 Rainbow？ {#what-is-rainbow}
 
-Rainbow is a generator to create Geyser item mappings and Bedrock Edition resource packs, it uses the Geyser Custom Item API V2 format to allow the use of 1.21.4+ Java Edition packs.
+Rainbow 是一个用于创建 Geyser 物品映射和基岩版资源包的生成器，它使用 Geyser 自定义物品 API V2 格式，允许使用 1.21.4+ Java 版资源包。
 
 :::caution
 
-This project is early in development! Any bugs and issues should be reported in our [Discord](https://discord.gg/geysermc).
+此项目仍处于早期开发阶段！如有任何错误和问题，请在我们的 [Discord](https://discord.gg/geysermc) 中报告。
 
 :::
 
-## Usage {#usage}
+## 使用方法 {#usage}
 
-To use Rainbow:
-1. You need setup a 1.21.11 Fabric client for Java Edition and ensure the mod is present on the client.
-2. Join your server of choice to start converting packs and run `/rainbow create <pack name>` with `<pack name>` being the name of your output pack.
-3. You can map things in a couple of ways:
-    - Hold each item in your hand one by one and run `/rainbow map` while holding the item.
-    - Fill your inventory with the custom items and run `/rainbow mapinventory` to map your entire inventory.
-    - Run `/rainbow auto inventory` and open a UI with the custom content (For example, a chest or command from a plugin to show custom content.). Rainbow will continue mapping all custom items until you stop the process with `/rainbow auto stop`.
-4. Run `/rainbow finish` to finish your conversion, Rainbow will then output your pack and mappings file to `<instance folder>/rainbow/<pack name>`, optionally, you can click the `Wrote pack to disk` message in chat to open the folder.
-5. In this folder, you will find 3 files, `pack.zip` which you put in your `packs` folder of your server, `geyser_mappings.json` which you put in your `custom_mappings` folder of your server and finally `report.txt` which you can send in our [Discord](https://discord.gg/geysermc) if you face issues, otherwise, you can ignore this file.
+使用 Rainbow：
+1. 您需要为 Java 版设置一个 1.21.11 Fabric 客户端，并确保客户端已安装此模组。
+2. 加入您选择的服务器以开始转换资源包，然后运行 `/rainbow create <资源包名称>`，其中 `<资源包名称>` 是您输出资源包的名称。
+3. 您可以通过以下几种方式进行映射：
+    - 逐个手持每个物品，并在手持该物品时运行 `/rainbow map`。
+    - 用自定义物品填满您的物品栏，然后运行 `/rainbow mapinventory` 来映射您的整个物品栏。
+    - 运行 `/rainbow auto inventory` 并打开包含自定义内容的 UI（例如，箱子或插件命令显示自定义内容）。Rainbow 将继续映射所有自定义物品，直到您使用 `/rainbow auto stop` 停止该进程。
+4. 运行 `/rainbow finish` 完成您的转换，Rainbow 随后会将您的资源包和映射文件输出到 `<实例文件夹>/rainbow/<资源包名称>`，您也可以点击聊天中的 `Wrote pack to disk` 消息来打开该文件夹。
+5. 在此文件夹中，您会找到 3 个文件：`pack.zip`（您需要将其放入服务器的 `packs` 文件夹）、`geyser_mappings.json`（您需要将其放入服务器的 `custom_mappings` 文件夹），最后是 `report.txt`（如果您遇到问题，可以将其发送到我们的 [Discord](https://discord.gg/geysermc)，否则可以忽略此文件）。
 
-## Download {#download} 
+## 下载 {#download}
 
-You can download Rainbow [here](/download/?project=other-projects&rainbow=expanded).
+您可以在[这里](/download/?project=other-projects&rainbow=expanded)下载 Rainbow。
 
-## Contributing {#contributing}
+## 贡献 {#contributing}
 
-Any contributions are appreciated. Please feel free to reach out to us on [Discord](https://discord.gg/geysermc) if
-you're interested in helping out with Rainbow.
+欢迎任何形式的贡献。如果您有兴趣帮助开发 Rainbow，请随时在 [Discord](https://discord.gg/geysermc) 上联系我们。

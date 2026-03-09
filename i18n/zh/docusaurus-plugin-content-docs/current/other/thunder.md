@@ -1,34 +1,34 @@
 ---
 title: Thunder
-description: 'A java application to convert simple Java Edition resource packs to Bedrock Edition ones.'
+description: '一个用于将简单的 Java 版资源包转换为基岩版资源包的 Java 应用程序。'
 ---
 
-Thunder is a java application to convert simple Java Edition resource packs to Bedrock Edition ones.
+Thunder 是一个用于将简单的 Java 版资源包转换为基岩版资源包的 Java 应用程序。
 
-## What is Thunder? {#what-is-thunder}
+## 什么是 Thunder？ {#what-is-thunder}
 
-Thunder is a converter for simple Java Edition resource packs which can generate Bedrock Edition packs, it currently converts resource packs which modifies existing vanilla assets.
+Thunder 是一个简单的 Java 版资源包转换器，能够生成基岩版资源包，目前它支持转换修改了现有原版资源的资源包。
 
 :::caution
 
-Not only is this project in early beta, it does **not** convert custom items! Please look towards [Rainbow](/wiki/other/rainbow) for that.
+这个项目不仅处于早期测试阶段，而且它**不会**转换自定义物品！如需该功能，请查看 [Rainbow](/wiki/other/rainbow)。
 
 :::
 
-## Usage {#usage}
+## 使用方法 {#usage}
 
-1. Ensure you have Java 17 or higher installed, if you do you should be able to open the file like a normal program.
-2. Select the Java edition resource pack using the button on the left. Once you do, if it was successful you should see the icon of the pack.
-3. Change the output pack name. This is the name shown to the Bedrock client.
-4. Hit the convert button to start the conversion process. This step may take a while.
-5. Once completed, the converter Bedrock edition resource pack will be in the same place as where your Java pack was. 
-You can now either use the pack on the Bedrock client, or place it in the `packs` folder in your Geyser server.
+1. 确保您已安装 Java 17 或更高版本，安装后您应该能够像打开普通程序一样打开该文件。
+2. 使用左侧的按钮选择 Java 版资源包。选择成功后，您应该能看到该资源包的图标。
+3. 修改输出包的名称。这是基岩版客户端上显示的名称。
+4. 点击转换按钮开始转换过程。这一步可能需要一些时间。
+5. 转换完成后，转换好的基岩版资源包将保存在您的 Java 版资源包所在的位置。
+现在您可以在基岩版客户端中使用该资源包，或者将其放在 Geyser 服务器的 `packs` 文件夹中。
 
-## Download {#download} 
+## 下载 {#download} 
 
-You can download Thunder [here](/download/?project=other-projects&thunder=expanded).
+您可以在[这里](/download/?project=other-projects&thunder=expanded)下载 Thunder。
 
-## Contributing {#contributing}
+## 贡献 {#contributing}
 
-Any contributions are appreciated. Please feel free to reach out to us on [Discord](https://discord.gg/geysermc) if
-you're interested in helping out with Thunder.
+我们欢迎任何贡献。如果您有兴趣为 Thunder 提供帮助，请随时通过 [Discord](https://discord.gg/geysermc) 与我们联系。
+

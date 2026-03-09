@@ -1,4 +1,3 @@
-
 ---
 title: 创建启动脚本
 description: 学习如何为 Geyser-Standalone 创建启动脚本。

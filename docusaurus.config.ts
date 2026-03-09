@@ -4,7 +4,7 @@ import type * as Preset from '@docusaurus/preset-classic';
 import { docOgRenderer, blogOgRenderer, pageOgRenderer } from './src/renderer/ImageRenderers';
 
 const config: Config = {
-    title: 'GeyserMC',
+    title: 'GeyserMC 中文网站',
     tagline: 'Revolutionize Your Minecraft Server',
     favicon: 'img/favicon.ico',
     

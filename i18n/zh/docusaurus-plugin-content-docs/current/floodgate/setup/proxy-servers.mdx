@@ -1,31 +1,31 @@
 ---
-title: Floodgate Proxy Servers Setup
-description: Learn how to set up Floodgate on your Bungee, Waterfall, or Velocity server.
+title: Floodgate 代理服务器设置
+description: 学习如何在您的 Bungee、Waterfall 或 Velocity 服务器上设置 Floodgate。
 hide_title: true
 ---
 
 :::info
-You only need to install Floodgate on the BungeeCord or Velocity proxy server, unless you want to use the Floodgate API on the backend servers.
-Additionally, it will display Bedrock edition skins properly.
+您只需在 BungeeCord 或 Velocity 代理服务器上安装 Floodgate，除非您想在后端服务器上使用 Floodgate API。
+此外，它还可以正确显示基岩版的皮肤。
 :::
 
-1. Download Floodgate for your proxy software from the [download page](/download/?project=floodgate).
-2. Place the Floodgate jar in the `plugins` folder, and restart the proxy server.
-3. Change `auth-type` in Geyser's config to `floodgate`.
-4. Restart the server.
+1. 从[下载页面](/download/?project=floodgate)下载适用于您的代理软件的 Floodgate。
+2. 将 Floodgate jar 文件放入 `plugins` 文件夹，然后重启代理服务器。
+3. 将 Geyser 配置中的 `auth-type` 改为 `floodgate`。
+4. 重启服务器。
 
-### Installing Floodgate on servers behind the proxy \{#installing-floodgate-on-servers-behind-the-proxy}
+### 在代理后面的服务器上安装 Floodgate \{#installing-floodgate-on-servers-behind-the-proxy}
 
-This is only needed when you want to use the Floodgate API on your backend server(s) behind a proxy.
+仅当您想在代理后面的后端服务器上使用 Floodgate API 时才需要这样做。
 
-1. After installing Floodgate on the proxy, install Floodgate on the backend servers (either Floodgate-Spigot, or Floodgate-Fabric).
-2. Enable `ip_forward` in your BungeeCord `config.yml` if using BungeeCord. For Velocity, set up [player information forwarding](https://docs.papermc.io/velocity/player-information-forwarding).
-3. Set `bungeecord` to `true` in your spigot.yml. When using Velocity, see their guide, as they have multiple options that require different setups.
-4. Start the proxy server.
-5. Edit the Floodgate config on your proxy server and set `send-floodgate-data` to `true`.
-6. Copy the `key.pem` file in the proxy Floodgate config folder to all backend servers’ Floodgate config folder.
-7. Restart the backend servers and proxy server.
+1. 在代理上安装 Floodgate 后，在后端服务器上安装 Floodgate（Floodgate-Spigot 或 Floodgate-Fabric）。
+2. 如果使用 BungeeCord，请在 BungeeCord 的 `config.yml` 中启用 `ip_forward`。对于 Velocity，请设置[玩家信息转发](https://docs.papermc.io/velocity/player-information-forwarding)。
+3. 在您的 spigot.yml 中将 `bungeecord` 设置为 `true`。使用 Velocity 时，请参考他们的指南，因为他们有多个选项需要不同的设置。
+4. 启动代理服务器。
+5. 编辑代理服务器上的 Floodgate 配置，并将 `send-floodgate-data` 设置为 `true`。
+6. 将代理服务器 Floodgate 配置文件夹中的 `key.pem` 文件复制到所有后端服务器的 Floodgate 配置文件夹中。
+7. 重启后端服务器和代理服务器。
 
 :::danger
-DO NOT DISTRIBUTE THIS KEY TO ANYBODY! This key is what allows for Bedrock accounts to bypass the Java Edition authentication, and if anyone gets ahold of this, they can wreak havoc on your server.
+切勿将此密钥分发给任何人！此密钥允许基岩版账户绕过 Java 版身份验证，如果有人获取了此密钥，他们可能会对您的服务器造成严重破坏。
 :::

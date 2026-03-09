@@ -1,43 +1,42 @@
 ---
-title: Geyser Hosting Provider Proxy Servers Setup
-description: Learn how to set up Geyser on your Bungee, Waterfall, or Velocity server from a hosting provider.
+title: Geyser 托管服务提供商代理服务器设置
+description: 了解如何在托管服务提供商的 Bungee、Waterfall 或 Velocity 服务器上设置 Geyser。
 hide_title: true
 ---
 
 import { Versions } from '@site/src/components/Versions'
 
 :::info
-- Install Geyser **only** on the proxy server! You can install Floodgate on all servers for better skin support & 
-    network-wide Floodgate API availability for other plugins.
-- All servers on the network must accept <Versions platform="java"/> Java clients, as Geyser imitates one.  
+- **只需要**在代理服务器上安装 Geyser！您可以在所有服务器上安装 Floodgate 以获得更好的皮肤支持，并为其他插件提供全网 Floodgate API。
+- 网络上的所有服务器必须接受 <Versions platform="java"/> Java 客户端，因为 Geyser 模仿了一个 Java 客户端。
 :::
 
-1. Select your server hosting provider in the dropdown above.
-2. Download the plugin for your proxy software from [the download page](/download).
-3. Place the Geyser jar in the `plugins` folder, and restart the server.
-4. Open your Geyser config, located in `/plugins/Geyser-xyz/config.yml`, and find the following:
+1. 在上方下拉菜单中选择您的服务器托管服务提供商。
+2. 从[下载页面](/download)下载适用于您代理软件的插件。
+3. 将 Geyser jar 文件放入 `plugins` 文件夹中，然后重启服务器。
+4. 打开您的 Geyser 配置文件（位于 `/plugins/Geyser-xyz/config.yml`），找到以下内容：
 
      ```yaml
      bedrock:
-       # The IP address that will listen for connections.
-       # Generally, you should only change this if you want to limit what IPs can connect to your server.
+       # 用于监听连接的 IP 地址。
+       # 通常，只有当您想要限制可以连接到服务器的 IP 时才需要更改此设置。
        address: 0.0.0.0
 
-       # The port that will Geyser will listen on for incoming Bedrock connections.
-       # Since Minecraft: Bedrock Edition uses UDP, this port must allow UDP traffic.
+       # Geyser 将用于监听传入基岩版连接的端口。
+       # 由于 Minecraft：基岩版使用 UDP，此端口必须允许 UDP 流量。
        port: 19132
 
-       # Some hosting services change your Java port everytime you start the server and require the same port to be used for Bedrock.
-       # This option makes the Bedrock port the same as the Java port every time you start the server.
+       # 某些托管服务每次启动服务器时都会更改您的 Java 端口，并且要求基岩版使用相同的端口。
+       # 此选项使每次启动服务器时基岩版端口与 Java 端口相同。
        clone-remote-port: false
-    ```
-    The vital part is the port. This is the port that Bedrock players will use to connect to your server.
-    Follow the instructions in the provider selector - change the port, and if necessary, `clone-remote-port` & `address`.
-    If `clone-remote-port` is enabled, the bedrock port will be overwritten with the Java port!
-    **Important**: Other services/plugins that rely on ports with UDP, such as Voice Chats or Query, cannot share the port with Geyser.
+     ```
+     关键部分是端口。这是基岩版玩家将用于连接到您服务器的端口。
+     请遵循提供商选择器中的说明 - 更改端口，如有必要，还需要更改 `clone-remote-port` 和 `address`。
+     如果启用了 `clone-remote-port`，基岩版端口将被 Java 端口覆盖！
+     **重要**：其他依赖 UDP 端口的服务/插件（如语音聊天或查询）不能与 Geyser 共享端口。
 
-5. Verify whether connections are possible by running `geyser connectiontest <ip> <port>` in the console.
+5. 通过在控制台中运行 `geyser connectiontest <ip> <port>` 来验证连接是否可行。
 
 :::info
-To allow Bedrock Edition players to join your server without needing to log in to a paid Java Edition account, you can use <a href="/wiki/floodgate/setup/">Floodgate</a>.
+要允许基岩版玩家无需登录正版的 Java 版账户即可加入您的服务器，您可以使用 <a href="/wiki/floodgate/setup/">Floodgate</a>。
 :::

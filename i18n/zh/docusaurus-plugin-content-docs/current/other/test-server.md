@@ -1,28 +1,28 @@
 ---
-title: Test Server
-description: Information about joining and using the Geyser test server.
+title: 测试服务器
+description: 关于加入和使用 Geyser 测试服务器的信息。
 ---
 
-### Details {#details}
-- IP: `test.geysermc.org` (default ports on both Bedrock and Java)
-- World size: 20k x 20k
-- Nether and End disabled
-- After 90 days, any untouched claimed land will be unclaimed
-- After 30 days, unclaimed land will be regenerated
+### 详情 {#details}
+- IP: `test.geysermc.org`（基岩版和 Java 版均使用默认端口）
+- 世界大小：20k x 20k
+- 下界和末地已禁用
+- 90 天后，任何未触碰过的已认领土地将被取消认领
+- 30 天后，未认领的土地将被重新生成
 
-### Infomation {#infomation}
-Geyser has a test server for those who want to test how Java \<-\> Bedrock crossplay works on their device, and to see the limitations and restrictions. You can join from either Bedrock or Java, and the server has [Floodgate](/wiki/floodgate/) installed so you don’t need a Java account to join from Bedrock.
+### 信息 {#information}
+Geyser 设有一个测试服务器，供那些想要测试 Java 版与基岩版跨平台游玩在其设备上如何运行的人使用，也可以查看其限制和约束条件。你可以从基岩版或 Java 版加入，服务器已安装 [Floodgate](/wiki/floodgate/)，因此你无需 Java 版账号即可从基岩版加入。
 
-If you can't build/destroy/interact with the world in the test server, run `/rtp` to get away from the protected spawn area.
+如果你无法在测试服务器中建造/破坏/与世界互动，请运行 `/rtp` 以离开受保护的出生点区域。
 
-If you have any questions or problems be sure to join our [Discord](https://discord.gg/geysermc)!
+如果你有任何问题或困难，请务必加入我们的 [Discord](https://discord.gg/geysermc)！
 
-### Commands: {#commands}
+### 命令：{#commands}
 
-|Command|Desc|
+|命令|描述|
 |---|---|
-|`/rtp`|Teleport to a random location|
-|`/ll`|LandLord base command for managing land claims|
-|`/spawn`|Teleport to spawn|
-|`/home`|Set/go-to a home|
-|`/linkaccount`|Link your Java and Bedrock accounts|
+|`/rtp`|传送到随机位置|
+|`/ll`|用于管理土地认领的 LandLord 基础命令|
+|`/spawn`|传送到出生点|
+|`/home`|设置/前往家|
+|`/linkaccount`|链接你的 Java 版和基岩版账号|

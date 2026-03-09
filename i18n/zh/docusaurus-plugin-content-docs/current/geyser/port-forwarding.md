@@ -1,179 +1,179 @@
 ---
-title: Port forwarding
-description: Information on how to set up UDP port forwarding required for Geyser.
+title: 端口转发
+description: 关于如何设置 Geyser 所需的 UDP 端口转发的信息。
 ---
 
-# Port forwarding
-This page contains information on how to set up port forwarding required for Geyser to work when self-hosting.
-There are also guides for specific configurations, such as Docker/Pterodactyl, or on specific VPS/KVM providers, such as OVH or Oracle Cloud. 
+# 端口转发
+本页面包含如何设置端口转发的信息，以便在自托管时让 Geyser 正常工作。
+还包含针对特定配置的指南，例如 Docker/Pterodactyl，或特定的 VPS/KVM 提供商，例如 OVH 或 Oracle Cloud。
 
 :::caution
 
-If you are using a Minecraft server hosting provider (e.g. Aternos, or Nodecraft), you should refer to the hosting provider setup on the [setup](/wiki/geyser/setup) page instead.
+如果您使用 Minecraft 服务器托管提供商（例如 Aternos 或 Nodecraft），您应该参考 [setup](/wiki/geyser/setup) 页面上的托管提供商设置。
 
 :::
 
-## Port forwarding on Linux/Windows/macOS {#port-forwarding-on-linuxwindowsmacos}
-To allow others to play on your server, you will need to set up port forwarding on the device hosting Geyser.
-Additionally, you will need to port forward the port on your router/modem (in other words, allow and route traffic on that port to the proper machine) if you want the server to be accessible outside your own home network. 
-See [here](https://www.howtogeek.com/66214/how-to-forward-ports-on-your-router/) or [here](https://www.lifewire.com/how-to-port-forward-4163829) for helpful guides.
-Do note: if you do not have a static IP address, your IP address may change over time. 
+## 在 Linux/Windows/macOS 上进行端口转发 {#port-forwarding-on-linuxwindowsmacos}
+要允许其他人在您的服务器上玩，您需要在托管 Geyser 的设备上设置端口转发。
+此外，如果您希望服务器在您自己的家庭网络之外也能访问，您需要在路由器/调制解调器上转发端口（换句话说，允许并将该端口上的流量路由到正确的机器）。
+请参阅 [这里](https://www.howtogeek.com/66214/how-to-forward-ports-on-your-router/) 或 [这里](https://www.lifewire.com/how-to-port-forward-4163829) 获取有用的指南。
+请注意：如果您没有静态 IP 地址，您的 IP 地址可能会随时间变化。
 
 :::info
 
-Some ISPs (Internet Service Providers) block certain ports, or don't allow you to open ports (e.g. by using CGNAT, which doesn't allow you to open a port with a dynamic IP).
-Other ISPs may require you to pay extra for a static IP address.   
-As an alternative to port forwarding, you can use <a href="/wiki/geyser/playit-gg/">playit.gg</a> to create a tunnel.
+某些 ISP（互联网服务提供商）会阻止某些端口，或者不允许您打开端口（例如使用 CGNAT，这不允许您使用动态 IP 打开端口）。
+其他 ISP 可能会要求您为静态 IP 地址支付额外费用。
+作为端口转发的替代方案，您可以使用 <a href="/wiki/geyser/playit-gg/">playit.gg</a> 来创建隧道。
 
 :::
 
 ### Windows {#windows}
-To open a port on Windows, you will need to open the port through the Windows Firewall. There are multiple ways to do this:
+要在 Windows 上打开端口，您需要通过 Windows 防火墙打开端口。有多种方法可以做到这一点：
 
-- `Powershell` (recommended)
+- `Powershell`（推荐）
 
-  To open a port on UDP (in our example, port 19132), run the following command in an administrator Powershell:
+  要打开 UDP 端口（在我们的示例中，端口 19132），请在管理员 Powershell 中运行以下命令：
   ```powershell
   New-NetFirewallRule -DisplayName "Geyser" -Direction Inbound -Protocol UDP -LocalPort 19132 -Action Allow
   ```
-  Running this command creates a rule named "Geyser" that allows UDP traffic on port 19132.
+  运行此命令会创建一个名为 "Geyser" 的规则，允许端口 19132 上的 UDP 流量。
 
 
-- Windows Defender Firewall with Advanced Security (GUI)
-  1. Search for "Windows Defender Firewall with Advanced Security" in the start menu, and open it. ([Image](/img/wiki/port-forwarding/windows-1.png))
-  2. Click on "Inbound Rules" in the left sidebar. ([Image](/img/wiki/port-forwarding/windows-2.png))
-  3. Click on "New Rule..." in the right sidebar. ([Image](/img/wiki/port-forwarding/windows-2.png))
-  4. Select "Port" as the rule type and click "Next". ([Example](/img/wiki/port-forwarding/windows-3.png))
-  5. Select "UDP" and "Specific local ports", and enter the port you want to open (in our example, 19132). Click "Next". ([Example](/img/wiki/port-forwarding/windows-4.png))
-  6. Select "Allow the connection" and click "Next". ([Example](/img/wiki/port-forwarding/windows-5.png))
-  7. Select the profiles you want to apply the rule to (e.g. "Domain", "Private", "Public"), and click "Next". ([Example](/img/wiki/port-forwarding/windows-6.png))
-  8. Enter a name for the rule (e.g. "Geyser"), and click "Finish". ([Image](/img/wiki/port-forwarding/windows-7.png))
+- 具有高级安全性的 Windows Defender 防火墙 (GUI)
+  1. 在开始菜单中搜索"具有高级安全性的 Windows Defender 防火墙"，然后打开它。([图片](/img/wiki/port-forwarding/windows-1.png))
+  2. 点击左侧边栏中的"入站规则"。([图片](/img/wiki/port-forwarding/windows-2.png))
+  3. 点击右侧边栏中的"新建规则..."。([图片](/img/wiki/port-forwarding/windows-2.png))
+  4. 选择"端口"作为规则类型，然后点击"下一步"。([示例](/img/wiki/port-forwarding/windows-3.png))
+  5. 选择"UDP"和"特定本地端口"，然后输入您要打开的端口（在我们的示例中为 19132）。点击"下一步"。([示例](/img/wiki/port-forwarding/windows-4.png))
+  6. 选择"允许连接"，然后点击"下一步"。([示例](/img/wiki/port-forwarding/windows-5.png))
+  7. 选择您要应用规则的配置文件（例如"域"、"专用"、"公用"），然后点击"下一步"。([示例](/img/wiki/port-forwarding/windows-6.png))
+  8. 输入规则的名称（例如"Geyser"），然后点击"完成"。([图片](/img/wiki/port-forwarding/windows-7.png))
 
 ### Linux {#linux}
-Different Linux distributions, even different VPS providers ship and configure different firewalls. In the following examples, we will use `19132` as the port to open, but you should replace this with the port you are using for Geyser.
+不同的 Linux 发行版，甚至不同的 VPS 提供商都附带并配置了不同的防火墙。在以下示例中，我们将使用 `19132` 作为要打开的端口，但您应该将其替换为您用于 Geyser 的端口。
 
-- `ufw` is a simple firewall front-end for iptables that is commonly used on Ubuntu and Debian. To open a port on UDP, run the following command:
+- `ufw` 是 iptables 的简单防火墙前端，常用于 Ubuntu 和 Debian。要打开 UDP 端口，请运行以下命令：
   ```bash
   sudo ufw allow 19132/udp
   ```
-  Then, reload the firewall with `sudo ufw reload`, and see all open rules with `sudo ufw status`.   
-  Further helpful guides: [DigitalOcean](https://www.digitalocean.com/community/tutorials/how-to-setup-a-firewall-with-ufw-on-an-ubuntu-and-debian-cloud-server), [Baeldung](https://www.baeldung.com/linux/uncomplicated-firewall)
+  然后，使用 `sudo ufw reload` 重新加载防火墙，并使用 `sudo ufw status` 查看所有打开的规则。
+  更多有用的指南：[DigitalOcean](https://www.digitalocean.com/community/tutorials/how-to-setup-a-firewall-with-ufw-on-an-ubuntu-and-debian-cloud-server)，[Baeldung](https://www.baeldung.com/linux/uncomplicated-firewall)
 
-- `firewalld` Add a port on UDP by running:
+- `firewalld` 通过运行以下命令添加 UDP 端口：
   ```bash
   sudo firewall-cmd --zone=public --permanent --add-port=19132/udp
   ``` 
-  Then, reload the firewall with `sudo firewall-cmd --reload`, and see all open rules with `sudo firewall-cmd --list-all`.   
-  Further helpful guides: [DigitalOcean](https://www.digitalocean.com/community/tutorials/how-to-set-up-a-firewall-using-firewalld-on-centos-7)
+  然后，使用 `sudo firewall-cmd --reload` 重新加载防火墙，并使用 `sudo firewall-cmd --list-all` 查看所有打开的规则。
+  更多有用的指南：[DigitalOcean](https://www.digitalocean.com/community/tutorials/how-to-set-up-a-firewall-using-firewalld-on-centos-7)
 
-- `iptables` is a common firewall that is used on many Linux distributions. To open a port on UDP, run the following command:
+- `iptables` 是许多 Linux 发行版使用的常见防火墙。要打开 UDP 端口，请运行以下命令：
   ```bash
   sudo iptables -A INPUT -p udp --dport 19132 -j ACCEPT
   ```
-  Then, save the firewall with `sudo iptables-save`, and see all open rules with `sudo iptables -L`.   
-  Further helpful guides for iptables: [DigitalOcean](https://www.digitalocean.com/community/tutorials/how-to-set-up-a-firewall-using-iptables-on-ubuntu-14-04), [Ubuntu](https://help.ubuntu.com/community/IptablesHowTo)
+  然后，使用 `sudo iptables-save` 保存防火墙，并使用 `sudo iptables -L` 查看所有打开的规则。
+  更多 iptables 的有用指南：[DigitalOcean](https://www.digitalocean.com/community/tutorials/how-to-set-up-a-firewall-using-iptables-on-ubuntu-14-04)，[Ubuntu](https://help.ubuntu.com/community/IptablesHowTo)
 
 ### macOS {#macos}
-You will need to disable `Block all incoming connections` in your Firewall settings, as that will block any connections and won't allow you to make exceptions. 
-To allow incoming connections, click `Allow` when getting [these prompts](/img/wiki/port-forwarding/macos_warning.png).
-If you are still facing issues, see Apple's official guide [here](https://support.apple.com/guide/mac-help/MH11783) to open a port on macOS.
+您需要在防火墙设置中禁用"阻止所有传入连接"，因为这会阻止任何连接，并且不允许您设置例外。
+要允许传入连接，请在收到 [这些提示](/img/wiki/port-forwarding/macos_warning.png) 时点击"允许"。
+如果您仍然遇到问题，请参阅 Apple 的官方指南 [这里](https://support.apple.com/guide/mac-help/MH11783) 来在 macOS 上打开端口。
 
-## Using Docker or Pterodactyl {#using-docker-or-pterodactyl}
-In addition to port forwarding the port in your server's firewall (and, if applicable, your router/modem), you will need to assign the port in Docker/Pterodactyl.
+## 使用 Docker 或 Pterodactyl {#using-docker-or-pterodactyl}
+除了在服务器的防火墙（以及适用的话，您的路由器/调制解调器）中转发端口外，您还需要在 Docker/Pterodactyl 中分配端口。
 
 ### Pterodactyl {#pterodactyl}
-Make sure to allocate the port to the server in the Pterodactyl panel's `Network` tab, additionally to port forwarding the port. 
-See [here](https://pterodactyl.io/community/games/minecraft.html#allocations-in-the-panel) for more information.
+确保在 Pterodactyl 面板的"网络"选项卡中为服务器分配端口，此外还要转发端口。
+请参阅 [这里](https://pterodactyl.io/community/games/minecraft.html#allocations-in-the-panel) 获取更多信息。
 
-![Pterodactyl panel, Network section](/img/wiki/port-forwarding/pterodactyl-1.png)
+![Pterodactyl 面板，网络部分](/img/wiki/port-forwarding/pterodactyl-1.png)
 
-There are also different Geyser eggs for Pterodactyl, which can be found [here](https://github.com/GeyserMC/pterodactyl-stuff).
+还有不同的 Geyser 蛋可用于 Pterodactyl，可在 [这里](https://github.com/GeyserMC/pterodactyl-stuff) 找到。
 
 :::caution
 
-If you are not able to allocate ports in the Pterodactyl panel, you will need to contact your server host to allocate one for you or try to use an existing port allocation.
+如果您无法在 Pterodactyl 面板中分配端口，您需要联系您的服务器主机为您分配一个，或者尝试使用现有的端口分配。
 
 :::
 
 ### Docker {#docker}
-For Geyser to work under Docker (e.g. using [Itzg's Docker image](https://github.com/itzg/docker-minecraft-server)), you will need to add the Geyser port on UDP to the docker-compose file. This is done by adding the following to the `ports` section:
+为了让 Geyser 在 Docker 下工作（例如使用 [Itzg 的 Docker 镜像](https://github.com/itzg/docker-minecraft-server)），您需要在 docker-compose 文件中添加 Geyser 的 UDP 端口。这可以通过在 `ports` 部分添加以下内容来完成：
 ```yaml
 ports:
     - "25565:25565"
     - "19132:19132/udp"
 ```
-The additional `/udp` suffix is required so that the port is exposed on UDP. If you want to run the Java server and Geyser on the same port, the following would work:
+需要额外的 `/udp` 后缀，以便端口在 UDP 上暴露。如果您想在同一端口上运行 Java 服务器和 Geyser，以下内容将起作用：
 ```yaml
 ports:
     - "25565:25565"
     - "25565:25565/udp"
 ```
-Alternatively, add another port with the `-p 19132:19132/udp` flag to the docker run command.
+或者，在 docker run 命令中添加另一个端口，使用 `-p 19132:19132/udp` 标志。
 
 
-## Issues with specific VPS/KVM providers {#issues-with-specific-vpskvm-providers}
-Some providers, such as OVH, Oracle Cloud, and SoYouStart, have a firewall that blocks UDP ports by default/in most cases.
+## 特定 VPS/KVM 提供商的问题 {#issues-with-specific-vpskvm-providers}
+某些提供商，例如 OVH、Oracle Cloud 和 SoYouStart，在默认情况下/大多数情况下都有阻止 UDP 端口的防火墙。
 
-### OVH and SoYouStart {#ovh-and-soyoustart}
-By default, OVHs firewall requires a TCP ping to the server before allowing UDP connections. This is not possible with Geyser, so you will need to disable the firewall.
+### OVH 和 SoYouStart {#ovh-and-soyoustart}
+默认情况下，OVH 的防火墙需要在允许 UDP 连接之前对服务器进行 TCP ping。这对于 Geyser 是不可能的，因此您需要禁用防火墙。
 
 :::caution
 
-If you do not have access to these firewall settings, but got linked to this page, please contact your server host and provide them with this link - they are likely using OVH internally.
+如果您无法访问这些防火墙设置，但被链接到此页面，请联系您的服务器主机并向他们提供此链接 - 他们可能在内部使用 OVH。
 
 :::
 
-**To verify/temporary work around it:** 
+**要验证/临时解决它：**
 
-Attempt to connect to your servers IP and port through a web browser - for example, `http://test.geysermc.org:19132`. Connecting won't work, but then try connecting through Bedrock on that same device, and it should work.
-Alternatively, try connecting to the server first on Java edition, then on Bedrock with the same device.
+尝试通过 Web 浏览器连接到您的服务器 IP 和端口 - 例如，`http://test.geysermc.org:19132`。连接不会起作用，但然后尝试在同一设备上通过 Bedrock 连接，它应该会起作用。
+或者，尝试先在 Java 版上连接到服务器，然后在同一设备上用 Bedrock 连接。
 
-**To resolve it:**
+**要解决它：**
 
 OVH:
-1. Navigate to `Network interfaces`
-2. Click on the `...` button on the table for your IP -> then `...` and `Configure the GAME firewall` -> `Add rule` -> `Other protocol` ~~(or `minecraftPocketEdition` if available)~~
-3. Add your Geyser port into `outgoing port`.
+1. 导航到 `Network interfaces`
+2. 点击表格中您的 IP 旁边的 `...` 按钮 -> 然后点击 `...` 和 `Configure the GAME firewall` -> `Add rule` -> `Other protocol` ~~(或 `minecraftPocketEdition` 如果可用)~~
+3. 将您的 Geyser 端口添加到 `outgoing port` 中。
 
-SoYouStart (subsidiary of OVH):
-1. Click the IP tab.
-2. Click the gear at the right of the public IP address; select "Game mitigation".
-3. Pick "Add a rule".
-4. Select "minecraftPocketEdition" in the dropdown list and enter the target UDP ports.
-5. Save and wait a few seconds for the changes to come into effect.
+SoYouStart (OVH 的子公司):
+1. 点击 IP 选项卡。
+2. 点击公共 IP 地址右侧的齿轮；选择"Game mitigation"。
+3. 选择"添加规则"。
+4. 在下拉列表中选择"minecraftPocketEdition"并输入目标 UDP 端口。
+5. 保存并等待几秒钟，使更改生效。
 
-#### OVH/SoYouStart Game Firewall Incompatibility Issue
-The OVH GAME filter type `minecraftPocketEdition` currently does not work and you must use the `Other` type.  
+#### OVH/SoYouStart 游戏防火墙不兼容问题
+OVH GAME 过滤器类型 `minecraftPocketEdition` 目前不起作用，您必须使用 `Other` 类型。
 
-If you would like to continue using the filter type `minecraftPocketEdition`, you may disable the incompatible security feature by adding `-DGeyser.RakSendCookie=false` to your Java server's (or Geyser Standalone proxy's) startup flags.
+如果您想继续使用过滤器类型 `minecraftPocketEdition`，您可以通过在 Java 服务器（或 Geyser 独立代理）的启动标志中添加 `-DGeyser.RakSendCookie=false` 来禁用不兼容的安全功能。
 
-For more information see:  
- - [This issue on OVH's infrastructure roadmap](https://github.com/ovh/infrastructure-roadmap/issues/186)  
- - [The pull request which implemented the security feature that caused the incompatibility](https://github.com/GeyserMC/Geyser/pull/4554)
+有关更多信息，请参阅：
+ - [OVH 基础设施路线图上的此问题](https://github.com/ovh/infrastructure-roadmap/issues/186)
+ - [实现导致不兼容的安全功能的拉取请求](https://github.com/GeyserMC/Geyser/pull/4554)
 
 ### Oracle Cloud/OCI {#oracle-cloudoci}
-By default, Oracle Cloud will block all incoming traffic except for SSH and RDP. This must be resolved within Oracle Cloud itself and the Compute Instance running Geyser.
+默认情况下，Oracle Cloud 会阻止除 SSH 和 RDP 之外的所有传入流量。这必须在 Oracle Cloud 本身和运行 Geyser 的 Compute Instance 中解决。
 
-The steps below assume that you are using the default ports for the Java server and Geyser, and should be adjusted accordingly.
+以下步骤假设您使用的是 Java 服务器和 Geyser 的默认端口，并且应相应调整。
 
-1. Find your Compute Instance in the OCI Console
-2. Click on the instances Virtual Cloud Network (this will be under "Instance details")
-3. On the left-hand side, select "Security Lists"
-4. Select one of the security lists. By default only one security list will exist. It doesn't matter which security list we add the rules to.
-5. Select "Add Ingress Rules"
-6. Configure rules for Java (optional)
-   - Set "Source CIDR" to `0.0.0.0/0`
-   - Set "Destination Port Range" to `25565-25565`
-   - Select "Another Ingress Rule"
-7. Configure rules for Geyser
-   - Set "Source CIDR" to `0.0.0.0/0`
-   - Set "Destination Port Range" to `19132-19132`
-   - Set "IP Protocol" to UDP
-8. Select "Add Ingress Rules"
+1. 在 OCI 控制台中找到您的 Compute Instance
+2. 点击实例的虚拟云网络（这将在"实例详细信息"下）
+3. 在左侧，选择"安全列表"
+4. 选择一个安全列表。默认情况下只存在一个安全列表。我们将规则添加到哪个安全列表并不重要。
+5. 选择"添加入站规则"
+6. 为 Java 配置规则（可选）
+   - 将"源 CIDR"设置为 `0.0.0.0/0`
+   - 将"目标端口范围"设置为 `25565-25565`
+   - 选择"另一个入站规则"
+7. 为 Geyser 配置规则
+   - 将"源 CIDR"设置为 `0.0.0.0/0`
+   - 将"目标端口范围"设置为 `19132-19132`
+   - 将"IP 协议"设置为 UDP
+8. 选择"添加入站规则"
 
 #### Oracle Linux {#oracle-linux}
 
-Run the following commands to allow Minecraft and Geyser through the OS firewall:
+运行以下命令以允许 Minecraft 和 Geyser 通过操作系统防火墙：
 
 ```bash
 sudo firewall-cmd --add-port=25565/tcp --permanent
@@ -183,7 +183,7 @@ sudo firewall-cmd --reload
 
 #### Ubuntu {#ubuntu}
 
-Run the following commands to allow Minecraft and Geyser through the OS firewall:
+运行以下命令以允许 Minecraft 和 Geyser 通过操作系统防火墙：
 
 ```bash
 sudo ufw allow 25565/tcp

@@ -1,111 +1,91 @@
 ---
-title: Custom Items
-description: Geyser allows custom Bedrock items to be added for an equivalency to Vanilla Java item predicates or modded items.
+title: 自定义物品
+description: Geyser 支持添加基岩版自定义物品，以实现与Java版原版物品谓词或模组物品的等效适配。
 ---
-
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-Minecraft: Java Edition supports creating "custom" items that are based on vanilla items. With Minecraft 1.21.4+, the introduction of item components
-further allows the customization of item behavior on a per-item-stack basis, such as changing the visual appearance using the item model component,
-and modifying item properties such as the ability to eat or equip an item.
+《我的世界：Java版》支持基于原版物品创建“自定义”物品。在1.21.4及以上版本中，物品组件的加入进一步支持基于单个物品堆自定义物品行为，例如通过物品模型组件修改外观，以及调整物品的可食用、可装备等属性。
 
-Unlike Java Edition, Bedrock natively supports adding custom items that are not based on vanilla items. However, Bedrock does not support
-extending vanilla items or modifying vanilla item behavior. Therefore, Geyser has a mapping system that allows mapping custom Bedrock items
-to modified vanilla Java items. Geyser further supports mapping custom Bedrock items to modded non-vanilla items which
-would normally require mods to be installed on the Java client.
+与Java版不同，基岩版原生支持添加不基于原版物品的自定义物品，但不支持扩展原版物品或修改原版物品的行为。因此，Geyser提供了一套映射系统，支持将基岩版自定义物品映射到修改后的Java版原版物品，还支持将基岩版自定义物品映射到Java版非原版模组物品（这类物品通常需要Java客户端安装对应模组才能使用）。
 
-To set up custom items in Geyser, you have to choose how you are going to register your items. The easiest is using a json mapping file,
-but you can also use a Geyser extension which uses the [Geyser API](/wiki/geyser/api/). Further, a Bedrock edition resource pack must also be supplied to ensure Bedrock players can see custom items.
+要在Geyser中配置自定义物品，你需要先选择物品的注册方式。最简单的方式是使用JSON映射文件，你也可以通过Geyser扩展程序调用[Geyser API](/wiki/geyser/api/)来实现。此外，你还必须提供一个基岩版资源包，以确保基岩版玩家能正常看到自定义物品。
 
 :::warning
-Geyser does not convert resource packs from Java Edition, and also does not generate custom item mappings automatically.
-However, you can use automatic tools such as [Rainbow](/wiki/other/rainbow/) to make converting content simpler.
+Geyser 不会自动转换Java版资源包，也不会自动生成自定义物品映射。
+不过你可以使用[Rainbow](/wiki/other/rainbow/)等自动化工具简化内容转换流程。
 :::
 
 :::info
-Since the Geyser API version 2.9.3 (Build #1062 and up), the old custom item format (v1) is deprecated and is no
-longer being updated. Old docs can still be found [here](/wiki/geyser/custom-items-old)
+自 Geyser API 2.9.3 版本（Build #1062 及以上）起，旧版自定义物品格式（v1）已被弃用，不再进行更新。旧版文档仍可在[此处](/wiki/geyser/custom-items-old)查看。
 :::
 
-## Custom items (v2)
-Geyser supports mapping items using `item_model` and item component features introduced in 1.21.4+. The previous `custom-model-data` approach continues to be supported using `legacy` definitions.
-However, there are some caveats. Unlike Java Edition, Bedrock Edition does not support modifying item properties dynamically at runtime (e.g. making dirt edible with a command).
-For such use-cases, Geyser supports a predicate system which allows registering multiple custom Bedrock items with different properties to map
-to different item stacks with specific components.
+## 自定义物品（v2）
+Geyser 支持通过1.21.4及以上版本新增的`item_model`和物品组件特性进行物品映射。此前的`custom-model-data`方案仍可通过`legacy`定义继续使用。
 
-## How does it work?
-"Custom" items in Java edition are based on vanilla items, with a modified appearance (using item models on 1.21.4+, or custom model data on older versions).
-Therefore, all mapped Bedrock custom item definitions are based on vanilla Java items and their components. Further, mapped definitions
-can specify additional components to modify the items' behavior.
+但需要注意一些限制：与Java版不同，基岩版不支持在运行时动态修改物品属性（例如通过指令让泥土变得可食用）。针对这类场景，Geyser提供了谓词系统，支持注册多个拥有不同属性的基岩版自定义物品，分别映射到带有特定组件的不同物品堆。
 
-### Prerequisites: Vocabulary
-- `Java item`: Any vanilla item that exists in the Minecraft: Java Edition base game. Java datapacks / plugins can create custom items by overriding components of a Java item.
-- `Java item component`: On Java Edition since 1.21.4+, items have their properties and behavior defined using item components.
-Every Java item has a set of default components, which can be overridden to change how an item looks or functions.
-- `Bedrock item component`: Custom Bedrock items also have components that determine item behavior, similar to Java Edition.
-However, these components cannot be changed at runtime for item stacks and have to be pre-defined when the Bedrock client joins.
-- `Java legacy custom model data`: The system used before Java 1.21.4. Before 1.21.4, each "custom item" had a custom model data number,
-used to decide which model a Java item should use (= different texture for players).
-- `Java item model definition`: Introduced in Java 1.21.4, they are found in the `assets/<namespace>/items/` directory of Java resource packs.
-These textures are used to set the appearance of Java items, and can be dynamically changed with a set of rules and item properties.
-Every Java item stores its item model definition in the `minecraft:item_model` item data component. It can be overridden on a per-item-stack-basis by a datapack/plugin to use a custom item model definition defined in a resource pack.
-- `Custom item definition`: a custom item definition is a Geyser term. It represents a single Bedrock custom item that is used to map a Java item model definition. It contains info on the item's properties on Java and Bedrock.
-Multiple custom item definitions, and thus multiple Bedrock items, can exist for the same Java item model definition, but for every combination of a Java item and Java item model definition, there can only be one custom item definition without predicates.
-- `Non-vanilla custom item definition`: also a Geyser term. Represents a Bedrock custom item that maps a Java non-vanilla (modded) item. Like normal custom item definitions, it contains info on the item's properties on Java and Bedrock.
-At the moment, there can only be one non-vanilla custom item definition per Java non-vanilla item.
+## 工作原理
+Java版的“自定义”物品，本质是基于原版物品修改了外观（1.21.4+使用物品模型实现，旧版本使用自定义模型数据实现）。
 
-### Definitions
-Every custom item definition represents one custom Bedrock item that has a specific set of pre-defined Bedrock options.
-It is tied to a specific Java item + item model combination (or, for legacy items, a specific Java item + custom model data combination).
+因此，所有基岩版自定义物品的映射定义，都必须基于Java版原版物品及其组件。同时，映射定义中可以指定额外的组件，来修改物品的行为。
 
-#### Mandatory definition properties
-- `bedrock_identifier`: This identifier is used for the custom Bedrock item (and also in e.g. attachables in Bedrock resource packs), and cannot be shared with **any** other custom item definition.
-This identifier cannot be in the `minecraft` namespace. If no namespace is provided, `geyser_custom` is used.
-- `model` (or `custom_model_data` for `legacy` definitions in json mappings) is also required.
+### 前置知识：术语表
+- `Java版物品`：《我的世界：Java版》原版游戏中存在的任意物品。Java版数据包/插件可以通过重写Java版物品的组件来创建自定义物品。
+- `Java版物品组件`：自Java 1.21.4起，物品的属性与行为均通过物品组件定义。每个Java版物品都有一套默认组件，你可以重写这些组件来改变物品的外观与功能。
+- `基岩版物品组件`：与Java版类似，基岩版自定义物品也通过组件定义物品行为。但基岩版无法在运行时为物品堆修改这些组件，必须在基岩版客户端加入服务器时完成预定义。
+- `Java版旧版自定义模型数据`：Java 1.21.4之前使用的自定义物品系统。在1.21.4之前，每个“自定义物品”都对应一个自定义模型数据编号，用于决定Java版物品使用的模型（即给玩家展示不同的材质）。
+- `Java版物品模型定义`：Java 1.21.4新增的特性，存放于Java版资源包的`assets/<命名空间>/items/`目录下。这类配置用于设置Java版物品的外观，可通过一系列规则和物品属性动态修改。每个Java版物品都会在`minecraft:item_model`物品数据组件中存储其物品模型定义，数据包/插件可以基于单个物品堆重写该组件，使其使用资源包中定义的自定义物品模型。
+- `自定义物品定义`：Geyser的专用术语，指代一个基岩版自定义物品，用于映射对应的Java版物品模型定义，其中包含该物品在Java版与基岩版中的属性信息。同一个Java版物体模型定义可以对应多个自定义物体定义（即多个基岩版物体）；但对于Java版物体+物体模型定义的任意组合，无谓词的自定义物体定义只能有一个。
+- `非原版自定义物体 definition`：Geyser的专用术语，指代映射到Java版非原版（模组）物体的基岩版自定义物体。与普通自定义物体 definition 一样，其中包含该物体在Java版与基岩版中的属性信息。目前，一个Java版非原版物体只能对应一个非原版自定义物体 definition。
 
-#### Optional definition properties
-- `display_name`: A string, or json text component for the item's default display name. If not set, it is derived from the bedrock identifier.
-- `bedrock_options`: The [bedrock options](#bedrock-options) that specify additional Bedrock properties
-- `components`: Java item components that specify item behavior, such as the maximum stack size.
-- `predicate`: Predicates used to match a specific custom item definition to an item stack.
-- `predicate_strategy`: Specifies how multiple predicates are evaluated. Only used when predicates are specified.
-- `priority`: Optionally specifies a priority of a definition over other definitions for the same item + item model combination. Only used
-when there are multiple custom item definitions.
+### 定义规则
+每个自定义物品定义都对应一个基岩版自定义物品，该物品拥有一套预定义的基岩版配置，同时与一个特定的Java版物品+物品模型组合绑定（旧版物品则绑定Java版物品+自定义模型数据组合）。
+
+#### 必填定义属性
+- `bedrock_identifier`：自定义基岩版物品使用的标识符（也可用于基岩版资源包的可附加模型等场景），不可与其他**任何**自定义物品定义共用。
+该标识符不可使用`minecraft`命名空间；若未指定命名空间，默认使用`geyser_custom`。
+- `model`（JSON映射中`legacy`定义则使用`custom_model_data`）：必填项。
+
+#### 可选定义属性
+- `display_name`：字符串或JSON文本组件，用于设置物品的默认显示名称。若未设置，将从基岩版标识符自动生成。
+- `bedrock_options`：[基岩版专属配置](#bedrock-options)，用于指定物品额外的基岩版专属属性。
+- `components`：Java版物品组件，用于定义物品行为，例如最大堆叠数量。
+- `predicate`：谓词规则，用于将特定的自定义物品定义与物品堆进行匹配。
+- `predicate_strategy`：指定多个谓词的判定逻辑，仅在设置了谓词时生效。
+- `priority`：可选，为同一物品+物品模型组合的多个定义设置优先级，仅在存在多个自定义物品定义时生效。
 
 <Tabs groupId="custom-item-implementation">
-    <TabItem value="json" label="Definitions: Json mappings">
-        Json mapping files have to specify the `format_version` set to `2`, and list all definitions for each item
-        under the `items` key. It holds an object in which keys are Java items, and in which each value is an array of objects,
-        specifying custom item definitions for that Java item.
+    <TabItem value="json" label="定义方式：JSON 映射文件">
+        JSON映射文件必须将`format_version`设置为`2`，并在`items`键下列出所有物品的定义。`items`的值为一个对象，键为Java版物品ID，值为对象数组，用于指定该Java版物品对应的自定义物品定义。
 
-        Example structure of a `mappings.json` mappings file:
+        `mappings.json`映射文件的结构示例：
         ```json
         {
             "format_version": 2,
             "items": {
                 "minecraft:flint": [
-                    // definition
+                    // 定义
                 ],
                 "minecraft:apple": [
-                    // definition1,
-                    // definition2
+                    // 定义1
+                    // 定义2
                 ],
                 "minecraft:diamond": [
-                    // definition
+                    // 定义
                 ]
             }
         }
         ```
 
-        There are multiple types of custom item definitions:
-        - `definition`: a single custom item, defined for a Java item model definition.
-        - `legacy`: a single custom item, defined for a Java custom item making use of legacy custom model data numbers.
-        - `group`: a group of custom item definitions.
-        The type of a definition is defined in the `type` key.
+        自定义物品定义分为多种类型：
+        - `definition`：单个自定义物品，为Java版物品模型定义创建映射。
+        - `legacy`：单个自定义物品，为使用旧版自定义模型数据的Java版自定义物品创建映射。
+        - `group`：一组自定义物品定义。
+        定义的类型通过`type`键指定。
 
         <Tabs>
-            <TabItem value="model-definition-type" label="Item Model Definition (1.21.4+)">
+            <TabItem value="model-definition-type" label="物品模型定义（1.21.4+）">
                 ```json
                 {
                     "type": "definition",
@@ -113,24 +93,21 @@ when there are multiple custom item definitions.
                     "bedrock_identifier": "example:example_item"
                 }
                 ```
-                The `definition` type is used to map one definition for a specific item's `item_model` component value.
-                This should be used for 1.21.4+ and above. For custom items using the legacy `custom_model_data` format,
-                use the `legacy` type.
+                `definition`类型用于为特定物品的`item_model`组件值创建映射定义，适用于1.21.4及以上版本。使用旧版`custom_model_data`格式的自定义物品，请使用`legacy`类型。
             </TabItem>
-            <TabItem value="group-type" label="Group Definition">
+            <TabItem value="group-type" label="分组定义">
                 ```json
                 {
                     "type": "group",
-                    "model": "example:example_model", // Optional, can be set per-definition
+                    "model": "example:example_model", // 可选，也可在子定义中单独设置
                     "definitions": [...]
                 }
                 ```
-                A `group` definition represents a group of custom item definitions. These can both be standard or legacy definitions.
-                All non-legacy definitions in the group inherit the group's Java item `model` definition, if one is set.
-                If a group has no model set, all definitions in the group must specify the item model themselves.
-                Definitions in a group are also allowed to be a group, and definitions in a group can also override the Java item model definition of the group.
+                `group`定义代表一组自定义物品定义，可同时包含标准定义与旧版定义。
+                若设置了组的Java版物品`model`定义，组内所有非旧版定义都会继承该模型；若组未设置模型，则组内所有定义必须自行指定物品模型。
+                组内的定义也可以是一个分组，同时组内的定义可以重写组的Java版物品模型定义。
             </TabItem>
-            <TabItem value="legacy-definition-type" label="Legacy Definition (pre 1.21.4+)">
+            <TabItem value="legacy-definition-type" label="旧版定义（1.21.4之前版本）">
                 ```json
                 {
                     "type": "legacy",
@@ -138,13 +115,12 @@ when there are multiple custom item definitions.
                     "bedrock_identifier": "example:example_item_legacy"
                 }
                 ```
-                The `legacy` definition should be used for custom items created on versions before the introduction of data
-                components (and therefore `item_models`). These must specify a `custom_model_data` float value.
+                `legacy`定义适用于数据组件（以及`item_models`）加入之前的版本创建的自定义物品，必须指定`custom_model_data`浮点数值。
             </TabItem>
         </Tabs>
 
         <details>
-        <summary>Expand to see examples of all definition types</summary>
+        <summary>点击展开查看所有定义类型的示例</summary>
         ```json
         {
             "format_version": 2,
@@ -154,7 +130,7 @@ when there are multiple custom item definitions.
                         "type": "definition",
                         "model": "geyser_mc:test_item",
                         "bedrock_identifier": "geyser_mc:test_item",
-                        "display_name": "An Example Item!",
+                        "display_name": "示例物品！",
                         "bedrock_options": {
                             "icon": "potato",
                             "creative_category": "items"
@@ -164,7 +140,7 @@ when there are multiple custom item definitions.
                         "type": "legacy",
                         "custom_model_data": 42,
                         "bedrock_identifier": "geyser_mc:test_legacy_item",
-                        "display_name": "A Very Old Item!",
+                        "display_name": "很旧的示例物品！",
                         "bedrock_options": {
                             "icon": "cobweb"
                         }
@@ -206,30 +182,24 @@ when there are multiple custom item definitions.
         }
         ```
 
-        In this example, the Java item `minecraft:flint` has four mapped definitions:
-        - The first is mapped using a "simple" definition for the `geyser_mc:test_item` model. Hence, it will always be used
-        when Geyser encounters a flint item with the `item_model` component being set to the `geyser_mc:test_item` model.
-        - The second is a "legacy" definition for the custom model data value of 42. Hence, if Geyser encounters a flint item with
-        the first float value in the `floats` list set to `42`, it will use the second definition.
-        Such an item could be retrieved using the following command: `/give @s flint[custom_model_data={floats:[42]}] 1`
-        - The third and fourth definition is part of a `group` type, which maps multiple definitions to `minecraft:flint` items with the
-        `geyser_mc:another_test_item` item model to use under different conditions. Specifically, the third definition (with the bedrock identifier `geyser_mc:another_test_item_nether`)
-        is used when the supplied dimension predicate matches the nether dimension. Otherwise, the fourth definition, which does not
-        specify a predicate, is used.
+        在本示例中，Java版物品`minecraft:flint`对应四个映射定义：
+        - 第一个是`geyser_mc:test_item`模型的“基础”定义。当Geyser检测到燧石物品的`item_model`组件设置为`geyser_mc:test_item`模型时，将始终使用该定义。
+        - 第二个是自定义模型数据值为42的“旧版”定义。当Geyser检测到燧石物品的`floats`列表中第一个浮点值为`42`时，将使用该定义。你可以通过以下指令获取该物品：`/give @s flint[custom_model_data={floats:[42]}] 1`
+        - 第三、第四个定义属于`group`类型，为带有`geyser_mc:another_test_item`物品模型的`minecraft:flint`物品，在不同条件下映射不同的定义。具体来说，第三个定义（基岩版标识符为`geyser_mc:another_test_item_nether`）会在玩家处于下界维度、维度谓词匹配时生效；否则将使用未指定谓词的第四个定义。
         </details>
     </TabItem>
 
-    <TabItem value="api" label="Definitions: Geyser API">
-        Custom item definitions are registered using the [`GeyserDefineCustomItemsEvent`](https://repo.opencollab.dev/javadoc/maven-snapshots/org/geysermc/geyser/api/latest/.cache/unpack/org/geysermc/geyser/api/event/lifecycle/GeyserDefineCustomItemsEvent.html).
+    <TabItem value="api" label="定义方式：Geyser API">
+        自定义物品定义通过[`GeyserDefineCustomItemsEvent`](https://repo.opencollab.dev/javadoc/maven-snapshots/org/geysermc/geyser/api/latest/.cache/unpack/org/geysermc/geyser/api/event/lifecycle/GeyserDefineCustomItemsEvent.html)进行注册。
 
         ```java
         @Subscribe
         public void onGeyserDefineCustomItems(GeyserDefineCustomItemsEvent event) {
             event.register(Identifier.of("flint"), CustomItemDefinition.builder(
-                    Identifier.of("example:example_item_identifier"), // mandatory: Bedrock item identifier
-                    Identifier.of("example:custom_item_model") // mandatory: item model
+                    Identifier.of("example:example_item_identifier"), // 必填：基岩版物品标识符
+                    Identifier.of("example:custom_item_model") // 必填：物品模型
                 )
-                    // The following are optional
+                    // 以下均为可选配置
                     .displayName("displayName")
                     .bedrockOptions(...)
                     .component(JavaItemDataComponents.MAX_STACK_SIZE, 60)
@@ -240,46 +210,38 @@ when there are multiple custom item definitions.
         }
         ```
 
-        The `register` method takes in two parameters: The identifier of the base vanilla item, and a
-        [`CustomItemDefinition`](https://repo.opencollab.dev/javadoc/maven-snapshots/org/geysermc/geyser/api/latest/.cache/unpack/org/geysermc/geyser/api/item/custom/v2/CustomItemDefinition.html). The latter must be created using the [`CustomItemDefinition.Builder`](https://repo.opencollab.dev/javadoc/maven-snapshots/org/geysermc/geyser/api/latest/.cache/unpack/org/geysermc/geyser/api/item/custom/v2/CustomItemDefinition.Builder.html), which
-        requires passing the Bedrock item identifier and item model as arguments.
+        `register`方法接收两个参数：基础原版物品的标识符，以及一个[`CustomItemDefinition`](https://repo.opencollab.dev/javadoc/maven-snapshots/org/geysermc/geyser/api/latest/.cache/unpack/org/geysermc/geyser/api/item/custom/v2/CustomItemDefinition.html)对象。后者必须通过[`CustomItemDefinition.Builder`](https://repo.opencollab.dev/javadoc/maven-snapshots/org/geysermc/geyser/api/latest/.cache/unpack/org/geysermc/geyser/api/item/custom/v2/CustomItemDefinition.Builder.html)创建，且必须传入基岩版物品标识符与物品模型参数。
     </TabItem>
 </Tabs>
 
-### Bedrock Options
+### 基岩版配置
 
-These options allow configuring Bedrock-specific options that aren't represented by components.
-These include:
-- `icon`: Determines the icon to use for the item. If not set, the item's Bedrock identifier is used.
-This value corresponds to icon shorthands defined in the `item_texture.json` file.
+该配置项用于设置物品在基岩版中、无法通过组件表达的专属属性，具体包括：
+- `icon`：物品使用的图标。若未设置，将使用物品的基岩版标识符。该值对应`item_texture.json`文件中定义的图标简称。
 
-   If the Bedrock item's identifier is used, the following changes are made:
-   - `:` would be replaced with `.`
-   - `/` with `_`
+   若使用物品的基岩版标识符作为图标值，会自动进行如下转换：
+   - `:` 替换为 `.`
+   - `/` 替换为 `_`
 
-   Example: `geyser_mc:a_cool_item` -> `geyser_mc.a_cool_item`.
-- `allow_offhand`: Whether the custom item may be held / put into the offhand. Defaults to `true`.
-- `display_handheld`: Whether the item should be displayed handheld (e.g. for tools or weapons). Defaults to `false`.
-- `protection_value`: Determines how many armor protection points should be shown when this item is worn. This is purely visual,
-and only has an effect if the item is equippable. Defaults to `0`.
-- `creative_category`: Sets the item's creative category (also shown in the recipe book). Can be `none`,
-`construction`, `nature`, `equipment`, or `items`. Defaults to `none`.
-- `creative_group`: Sets the item's creative group (for the recipe book). See [here](https://wiki.bedrock.dev/documentation/menu-categories#list-of-vanilla-groups)
-for a list of possible values. Creating custom creative groups is not currently supported by Geyser.
-- `tags`: Sets tags that an item has. These can be used for Molang expressions in resource packs.
+   示例：`geyser_mc:a_cool_item` -> `geyser_mc.a_cool_item`。
+- `allow_offhand`：该自定义物品是否可手持/放入副手栏，默认为`true`。
+- `display_handheld`：物品是否以手持形式展示（例如工具、武器），默认为`false`。
+- `protection_value`：物品穿戴时显示的护甲保护点数。该属性仅为视觉效果，仅当物品可装备时生效，默认为`0`。
+- `creative_category`：设置物品的创造模式分类（也会在配方书中显示）。可选值：`none`（无）、`construction`（建筑）、`nature`（自然）、`equipment`（装备）、`items`（物品），默认为`none`。
+- `creative_group`：设置物品的创造模式分组（用于配方书）。可选值列表可参考[此处](https://wiki.bedrock.dev/documentation/menu-categories#list-of-vanilla-groups)。Geyser目前不支持创建自定义创造模式分组。
+- `tags`：设置物品的标签，可在资源包的Molang表达式中使用。
 
 :::info
-A `creative_category` (and optionally `creative_group`) must be set if you have crafting recipes
-that output a custom item. Otherwise, Bedrock will *not* show recipes for custom items in the recipe book!
+如果你的合成配方输出为自定义物品，必须设置`creative_category`（可按需搭配`creative_group`），否则基岩版**不会**在配方书中显示该自定义物品的合成配方！
 :::
 
 <details>
-<summary>Expand for bedrock option examples</summary>
+<summary>点击展开查看基岩版专属配置示例</summary>
 <Tabs groupId="custom-item-implementation">
-    <TabItem value="json" label="Json mappings">
+    <TabItem value="json" label="JSON 映射文件">
         ```json
             "bedrock_options": {
-                "icon": "example:chestplate", // must match shorthands defined in item_texture.json
+                "icon": "example:chestplate", // 必须与item_texture.json中定义的简称匹配
                 "protection_value": 4,
                 "creative_category": "equipment",
                 "creative_group": "itemGroup.name.chestplate",
@@ -289,8 +251,8 @@ that output a custom item. Otherwise, Bedrock will *not* show recipes for custom
 
         ```json
             "bedrock_options": {
-                "icon": "example:my_sword", // must match shorthands defined in item_texture.json
-                "display_handheld": true, // usually only set for weapons or tools
+                "icon": "example:my_sword", // 必须与item_texture.json中定义的简称匹配
+                "display_handheld": true, // 通常仅为武器/工具开启
                 "creative_category": "items",
                 "creative_group": "itemGroup.name.sword",
                 "tags": ["example:my_weapon"]
@@ -299,8 +261,7 @@ that output a custom item. Otherwise, Bedrock will *not* show recipes for custom
     </TabItem>
 
     <TabItem value="api" label="Geyser API">
-        In the API, Bedrock item options are defined using the [`CustomItemBedrockOptions#Builder`](https://repo.opencollab.dev/javadoc/maven-snapshots/org/geysermc/geyser/api/latest/.cache/unpack/org/geysermc/geyser/api/item/custom/v2/CustomItemBedrockOptions.Builder.html).
-        The following snippets show example usages:
+        在API中，基岩版物品配置通过[`CustomItemBedrockOptions#Builder`](https://repo.opencollab.dev/javadoc/maven-snapshots/org/geysermc/geyser/api/latest/.cache/unpack/org/geysermc/geyser/api/item/custom/v2/CustomItemBedrockOptions.Builder.html)定义，示例用法如下：
 
         ```java
         .bedrockOptions(CustomItemBedrockOptions.builder()
@@ -325,53 +286,46 @@ that output a custom item. Otherwise, Bedrock will *not* show recipes for custom
 </Tabs>
 </details>
 
-### Components
+### 物品组件
 
-Item components are used in Java Edition to customize how items function and behave.
-Java Edition allows modifying these for any item stack at runtime. This is, unfortunately, not a feature Bedrock Edition supports.
-Therefore, any modifications to the base Java item's data components must be specified in mapping files.
-It is expected that a custom item will *always* have these components sent by the server when the custom item definition
-is used. For different sets of components, multiple custom item definitions with predicates should be used.
+Java版通过物品组件自定义物品的功能与行为，且支持在运行时为任意物品堆修改这些组件。但遗憾的是，基岩版不支持该特性。因此，对Java版基础物品数据组件的所有修改，都必须在映射文件中提前指定。
+
+当自定义物品定义生效时，服务端必须*始终*向客户端发送该自定义物品对应的这些组件。若需要使用不同的组件组合，请创建多个带谓词的自定义物品定义。
 
 :::info
-You do not need to map components that are unchanged from the base Java item.
+与基础Java版物品相比未做修改的组件，无需进行映射配置。
 :::
 
-#### Adding or Modifying components
+#### 添加与修改组件
 
-The following Java item components are supported (some with limitations):
+Geyser支持以下Java版物品组件（部分存在限制）：
 
-- `minecraft:consumable`: doesn't support consume particles/sounds.
-- `minecraft:equippable`: doesn't support the camera overlay or swappable properties.
+- `minecraft:consumable`：不支持消耗粒子/音效
+- `minecraft:equippable`：不支持相机覆盖与可交换属性
 - `minecraft:food`
 - `minecraft:max_damage`
 - `minecraft:max_stack_size`
 - `minecraft:use_cooldown`
-- `minecraft:enchantable`
-    - On Bedrock, this will be mapped to the `minecraft:enchantable` component with `slot=all`. This should, but does not guarantee, allow for compatibility with vanilla enchantments. Non-vanilla enchantments are unlikely to work.
+- `minecraft:enchantable`：在基岩版中会映射为`slot=all`的`minecraft:enchantable`组件，可兼容原版附魔，但不做保证；非原版附魔大概率无法正常工作
 - `minecraft:tool`
 - `minecraft:repairable`
 - `minecraft:enchantment_glint_override`
-- `minecraft:attack_range`
-    - Due to Bedrock limitations, only has an effect in combination with the `minecraft:kinetic_weapon` or `minecraft:piercing_weapon` components.
+- `minecraft:attack_range`：受基岩版限制，仅与`minecraft:kinetic_weapon`或`minecraft:piercing_weapon`组件搭配时生效
 - `minecraft:kinetic_weapon`
 - `minecraft:piercing_weapon`
-- `minecraft:swing_animation`
-    - Due to Bedrock limitations, the actual animation played is hardcoded, only the duration of the animation can be changed.
+- `minecraft:swing_animation`：受基岩版限制，播放的动画为硬编码，仅可修改动画持续时长
 - `minecraft:use_effects`
-    - Due to Bedrock limitations, the `can_sprint` property cannot be translated. Further, this component will only be translated
-        when the base item is either able to shoot arrows, throw projectiles, or is edible (or made edible with the food component).
+    - 受基岩版限制，无法转换`can_sprint`属性；且仅当基础物品可射箭、投掷抛射物或可食用（或通过食物组件设置为可食用）时，该组件才会被转换。
 
-Some components, like `minecraft:rarity` and `minecraft:attribute_modifiers`, are already automatically translated and should not be listed.
+部分组件（如`minecraft:rarity`、`minecraft:attribute_modifiers`）已实现自动转换，无需手动列出。
 
-For documentation of all item components and their respective json formats, see [the item data component page on the Minecraft wiki](https://minecraft.wiki/w/Data_component_format).
+所有物品组件的文档与对应JSON格式，可参考[Minecraft Wiki的物品数据组件页面](https://minecraft.wiki/w/Data_component_format)。
 
 <details>
-<summary>Expand for component usage examples</summary>
+<summary>点击展开查看组件用法示例</summary>
 <Tabs groupId="custom-item-implementation">
-    <TabItem value="json" label="Json mappings">
-        All components listed follow the same json structure as would be used in datapacks, which are documented on the
-        Minecraft wiki. Here are some examples:
+    <TabItem value="json" label="JSON 映射文件">
+        所有列出的组件均遵循数据包中使用的JSON结构，相关文档可在Minecraft Wiki查看。示例如下：
 
         ```json
         "components": {
@@ -382,9 +336,9 @@ For documentation of all item components and their respective json formats, see 
     </TabItem>
 
     <TabItem value="api" label="Geyser API">
-        All supported components can be found in the [`JavaItemDataComponents`](https://repo.opencollab.dev/javadoc/maven-snapshots/org/geysermc/geyser/api/latest/.cache/unpack/org/geysermc/geyser/api/item/custom/v2/component/java/JavaItemDataComponents.html) class, and are typically built with builders.
-
-        Some examples:
+        所有支持的组件均可在[`JavaItemDataComponents`](https://repo.opencollab.dev/javadoc/maven-snapshots/org/geysermc/geyser/api/latest/.cache/unpack/org/geysermc/geyser/api/item/custom/v2/component/java/JavaItemDataComponents.html)类中查看，通常通过建造者模式构建。
+        
+        示例如下：
         ```java
         .component(JavaItemDataComponents.MAX_STACK_SIZE, 16)
         ```
@@ -396,14 +350,14 @@ For documentation of all item components and their respective json formats, see 
 </Tabs>
 </details>
 
-#### Removing default components
-Just as is possible on Java edition, default components of the base item can be removed (e.g. making non-edible apples).
+#### 移除默认组件
+与Java版一致，你可以移除基础物品的默认组件（例如让苹果变得不可食用）。
 
 <details>
-<summary>Expand for usage examples of component removal</summary>
+<summary>点击展开查看组件移除用法示例</summary>
 <Tabs groupId="custom-item-implementation">
-    <TabItem value="json" label="Json mappings">
-        In Json mappings, this is done by adding an `!` in front of the component.
+    <TabItem value="json" label="JSON 映射文件">
+        在JSON映射中，只需在组件名称前添加`!`即可移除对应组件。
         ```json
         "components": {
             "!minecraft:food": {}
@@ -412,15 +366,14 @@ Just as is possible on Java edition, default components of the base item can be 
     </TabItem>
 
     <TabItem value="api" label="Geyser API">
-        The [`CustomItemDefinition#Builder`](https://repo.opencollab.dev/javadoc/maven-snapshots/org/geysermc/geyser/api/latest/.cache/unpack/org/geysermc/geyser/api/item/custom/v2/CustomItemDefinition.Builder.html)
-        builder supports removing default components by either specifying the item data component identifier, or by passing the type.
+        [`CustomItemDefinition#Builder`](https://repo.opencollab.dev/javadoc/maven-snapshots/org/geysermc/geyser/api/latest/.cache/unpack/org/geysermc/geyser/api/item/custom/v2/CustomItemDefinition.Builder.html)支持通过传入物品数据组件标识符或组件类型，移除默认组件。
         ```java
         @Subscribe
         public void onDefineCustomItems5(GeyserDefineCustomItemsEvent event) {
             event.register(Identifier.of("apple"), CustomItemDefinition.builder(
                     Identifier.of("example:rotten_apple"), Identifier.of("example:rotten_apple")
                 )
-                .displayName("Rotten apple")
+                .displayName("腐烂的苹果")
                 .removeComponent(JavaItemDataComponents.FOOD)
                 .build());
         }
@@ -429,33 +382,32 @@ Just as is possible on Java edition, default components of the base item can be 
 </Tabs>
 </details>
 
-### Predicates
+### 谓词
 
-Predicates are used to tell Geyser which custom item definition to use for a particular combination of Java item and item model.
-For simpler legacy mappings or custom items that don't have multiple component variants, predicates aren't required.
+谓词用于告诉Geyser，对于Java版物品+物品模型的特定组合，应该使用哪个自定义物品定义。
+对于简单的旧版映射，或没有多个组件变体的自定义物品，无需使用谓词。
 
-For each combination of a Java item and a Java item model definition, there can be one item definition without predicates,
-and one or multiple definitions with predicates. There cannot be multiple item definitions with the same predicates for the same Java item and Java item model definition.
-If the Java item model definition is in the `minecraft` namespace, there cannot be an item definition without a predicate.
+对于Java版物品+Java版物品模型定义的每一个组合，只能有一个无谓词的物品定义，以及一个或多个带谓词的定义。同一组合下，不能存在多个谓词完全相同的物品定义。
+若Java版物品模型定义位于 `minecraft` 命名空间下，则不能存在无谓词的物品定义。
 
 :::info
-Predicates can also be inverted to match for the inverse condition.
+谓词也可设置取反，匹配相反的条件。
 :::
 
-#### Condition predicates
-The `condition` predicate type checks for a boolean property and returns `true` if the property matches the expected value. It has 5 possible properties:
+#### 条件谓词
+`condition`类型的谓词会检查布尔类型的属性，当属性与预期值匹配时返回`true`，支持5种属性：
 
-- `broken`: if the item is broken (has only 1 durability point left).
-- `damaged`: if the item is damaged (not at full durability).
-- `custom_model_data`: checks the item's custom model data flags at the index specified in the `index` key. Defaults to `false`.
-- `has_component`: if the item has the component set in the `component` key. Includes default components.
-- `fishing_rod_cast`: if the player is currently holding a cast fishing rod.
+- `broken`：物品是否已损坏（仅剩1点耐久）
+- `damaged`：物品是否有损耗（耐久未满）
+- `custom_model_data`：检查物品自定义模型数据中，`index`键指定索引处的标志位，默认为`false`
+- `has_component`：物品是否拥有`component`键指定的组件（包含默认组件）
+- `fishing_rod_cast`：玩家是否正手持已抛出的钓鱼竿
 
 <details>
-<summary>Expand for usage examples.</summary>
+<summary>点击展开查看用法示例</summary>
 <Tabs groupId="custom-item-implementation">
-    <TabItem value="json" label="Json mappings">
-        All condition predicate types must set the `type` to `condition`.
+    <TabItem value="json" label="JSON 映射文件">
+        所有条件谓词都必须将`type`设置为`condition`。
 
         ```json
         "predicate": {
@@ -494,8 +446,7 @@ The `condition` predicate type checks for a boolean property and returns `true` 
         }
         ```
 
-        Components can also be inverted by adding and setting the `expected` key to `false`. If not set, it defaults to `true`.
-        Example:
+        也可通过添加`expected`键并设置为`false`对谓词取反；未设置时，`expected`默认为`true`。示例：
         ```json
         "predicate": {
             "type": "condition",
@@ -507,19 +458,19 @@ The `condition` predicate type checks for a boolean property and returns `true` 
     </TabItem>
 
     <TabItem value="api" label="Geyser API">
-        All condition predicates can be found in the [`ItemConditionPredicate`](https://repo.opencollab.dev/javadoc/maven-snapshots/org/geysermc/geyser/api/latest/.cache/unpack/org/geysermc/geyser/api/predicate/item/ItemConditionPredicate.html) interface. Examples:
+        所有条件谓词均可在[`ItemConditionPredicate`](https://repo.opencollab.dev/javadoc/maven-snapshots/org/geysermc/geyser/api/latest/.cache/unpack/org/geysermc/geyser/api/predicate/item/ItemConditionPredicate.html)接口中查看。示例：
 
         ```java
         .predicate(ItemConditionPredicate.FISHING_ROD_CAST)
         ```
 
-        Some predicates require additional arguments:
+        部分谓词需要额外参数：
         ```java
         .predicate(ItemConditionPredicate.customModelData(1))
         .predicate(ItemConditionPredicate.hasComponent(ItemDataComponents.REPAIRABLE.identifier()))
         ```
 
-        To negate predicates, call `#negate()`:
+        调用`#negate()`可对谓词取反：
         ```java
         .predicate(ItemConditionPredicate.DAMAGEABLE.negate())
         ```
@@ -528,22 +479,22 @@ The `condition` predicate type checks for a boolean property and returns `true` 
 </Tabs>
 </details>
 
-#### Match predicates
+#### 匹配谓词
 
-The `match` predicate type checks for a text-like property and returns `true` if it matches the given value. It has 4 possible properties:
+`match`类型的谓词会检查文本类属性，当属性与给定值匹配时返回`true`，支持4种属性：
 
-- `charge_type`: the item currently charged in the crossbow (in the `minecraft:charged_projectiles` component). Can be `arrow` or `rocket`.
-- `trim_material`: the trim material (resource location) of this item.
-- `context_dimension`: the dimension (resource location) the player is currently in.
-- `custom_model_data`: fetches a string from the item's custom model data strings.
+- `charge_type`：弩中当前装填的物品（来自`minecraft:charged_projectiles`组件），可选值`arrow`（箭）或`rocket`（烟花火箭）
+- `trim_material`：物品的盔甲纹饰材料（资源地址）
+- `context_dimension`：玩家当前所在的维度（资源地址）
+- `custom_model_data`：从物品自定义模型数据的字符串列表中获取对应值
 
-The `match` predicate requires a value to be specified in the `value` key.
+`match`谓词必须在`value`键中指定匹配值。
 
 <details>
-    <summary>Expand for usage examples.</summary>
+    <summary>点击展开查看用法示例</summary>
     <Tabs groupId="custom-item-implementation">
-        <TabItem value="json" label="Json mappings">
-            All match predicate types must set the `type` to `match`.
+        <TabItem value="json" label="JSON 映射文件">
+            所有匹配谓词都必须将`type`设置为`match`。
 
             ```json
             "predicate": {
@@ -578,8 +529,8 @@ The `match` predicate requires a value to be specified in the `value` key.
             }
             ```
 
-            Predicates can also be inverted by adding and setting the `expected` key to `false`. If not set, it defaults to `true`.
-            Example:
+            也可通过添加`expected`键并设置为`false`对谓词取反；未设置时，`expected`默认为`true`。
+            示例：
             ```json
             "predicate": {
                 "type": "match",
@@ -592,10 +543,9 @@ The `match` predicate requires a value to be specified in the `value` key.
         </TabItem>
 
         <TabItem value="api" label="Geyser API">
-            Item match predicates can be found in the [`ItemMatchPredicate`](https://repo.opencollab.dev/javadoc/maven-snapshots/org/geysermc/geyser/api/latest/.cache/unpack/org/geysermc/geyser/api/predicate/item/ItemMatchPredicate.html)
-            interface, additionally to generic match predicates in the [`MatchPredicate`](https://repo.opencollab.dev/javadoc/maven-snapshots/org/geysermc/geyser/api/latest/.cache/unpack/org/geysermc/geyser/api/predicate/MatchPredicate.html) interface.
-
-            Examples:
+            物品匹配谓词可在[`ItemMatchPredicate`](https://repo.opencollab.dev/javadoc/maven-snapshots/org/geysermc/geyser/api/latest/.cache/unpack/org/geysermc/geyser/api/predicate/item/ItemMatchPredicate.html)接口中查看，通用匹配谓词可在[`MatchPredicate`](https://repo.opencollab.dev/javadoc/maven-snapshots/org/geysermc/geyser/api/latest/.cache/unpack/org/geysermc/geyser/api/predicate/MatchPredicate.html)接口中查看。
+            
+            示例：
             ```java
             .predicate(ItemMatchPredicate.chargeType(ChargedProjectile.ChargeType.ARROW));
             ```
@@ -608,27 +558,27 @@ The `match` predicate requires a value to be specified in the `value` key.
     </Tabs>
 </details>
 
-#### Range dispatch predicates
+#### 范围调度谓词
 
-The `range_dispatch` predicate type checks for a numeric property and returns `true` if it is at or above the specified threshold. It has 4 possible types:
+`range_dispatch`类型的谓词会检查数值类型的属性，当数值大于等于指定阈值时返回`true`，支持4种类型：
 
-- `bundle_fullness`: checks the item's bundle fullness. Returns the total weight of all items (in the `minecraft:bundle_contents` component).
-    - This property cannot be normalized!
-- `damage`: checks the item's damage value. Can be normalized.
-- `count`: checks the item's count. Can be normalized.
-- `custom_model_data`: checks the item's custom model data float at the specified index. Defaults to `0.0`.
-    - This property cannot be normalized!
+- `bundle_fullness`：检查物品的收纳袋填充度，返回收纳袋内所有物品的总权重（来自`minecraft:bundle_contents`组件）。
+    - 该属性不支持归一化！
+- `damage`：检查物品的损耗值，支持归一化
+- `count`：检查物品的堆叠数量，支持归一化
+- `custom_model_data`：检查物品自定义模型数据中，指定索引处的浮点值，默认为`0.0`。
+    - 该属性不支持归一化！
 
-The `range_dispatch` predicate has 3 extra keys:
+`range_dispatch`谓词有3个额外配置项：
 
-- `threshold`: the threshold required to return true (required).
-- `scale`: the factor to scale the property value by before comparing it with the threshold. Defaults to `1.0`.
-- `normalize`: if the property value should be normalized before scaling it and comparing it with the threshold. Defaults to `false`, only works for certain properties.
+- `threshold`：判定为真的阈值，必填项
+- `scale`：与阈值比较前，对属性值进行缩放的系数，默认为`1.0`
+- `normalize`：缩放并与阈值比较前，是否对属性值进行归一化，默认为`false`，仅部分属性支持
 
 <details>
-    <summary>Expand for usage examples.</summary>
+    <summary>点击展开查看用法示例</summary>
     <Tabs groupId="custom-item-implementation">
-        <TabItem value="json" label="Json mappings">
+        <TabItem value="json" label="JSON 映射文件">
             ```json
             "predicate": {
                 "type": "range_dispatch",
@@ -636,7 +586,7 @@ The `range_dispatch` predicate has 3 extra keys:
                 "threshold": 32
             }
             ```
-            This predicate evaluates to "true" when the count is equal or above 32.
+            该谓词在物品堆叠数量大于等于32时判定为“真”。
 
             ```json
             "predicate": {
@@ -646,8 +596,7 @@ The `range_dispatch` predicate has 3 extra keys:
                 "threshold": 0.5
             }
             ```
-            This predicate evaluates to "true" when the normalized count (count / max count; between 0 and 1) is equal to
-            or higher than 0.5.
+            该谓词在物品归一化堆叠数量（当前数量/最大堆叠数，取值范围0-1）大于等于0.5时判定为“真”。
 
             ```json
             "predicate": {
@@ -657,10 +606,9 @@ The `range_dispatch` predicate has 3 extra keys:
                 "scale": 2
             }
             ```
-            This predicate evaluates to "true" when the scaled count (count × 2) is greater than or equal to the threshold.
+            该谓词在物品缩放后堆叠数量（当前数量 × 2）大于等于阈值时判定为“真”。
 
-            Using the `custom_model_data` range dispatch property requires specifying an index to check!
-            Indexes start at 0 - to check the first element in the floats list, you have to set index to 0:
+            使用`custom_model_data`范围调度属性时，必须指定要检查的索引！索引从0开始，要检查浮点数列表的第一个元素，需将index设置为0：
             ```json
             "predicate": {
                 "type": "range_dispatch",
@@ -672,45 +620,42 @@ The `range_dispatch` predicate has 3 extra keys:
         </TabItem>
 
         <TabItem value="api" label="Geyser API">
-            Range dispatch predicates are found in the [`ItemRangeDispatchPredicate`](https://repo.opencollab.dev/javadoc/maven-snapshots/org/geysermc/geyser/api/latest/.cache/unpack/org/geysermc/geyser/api/predicate/item/ItemRangeDispatchPredicate.html) interface.
+            范围调度谓词可在[`ItemRangeDispatchPredicate`](https://repo.opencollab.dev/javadoc/maven-snapshots/org/geysermc/geyser/api/latest/.cache/unpack/org/geysermc/geyser/api/predicate/item/ItemRangeDispatchPredicate.html)接口中查看。
 
             ```java
             CustomItemDefinition.builder(..., ...)
                 .predicate(ItemRangeDispatchPredicate.count(32))
                 .build();
             ```
-            This predicate evaluates to "true" when the count is equal or above 32.
+            该谓词在物品堆叠数量大于等于32时判定为“真”。
 
             ```java
             CustomItemDefinition.builder(..., ...)
                 .predicate(ItemRangeDispatchPredicate.normalizedCount(0.5))
                 .build();
             ```
-            This predicate evaluates to "true" when the normalized count (count / max count; between 0 and 1) is equal to
-            or higher than 0.5.
+            该谓词在物品归一化堆叠数量（当前数量/最大堆叠数，取值范围0-1）大于等于0.5时判定为“真”。
 
             ```java
             CustomItemDefinition.builder(..., ...)
                 .predicate(ItemRangeDispatchPredicate.customModelData(1, 12))
             .build();
             ```
-            This predicate evaluates to "true" when the second index of the floats list in the `custom_model_data` component
-            is present and is equal to or higher than 12.
+            该谓词在`custom_model_data`组件的浮点数列表中，第二个索引处的值存在且大于等于12时判定为“真”。
 
-            To scale a property, divide the threshold by the scale factor.
+            如需对属性进行缩放，将阈值除以缩放系数即可。
         </TabItem>
     </Tabs>
 </details>
 
-### Predicate strategy for multiple predicates
+### 多谓词的谓词策略
 
-There is also a `predicate_strategy` key, which can be `and` or `or` and defaults to `and`. This was inspired by the advancement requirement strategies,
-and decides if all predicates (`and`), or only one predicate (`or`) of an item definition has to match for it to be used.
+你可以通过`predicate_strategy`键设置多谓词的判定逻辑，可选值`and`（与）或`or`（或），默认为`and`。该设计参考了进度的条件判定策略，决定物品定义生效是需要满足**所有**谓词（`and`），还是仅需满足**任意一个**谓词（`or`）。
 
 <details>
-    <summary>Expand for usage examples.</summary>
+    <summary>点击展开查看用法示例</summary>
     <Tabs groupId="custom-item-implementation">
-        <TabItem value="json" label="Json mappings">
+        <TabItem value="json" label="JSON 映射文件">
             ```json
             "predicate": [
                 {
@@ -725,7 +670,7 @@ and decides if all predicates (`and`), or only one predicate (`or`) of an item d
             ],
             "predicate_strategy": "and"
             ```
-            This would require two conditions to both match for a specific custom item definition to be used.
+            该配置要求两个条件同时满足，对应的自定义物品定义才会生效。
         </TabItem>
 
         <TabItem value="api" label="Geyser API">
@@ -734,57 +679,53 @@ and decides if all predicates (`and`), or only one predicate (`or`) of an item d
             .predicate(MatchPredicate.dimension(Identifier.of("the_end")))
             .predicateStrategy(PredicateStrategy.AND)
             ```
-            This would require two conditions to both match for a specific custom item definition to be used.
+            该配置要求两个条件同时满足，对应的自定义物品定义才会生效。
 
-            Custom predicates can also be implemented, however, prefer using built-in predicates since these
-            can be cached properly.
+            你也可以实现自定义谓词，但优先使用内置谓词，因为内置谓词支持正常的结果缓存。
         </TabItem>
     </Tabs>
 </details>
 
 :::info
-When multiple predicates are specified using the API, it is important to list all predicates separately and use
-the provided predicates, where possible. Chaining predicates manually or creating custom predicates results in Geyser being
-unable to cache results!
+通过API指定多个谓词时，务必将所有谓词单独列出，并尽可能使用内置谓词。手动拼接谓词或创建自定义谓词，会导致Geyser无法缓存结果！
 
 <details>
-Do NOT do this:
+错误写法：
 
 ```java
     .predicate(ItemConditionPredicate.BROKEN.and(MatchPredicate.dimension(Identifier.of("the_end"))))
 ```
 
-Do this:
+正确写法：
 ```java
     .predicate(ItemConditionPredicate.BROKEN)
     .predicate(MatchPredicate.dimension(Identifier.of("the_end")))
     .predicateStrategy(PredicateStrategy.AND)
 ```
 
-These have the same result, but only the result of the latter can be cached by Geyser.
+两种写法的判定结果一致，但只有后者的结果能被Geyser缓存。
 
 </details>
 :::
 
-### Sorting and Priority
+### 排序与优先级
+Geyser会自动对自定义物品定义进行排序，确保物品转换时按正确的顺序检查定义的谓词。
 
-Custom item definitions are automatically sorted so that the definitions' predicates are checked in a correct order when translating items.
-Specifically, Geyser sorts custom item definitions in this order:
+具体排序规则如下（优先级从高到低）：
+1. 优先级更高的自定义物品定义，排序更靠前
+2. 带有同类范围调度谓词的定义，按阈值从高到低排序
+3. 谓词数量更多的定义，排序更靠前
 
-1. First custom item definitions with a higher priority value are sorted above definitions with lower ones.
-2. Custom item definitions with similar range dispatch predicates are sorted by their threshold, with higher thresholds going first.
-3. Custom item definitions with more predicates are sorted over definitions with less.
+这套机制能保证绝大多数场景下，带谓词的物品定义都会按正确顺序被检查，与映射文件中的书写顺序无关。
 
-This system ensures that in most cases, item definitions with predicates are checked in proper order, no matter which order they are put in the mappings.
-In the few cases that Geyser does not sort definitions correctly (that will most likely occur when using multiple `range_dispatch` predicates, or using them in combination with other predicates),
-the `priority` key can be used to specify which definitions should be checked first.
+极少数情况下（通常是使用多个`range_dispatch`谓词，或与其他谓词组合使用时），Geyser可能无法正确排序定义，此时可通过`priority`键手动指定定义的检查优先级。
 
-If there is only one custom item definition for an item + item model combination, specifying priorities is not necessary!
+若一个物品+物品模型组合仅对应一个自定义物品定义，无需设置优先级！
 
 <details>
-    <summary>Expand for usage examples.</summary>
+    <summary>点击展开查看用法示例</summary>
     <Tabs groupId="custom-item-implementation">
-        <TabItem value="json" label="Json mappings">
+        <TabItem value="json" label="JSON 映射文件">
             ```json
             "priority": 5
             ```
@@ -798,28 +739,25 @@ If there is only one custom item definition for an item + item model combination
     </Tabs>
 </details>
 
-## Resource Packs
-Custom items also require a Bedrock Edition resource pack. Geyser does not generate or convert Java Edition resource packs into
-Bedrock Edition resource packs, so you will need to set it up manually! You can also try using [Rainbow](/wiki/other/rainbow) or
-other third-party converters.
+## 资源包
+自定义物品必须搭配对应的基岩版资源包才能正常使用。Geyser不会自动生成资源包，也不会将Java版资源包转换为基岩版格式，因此你需要手动完成资源包的配置！你也可以尝试使用[Rainbow](/wiki/other/rainbow/)或其他第三方转换工具简化流程。
 
-### Creating your own Bedrock Edition resource pack
+### 创建自定义基岩版资源包
 
-1. Setup a basic bedrock resource pack with a valid manifest. If you need help, you can find it [here](https://wiki.bedrock.dev/guide/project-setup.html#rp-manifest).
-2. Create a `textures` folder.
-3. In that folder, create an `item_texture.json` file, and put this in it:
+1. 创建一个基础的基岩版资源包，并编写合法的manifest文件。如需帮助，可参考[此处](https://wiki.bedrock.dev/guide/project-setup.html#rp-manifest)的教程。
+2. 创建`textures`文件夹。
+3. 在该文件夹中创建`item_texture.json`文件，写入以下基础内容：
 
 ```json
 {
-  "resource_pack_name": "YOUR_PACK_NAME",
+  "resource_pack_name": "你的资源包名称",
   "texture_name": "atlas.items",
   "texture_data": {
 
   }
 }
 ```
-4. Inside `texture_data`, you can add your items. The texture name and path must match the Bedrock identifier (and/or icon) that you set in your mappings.
-For example, an item registered with the Bedrock identifier `example:yummy_food` would need the following entry:
+4. 在`texture_data`中添加你的物品配置。材质名称与路径必须与映射文件中设置的基岩版标识符（和/或icon）匹配。例如，注册的基岩版标识符为`example:yummy_food`的物品，需要添加如下配置：
 
 ```json
 "example:yummy_food": {
@@ -828,46 +766,40 @@ For example, an item registered with the Bedrock identifier `example:yummy_food`
     ]
 }
 ```
-5. Then you need to put your textures inside the `textures/items` folder. Make sure to have it match the texture path that you specified in `item_texture.json`!
+5. 将物品材质文件放入`textures/items`文件夹，确保路径与`item_texture.json`中指定的材质路径完全匹配！
 
-### Further references:
-- [Minecraft creator docs on texture pack conversion](https://learn.microsoft.com/en-us/minecraft/creator/documents/convertingtexturepacks?view=minecraft-bedrock-stable)
-- [Creating textures for custom items](https://wiki.bedrock.dev/items/items-intro#applying-textures)
-- [High resolution items](https://wiki.bedrock.dev/items/high-resolution-items)
+### 更多参考资料：
+- [Minecraft官方创作者文档：材质包转换](https://learn.microsoft.com/en-us/minecraft/creator/documents/convertingtexturepacks?view=minecraft-bedrock-stable)
+- [为自定义物品创建材质](https://wiki.bedrock.dev/items/items-intro#applying-textures)
+- [高清物品材质](https://wiki.bedrock.dev/items/high-resolution-items)
 
-## Loading mappings and resource packs
-This section assumes you already set up and configured Geyser so Bedrock players are able to connect. Further, the `enable-custom-content`
-config option in Geyser's config must be set to `true` for custom items to work!
+## 加载映射文件与资源包
+本节内容默认你已完成Geyser的基础配置，基岩版玩家可正常加入服务器。此外，必须将Geyser配置文件中的`enable-custom-content`选项设置为`true`，自定义物品功能才能正常启用！
 
 <Tabs groupId="custom-item-implementation">
-    <TabItem value="json" label="Loading json mappings">
-        1. Find the `custom_mappings` folder created by Geyser. For plugin/mod versions of Geyser, it will be under
-        `plugins/Geyser-[platform]/custom_mappings` (or `config/Geyser-[platform]/custom_mappings`). For Geyser-Standalone,
-        it will be in the root folder.
-        2. Place the mapping .json file into the folder. You can have multiple mapping files with different file names.
-        3. Place the Bedrock edition resource pack into the `packs` folder.
-        4. Restart the server.
+    <TabItem value="json" label="加载JSON映射文件">
+        1. 找到Geyser自动生成的`custom_mappings`文件夹。插件/模组版Geyser的该文件夹位于`plugins/Geyser-[平台名]/custom_mappings`（或`config/Geyser-[平台名]/custom_mappings`）；独立版Geyser的该文件夹位于根目录。
+        2. 将映射JSON文件放入该文件夹，支持放入多个不同文件名的映射文件。
+        3. 将基岩版资源包放入`packs`文件夹。
+        4. 重启服务器。
     </TabItem>
 
-    <TabItem value="api" label="Loading Geyser Extensions">
-        1. Place the extension jar file into the `extensions` folder. For plugin/mod versions of Geyser, it will be under
-        `plugins/Geyser-[platform]/extensions` (or `config/Geyser-[platform]/extensions`). For Geyser-Standalone,
-        it will be in the root folder.
-        2. If the extension also provides a resource pack, place that in Geyser's `packs` folder.
-        3. Restart the server.
+    <TabItem value="api" label="加载Geyser扩展程序">
+        1. 将扩展jar文件放入`extensions`文件夹。插件/模组版Geyser的该文件夹位于`plugins/Geyser-[平台名]/extensions`（或`config/Geyser-[平台名]/extensions`）；独立版Geyser的该文件夹位于根目录。
+        2. 若扩展程序附带资源包，将其放入Geyser的`packs`文件夹。
+        3. 重启服务器。
     </TabItem>
 </Tabs>
 
 
-## Full Examples
+## 完整示例
 
-The full Java Edition datapack + resource pack, as well as the relevant Geyser mappings and Bedrock resource pack can be found
-[here](https://github.com/eclipseisoffline/geyser-example-mappings/).
+完整的Java版数据包+资源包，以及对应的Geyser映射文件、基岩版资源包，可在[此处](https://github.com/eclipseisoffline/geyser-example-mappings/)查看。
 
 <Tabs groupId="custom-item-implementation">
-    <TabItem value="json" label="Json mapping example">
+    <TabItem value="json" label="JSON 映射示例">
     <details>
-    <summary>Simple custom food item mapping</summary>
+    <summary>简单自定义食物物品映射</summary>
         ```json
         {
             "format_version": 2,
@@ -877,7 +809,7 @@ The full Java Edition datapack + resource pack, as well as the relevant Geyser m
                         "type": "definition",
                         "model": "geyser_mc:yummy_food",
                         "bedrock_identifier": "geyser_mc:yummy_food",
-                        "display_name": "Yummy food!",
+                        "display_name": "美味的食物！",
                         "components": {
                             "minecraft:consumable": {},
                             "minecraft:food": {
@@ -894,7 +826,7 @@ The full Java Edition datapack + resource pack, as well as the relevant Geyser m
     </details>
 
     <details>
-    <summary>Not-yummy-food - group and dimension predicate example</summary>
+    <summary>普通食物 - 分组与维度谓词示例</summary>
     ```json
         {
             "format_version": 2,
@@ -906,7 +838,7 @@ The full Java Edition datapack + resource pack, as well as the relevant Geyser m
                         "definitions": [
                             {
                                 "bedrock_identifier": "geyser_mc:not_so_yummy_food",
-                                "display_name": "Not so yummy food",
+                                "display_name": "普通食物",
                                 "components": {
                                     "minecraft:consumable": {
                                         "consume_seconds": 5.0
@@ -919,7 +851,7 @@ The full Java Edition datapack + resource pack, as well as the relevant Geyser m
                             },
                             {
                                 "bedrock_identifier": "geyser_mc:not_so_yummy_food_end",
-                                "display_name": "Not so yummy food",
+                                "display_name": "普通食物",
                                 "predicate": {
                                     "type": "match",
                                     "property": "context_dimension",
@@ -944,7 +876,7 @@ The full Java Edition datapack + resource pack, as well as the relevant Geyser m
     </details>
 
     <details>
-    <summary>Magic item (consumable with cooldown)</summary>
+    <summary>魔法物品（带冷却的可消耗品）</summary>
     ```json
         {
             "format_version": 2,
@@ -954,7 +886,7 @@ The full Java Edition datapack + resource pack, as well as the relevant Geyser m
                         "type": "definition",
                         "model": "geyser_mc:magic_item",
                         "bedrock_identifier": "geyser_mc:magic_item",
-                        "display_name": "Magic item",
+                        "display_name": "魔法物品",
                         "components": {
                             "minecraft:consumable": {
                                 "consume_seconds": 0.05,
@@ -973,7 +905,7 @@ The full Java Edition datapack + resource pack, as well as the relevant Geyser m
     </details>
 
     <details>
-    <summary>Flint pickaxe (broken-state predicate)</summary>
+    <summary>燧石镐（损坏状态谓词）</summary>
     ```json
         {
             "format_version": 2,
@@ -985,7 +917,7 @@ The full Java Edition datapack + resource pack, as well as the relevant Geyser m
                         "definitions": [
                             {
                                 "bedrock_identifier": "geyser_mc:flint_pickaxe",
-                                "display_name": "Flint Pickaxe",
+                                "display_name": "燧石镐",
                                 "bedrock_options": {
                                     "display_handheld": true
                                 },
@@ -996,7 +928,7 @@ The full Java Edition datapack + resource pack, as well as the relevant Geyser m
                             },
                             {
                                 "bedrock_identifier": "geyser_mc:flint_pickaxe_broken",
-                                "display_name": "Flint Pickaxe",
+                                "display_name": "燧石镐",
                                 "bedrock_options": {
                                     "display_handheld": true
                                 },
@@ -1018,7 +950,7 @@ The full Java Edition datapack + resource pack, as well as the relevant Geyser m
     </details>
 
     <details>
-    <summary>Red wool chestplate (equippable armor)</summary>
+    <summary>红羊毛胸甲（可装备护甲）</summary>
         ```json
         {
             "format_version": 2,
@@ -1028,7 +960,7 @@ The full Java Edition datapack + resource pack, as well as the relevant Geyser m
                         "type": "definition",
                         "model": "geyser_mc:red_wool_chestplate",
                         "bedrock_identifier": "geyser_mc:red_wool_chestplate",
-                        "display_name": "Red Wool Chestplate",
+                        "display_name": "红羊毛胸甲",
                         "bedrock_options": {
                             "protection_value": 5
                         },
@@ -1046,17 +978,17 @@ The full Java Edition datapack + resource pack, as well as the relevant Geyser m
     </details>
 
 </TabItem>
-<TabItem value="api" label="Code example">
+<TabItem value="api" label="代码示例">
 
     <details>
-        <summary>Simple custom food item mapping</summary>
+        <summary>简单自定义食物物品映射</summary>
         ```java
         @Subscribe
         public void onDefineCustomItems(GeyserDefineCustomItemsEvent event) {
             Identifier bedrockIdentifier = Identifier.of("geyser_mc:yummy_food");
             Identifier modelIdentifier = Identifier.of("geyser_mc:yummy_food");
             event.register(Identifier.of("flint"), CustomItemDefinition.builder(bedrockIdentifier, modelIdentifier)
-                .displayName("Yummy food!")
+                .displayName("美味食物！")
                 .component(JavaItemDataComponents.CONSUMABLE, JavaConsumable.builder().build())
                 .component(JavaItemDataComponents.FOOD, JavaFoodProperties.builder()
                     .nutrition(5)
@@ -1069,13 +1001,13 @@ The full Java Edition datapack + resource pack, as well as the relevant Geyser m
     </details>
 
     <details>
-        <summary>Not-yummy-food - group and dimension predicate example</summary>
+        <summary>普通食物 - 分组与维度谓词示例</summary>
         ```java
         @Subscribe
         public void onDefineCustomItems(GeyserDefineCustomItemsEvent event) {
             Identifier modelIdentifier = Identifier.of("geyser_mc:not_so_yummy_food");
             event.register(Identifier.of("flint"), CustomItemDefinition.builder(Identifier.of("geyser_mc:not_so_yummy_food"), modelIdentifier)
-                .displayName("Not so yummy food!")
+                .displayName("普通食物")
                 .component(JavaItemDataComponents.CONSUMABLE, JavaConsumable.builder()
                     .consumeSeconds(5)
                     .build())
@@ -1086,7 +1018,7 @@ The full Java Edition datapack + resource pack, as well as the relevant Geyser m
                 .build());
 
             event.register(Identifier.of("flint"), CustomItemDefinition.builder(Identifier.of("geyser_mc:not_so_yummy_food_end"), modelIdentifier)
-                .displayName("Not so yummy food!")
+                .displayName("普通食物")
                 .predicate(MatchPredicate.dimension(Identifier.of("the_end")))
                 .component(JavaItemDataComponents.CONSUMABLE, JavaConsumable.builder()
                     .consumeSeconds(5)
@@ -1101,14 +1033,14 @@ The full Java Edition datapack + resource pack, as well as the relevant Geyser m
     </details>
 
     <details>
-        <summary>Magic item (consumable with cooldown)</summary>
+        <summary>魔法物品（带冷却的可消耗品）</summary>
         ```java
         @Subscribe
         public void onDefineCustomItems3(GeyserDefineCustomItemsEvent event) {
             Identifier bedrockIdentifier = Identifier.of("geyser_mc:magic_item");
             Identifier modelIdentifier = Identifier.of("geyser_mc:magic_item");
             event.register(Identifier.of("flint"), CustomItemDefinition.builder(bedrockIdentifier, modelIdentifier)
-                .displayName("Magic item!")
+                .displayName("魔法物品")
                 .component(JavaItemDataComponents.CONSUMABLE, JavaConsumable.builder()
                     .consumeSeconds(0.05f)
                     .animation(JavaConsumable.Animation.NONE)
@@ -1124,14 +1056,14 @@ The full Java Edition datapack + resource pack, as well as the relevant Geyser m
     </details>
 
     <details>
-        <summary>Flint pickaxe (broken-state predicate)</summary>
+        <summary>燧石镐（损坏状态谓词）</summary>
         ```java
         @Subscribe
         public void onDefineCustomItems4(GeyserDefineCustomItemsEvent event) {
             event.register(Identifier.of("flint"), CustomItemDefinition.builder(
                     Identifier.of("geyser_mc:flint_pickaxe"), Identifier.of("geyser_mc:flint_pickaxe")
                 )
-                .displayName("Flint Pickaxe")
+                .displayName("燧石镐")
                 .bedrockOptions(CustomItemBedrockOptions.builder()
                     .displayHandheld(true)
                 )
@@ -1142,7 +1074,7 @@ The full Java Edition datapack + resource pack, as well as the relevant Geyser m
             event.register(Identifier.of("flint"), CustomItemDefinition.builder(
                     Identifier.of("geyser_mc:flint_pickaxe_broken"), Identifier.of("geyser_mc:flint_pickaxe")
                 )
-                .displayName("Flint Pickaxe")
+                .displayName("燧石镐")
                 .bedrockOptions(CustomItemBedrockOptions.builder()
                     .displayHandheld(true)
                 )
@@ -1155,14 +1087,14 @@ The full Java Edition datapack + resource pack, as well as the relevant Geyser m
     </details>
 
     <details>
-        <summary>Red wool chestplate (equippable armor)</summary>
+        <summary>红羊毛胸甲（可装备护甲）</summary>
         ```java
         @Subscribe
         public void onDefineCustomItems5(GeyserDefineCustomItemsEvent event) {
             event.register(Identifier.of("flint"), CustomItemDefinition.builder(
                     Identifier.of("geyser_mc:red_wool_chestplate"), Identifier.of("geyser_mc:red_wool_chestplate")
                 )
-                .displayName("Red Wool Chestplate")
+                .displayName("红羊毛胸甲")
                 .bedrockOptions(CustomItemBedrockOptions.builder()
                     .protectionValue(5)
                 )
@@ -1175,13 +1107,11 @@ The full Java Edition datapack + resource pack, as well as the relevant Geyser m
 </TabItem>
 </Tabs>
 
-## Non-vanilla items
+## 非原版物品
 
-Geyser also supports registering non-vanilla items (available on modded servers, such as Fabric/NeoForge), which are *not*
-based on vanilla items and require a modded Java client to join. These must be registered through the API, and cannot be registered
-with Json mappings.
+Geyser还支持注册非原版物品（适用于Fabric/NeoForge等模组服务器），这类物品不基于原版物品，需要Java客户端安装对应模组才能正常使用。非原版物品**必须通过API注册**，不支持JSON映射文件。
 
-Example:
+示例：
 ```java
 event.register(NonVanillaCustomItemDefinition.builder(Identifier.of("hydraulic_test_mod:irauri_ingot"), 99)
     .component(JavaItemDataComponents.MAX_STACK_SIZE, 3)
@@ -1196,18 +1126,18 @@ event.register(NonVanillaCustomItemDefinition.builder(Identifier.of("hydraulic_t
     .build());
 ```
 
-Notable differences however are the following:
-- The Java item id which is sent over the network must be provided in the NonVanillaCustomItemDefinition#builder method
-- Predicates, predicate strategies, and priority are *not* supported
-- Non-vanilla items can use additional components, which would otherwise be inherited from vanilla base items.
+与原版自定义物品的核心区别如下：
+- 必须在`NonVanillaCustomItemDefinition#builder`方法中传入网络传输使用的Java版物品ID
+- 不支持谓词、谓词策略与优先级配置
+- 非原版物品可使用额外的组件（原版物品的组件继承自基础原版物品）
 
-The [`GeyserItemDataComponent`](https://repo.opencollab.dev/javadoc/maven-snapshots/org/geysermc/geyser/api/latest/.cache/unpack/org/geysermc/geyser/api/item/custom/v2/component/geyser/GeyserItemDataComponents.html) class contains all additional components available for modded items:
-- `chargeable`: Allows creating custom shooter items
-- `attack_damage`: Allows placing a visual indicators for the item's attack damage.
-- `block_placer`: Indicates that the item is able to place blocks
-- `throwable`: Indicates that the item is throwable
-- `projectile`: Marks a custom item as a projectile to make these usable for custom shooter items
-- `entity_placer`: Notes that an item is able to place entities
+[`GeyserItemDataComponent`](https://repo.opencollab.dev/javadoc/maven-snapshots/org/geysermc/geyser/api/latest/.cache/unpack/org/geysermc/geyser/api/item/custom/v2/component/geyser/GeyserItemDataComponents.html)类包含了模组物品可用的所有额外组件：
+- `chargeable`：支持创建自定义射击物品
+- `attack_damage`：为物品添加攻击伤害的视觉指示器
+- `block_placer`：标记物品可放置方块
+- `throwable`：标记物品可投掷
+- `projectile`：将自定义物品标记为抛射物，可用于自定义射击物品
+- `entity_placer`：标记物品可放置实体
 
 
 

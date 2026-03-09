@@ -1,9 +1,9 @@
 ---
-title: Getting Started with the API
-description: 'A primer on how to use the Geyser and Floodgate APIs.'
+title: API 入门指南
+description: '关于如何使用 Geyser 和 Floodgate API 的入门介绍。'
 ---
 
-To start, add the Open Collaboration repository to your project:
+首先，将 Open Collaboration 仓库添加到你的项目中：
 
 **Maven**
 ```xml
@@ -12,7 +12,7 @@ To start, add the Open Collaboration repository to your project:
     <url>https://repo.opencollab.dev/main/</url>
 </repository>
 ```
-The "main" repository contains both release and snapshot versions.
+"main" 仓库包含正式版和快照版。
 
 **Gradle**
 ```groovy
@@ -23,9 +23,9 @@ repositories {
 }
 ```
 
-## Using Geyser {#using-geyser}
+## 使用 Geyser {#using-geyser}
 
-Add Geyser's API codebase as a dependency:
+添加 Geyser 的 API 代码库作为依赖：
 
 **Maven**
 ```xml
@@ -44,22 +44,22 @@ dependencies {
 }
 ```
 
-To get a Geyser player, or check if a player is from Bedrock:
+获取 Geyser 玩家，或检查玩家是否来自基岩版：
 
 ```java
 GeyserConnection connection = GeyserApi.api().connectionByUuid(uuid);
 ```
 
-`connection` can be null if such a player does not exist on Geyser.
+如果该玩家不在 Geyser 上，`connection` 可能为 null。
 
-`GeyserApi.api()` may be null until after the Geyser plugin enables.
+`GeyserApi.api()` 在 Geyser 插件启用前可能为 null。
 
-For more information on the Geyser API, see [here](/wiki/geyser/api/).
+有关 Geyser API 的更多信息，请参阅 [此处](/wiki/geyser/api/)。
 
-## Using Floodgate {#using-floodgate}
-This page has a very simple primer for the Floodgate API. For a full breakdown, see [here](/wiki/floodgate/api/).
+## 使用 Floodgate {#using-floodgate}
+本页提供了 Floodgate API 的简单入门介绍。如需详细说明，请参阅 [此处](/wiki/floodgate/api/)。
 
-Add Floodgate's API as a dependency:
+添加 Floodgate 的 API 作为依赖：
 
 **Maven**
 ```xml
@@ -78,10 +78,10 @@ dependencies {
 }
 ```
 
-Get the Floodgate API using:
+使用以下方式获取 Floodgate API：
 ```java
 FloodgateApi api = FloodgateApi.getInstance();
 api.isFloodgatePlayer(uuid);
 ```
 
-For more information on the Floodgate API, see [here](/wiki/floodgate/api/).
+有关 Floodgate API 的更多信息，请参阅 [此处](/wiki/floodgate/api/)。
